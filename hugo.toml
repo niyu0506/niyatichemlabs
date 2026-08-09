@@ -6,7 +6,7 @@
 #  See HOW-TO-EDIT.md for a plain-English guide.
 # ═══════════════════════════════════════════════════════════════════════════
 
-baseURL = "https://keivan-shah.github.io/niyatichemlabs/"
+baseURL = "https://keivan.in/niyatichemlabs/"
 languageCode = "en-in"
 title = "Niyati Chem Labs"
 publishDir = "docs"          # GitHub Pages serves the site from this folder

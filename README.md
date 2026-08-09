@@ -3,7 +3,7 @@
 Static website for Niyati Chem Labs, built with [Hugo](https://gohugo.io) and hosted free on
 GitHub Pages.
 
-**Live site:** https://keivan-shah.github.io/niyatichemlabs/
+**Live site:** https://keivan.in/niyatichemlabs/
 
 > ⚠️ This is a **mock-up for review**. The product range, photographs and company details are
 > placeholders carried over from a sister company's catalogue so that the design can be

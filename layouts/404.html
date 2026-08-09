@@ -1,0 +1,18 @@
+{{ define "main" }}
+<section class="section" style="min-height:60vh;display:grid;place-items:center;text-align:center">
+  <div class="container container--narrow">
+    <span class="eyebrow eyebrow--center">Error 404</span>
+    <h1 style="margin-bottom:1rem">We couldn't find that page</h1>
+    <p class="lede" style="margin-bottom:2rem">
+      The page may have been moved or renamed. Try our product catalogue, or get in touch and
+      we'll point you to what you need.
+    </p>
+    <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn--lg" href="{{ "products/" | relURL }}">
+        Browse products {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+      </a>
+      <a class="btn btn--ghost btn--lg" href="{{ "/" | relLangURL }}">Back to home</a>
+    </div>
+  </div>
+</section>
+{{ end }}

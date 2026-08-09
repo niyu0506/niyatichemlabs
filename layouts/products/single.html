@@ -1,0 +1,148 @@
+{{ define "main" }}
+{{- $p := . -}}
+{{- $catName := "" -}}
+{{- range site.Params.categories }}{{ if eq .key $p.Params.category }}{{ $catName = .name }}{{ end }}{{ end -}}
+{{- $related := first 4 (shuffle (where (where site.RegularPages "Section" "products") "Params.category" $p.Params.category)) -}}
+
+<section class="page-banner" style="padding-block:1.5rem 0;background:var(--surface-alt)">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb" style="margin-bottom:0">
+      <a href="{{ "/" | relLangURL }}">Home</a>
+      {{ partial "icon.html" (dict "name" "chevron-right") }}
+      <a href="{{ "products/" | relURL }}">Products</a>
+      {{- with $catName }}
+      {{ partial "icon.html" (dict "name" "chevron-right") }}
+      <a href="{{ printf "products/?c=%s" $p.Params.category | relURL }}">{{ . }}</a>
+      {{- end }}
+      {{ partial "icon.html" (dict "name" "chevron-right") }}
+      <span>{{ $p.Title }}</span>
+    </nav>
+  </div>
+</section>
+
+<section class="section section--tight" style="background:var(--surface-alt)">
+  <div class="container product-hero">
+    <div class="product-hero__media" data-reveal="left">
+      {{- with $p.Params.image }}
+      <img src="{{ . | relURL }}" alt="{{ $p.Title }} pack shot" width="600" height="900">
+      {{- end }}
+    </div>
+
+    <div data-reveal="right">
+      {{- with $catName }}<span class="eyebrow">{{ . }}</span>{{ end }}
+      <h1>{{ $p.Title }}</h1>
+      {{- with $p.Params.tagline }}<span class="product-hero__sub">{{ . }}</span>{{ end }}
+
+      {{- with $p.Params.summary }}
+      <p class="lede" style="margin-bottom:2rem">{{ . }}</p>
+      {{- end }}
+
+      {{- with $p.Params.composition }}
+      <table class="spec-table">
+        <caption>
+          Composition
+          {{- with $p.Params.composition_note }}<small>{{ . }}</small>{{ end }}
+        </caption>
+        <tbody>
+          {{- range . }}
+          <tr>
+            <td>{{ .name }}</td>
+            <td>{{ .qty }}</td>
+          </tr>
+          {{- end }}
+        </tbody>
+      </table>
+      {{- end }}
+
+      {{- with $p.Params.usage }}
+      <div class="callout">
+        {{ partial "icon.html" (dict "name" "info") }}
+        <div>
+          <h4>Suggested use</h4>
+          <p>{{ . }}</p>
+        </div>
+      </div>
+      {{- end }}
+
+      {{- with $p.Params.packing }}
+      <div class="callout">
+        {{ partial "icon.html" (dict "name" "package") }}
+        <div>
+          <h4>Packing</h4>
+          <p>{{ . }}</p>
+        </div>
+      </div>
+      {{- end }}
+
+      <div class="product-actions">
+        <a class="btn" href="{{ printf "contact/?product=%s" (urlquery $p.Title) | relURL }}">
+          Enquire about this product {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        </a>
+        <a class="btn btn--ghost" href="https://wa.me/{{ site.Params.whatsapp }}?text={{ printf "Hi, I'd like details about %s" $p.Title | urlquery }}" target="_blank" rel="noopener">
+          {{ partial "icon.html" (dict "name" "whatsapp") }} WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:3rem;align-items:start">
+      <div class="prose" data-reveal>
+        {{- with $p.Params.benefits }}
+        <h2>Benefits</h2>
+        <ul>
+          {{- range . }}<li>{{ . | markdownify }}</li>{{ end }}
+        </ul>
+        {{- end }}
+
+        {{ $p.Content }}
+
+        {{- with $p.Params.caution }}
+        <div class="callout callout--warn">
+          {{ partial "icon.html" (dict "name" "alert") }}
+          <div>
+            <h4>Caution</h4>
+            <p>{{ . }}</p>
+          </div>
+        </div>
+        {{- end }}
+      </div>
+
+      <aside data-reveal="right">
+        <div class="feature" style="position:sticky;top:calc(var(--header-h) + 24px)">
+          <div class="feature__icon">{{ partial "icon.html" (dict "name" "flask") }}</div>
+          <h3>Manufacturing enquiries</h3>
+          <p style="margin-bottom:1.25rem">
+            Available for third-party and private-label manufacturing. Certificates of
+            analysis and product documentation supplied on request.
+          </p>
+          <a class="btn btn--sm" href="{{ "contact/" | relURL }}" style="width:100%">Request a quote</a>
+          <a class="btn btn--ghost btn--sm" href="tel:{{ replace site.Params.phone " " "" }}" style="width:100%;margin-top:0.6rem">
+            {{ partial "icon.html" (dict "name" "phone") }} {{ site.Params.phone }}
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{{- if gt (len $related) 1 }}
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">More from this range</span>
+      <h2 style="font-size:var(--step-3)">Related {{ lower $catName }}</h2>
+    </div>
+    <div class="card-grid" data-stagger="70">
+      {{- range $related }}
+      {{- if ne .RelPermalink $p.RelPermalink }}
+      {{ partial "product-card.html" . }}
+      {{- end }}
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{- end }}
+{{ end }}

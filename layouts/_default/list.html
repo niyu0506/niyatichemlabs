@@ -1,0 +1,16 @@
+{{ define "main" }}
+{{ partial "page-banner.html" . }}
+<section class="section">
+  <div class="container">
+    {{- with .Content }}<div class="prose" style="margin-bottom:2.5rem" data-reveal>{{ . }}</div>{{ end }}
+    <div class="grid grid--3" data-stagger="80">
+      {{- range .Pages }}
+      <a class="feature" href="{{ .RelPermalink }}" data-reveal>
+        <h3>{{ .Title }}</h3>
+        <p>{{ .Summary | plainify | truncate 150 }}</p>
+      </a>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{ end }}

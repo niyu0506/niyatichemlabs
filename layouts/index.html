@@ -1,0 +1,237 @@
+{{ define "main" }}
+{{- $products := where site.RegularPages "Section" "products" -}}
+{{- $featured := first 8 (where $products "Params.featured" true) -}}
+{{- if lt (len $featured) 8 }}{{ $featured = first 8 $products }}{{ end -}}
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <span class="eyebrow" data-reveal>Established {{ site.Params.established }} &middot; Vasai &amp; Navsari, India</span>
+      <h1 data-reveal data-reveal-delay="60">
+        Herbal formulations,<br>made to
+        <span class="accent">pharmaceutical standard</span>
+      </h1>
+      <p class="lede hero__lede" data-reveal data-reveal-delay="140">
+        Niyati Chem Labs manufactures and exports ayurvedic capsules, tablets, oils and
+        churna — with in-house testing of every raw material and finished batch. Available for
+        third-party and contract manufacturing.
+      </p>
+      <div class="hero__cta" data-reveal data-reveal-delay="220">
+        <a class="btn btn--lg" href="{{ "products/" | relURL }}">
+          Explore our products {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        </a>
+        <a class="btn btn--ghost btn--lg" href="{{ "contact/" | relURL }}">Request a quote</a>
+      </div>
+      <div class="hero__trust" data-reveal data-reveal-delay="300">
+        <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} GMP &amp; ISO certified</span>
+        <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} In-house QC laboratory</span>
+        <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} Custom packaging &amp; labelling</span>
+      </div>
+    </div>
+
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__blob"></div>
+      <div class="hero__product hero__product--a">
+        <img src="{{ "img/products/immunopan-tab.jpg" | relURL }}" alt="" loading="eager" width="600" height="900">
+      </div>
+      <div class="hero__product hero__product--b">
+        <img src="{{ "img/products/moringa-tab.jpg" | relURL }}" alt="" loading="eager" width="600" height="900">
+      </div>
+      <div class="hero__product hero__product--c">
+        <img src="{{ "img/products/orthopan-oil.jpg" | relURL }}" alt="" loading="lazy" width="600" height="900">
+      </div>
+      <div class="hero__badge">
+        {{ partial "icon.html" (dict "name" "shield") }}
+        <span>
+          <strong>WHO-GMP</strong>
+          <span>Certified facility</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ═══ -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="stats" data-reveal>
+      {{- range site.Params.stats }}
+      <div class="stat">
+        <div class="stat__value" data-count="{{ .value }}">{{ .value }}</div>
+        <div class="stat__label">{{ .label }}</div>
+      </div>
+      {{- end }}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CATEGORIES ═══ -->
+<section class="section section--alt" id="categories">
+  <div class="container">
+    <div class="section-head section-head--center" data-reveal>
+      <span class="eyebrow eyebrow--center">What we make</span>
+      <h2>A complete ayurvedic range, under one roof</h2>
+      <p class="lede" style="margin-top:1rem">
+        From single-herb extracts to multi-herb classical formulations — manufactured,
+        tested, packed and labelled at our own units.
+      </p>
+    </div>
+
+    <div class="grid grid--4" data-stagger="90">
+      {{- range site.Params.categories }}
+      {{- $n := len (where $products "Params.category" .key) }}
+      <a class="cat-card" href="{{ printf "products/?c=%s" .key | relURL }}" data-reveal>
+        {{ partial "icon.html" (dict "name" .icon "class" "cat-card__glyph") }}
+        <span class="cat-card__count">{{ $n }} product{{ if ne $n 1 }}s{{ end }}</span>
+        <h3>{{ .name }}</h3>
+        <p>{{ .blurb }}</p>
+        <span class="cat-card__more">
+          Browse {{ lower .name }} {{ partial "icon.html" (dict "name" "arrow-right") }}
+        </span>
+      </a>
+      {{- end }}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHY US ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Why work with us</span>
+      <h2>Built for buyers who care what is inside the bottle</h2>
+    </div>
+
+    <div class="grid grid--4" data-stagger="90">
+      <div class="feature" data-reveal>
+        <div class="feature__icon">{{ partial "icon.html" (dict "name" "microscope") }}</div>
+        <h3>Tested twice</h3>
+        <p>Pre- and post-production analysis in our own laboratory — every incoming raw material and every finished batch.</p>
+      </div>
+      <div class="feature" data-reveal>
+        <div class="feature__icon">{{ partial "icon.html" (dict "name" "package") }}</div>
+        <h3>Your label, your pack</h3>
+        <p>Tailored packaging, labelling and pack sizes for third-party and private-label orders.</p>
+      </div>
+      <div class="feature" data-reveal>
+        <div class="feature__icon">{{ partial "icon.html" (dict "name" "truck") }}</div>
+        <h3>On committed timelines</h3>
+        <p>Equitable rates delivered inside the timeframe we commit to — with dispatch handled in-house.</p>
+      </div>
+      <div class="feature" data-reveal>
+        <div class="feature__icon">{{ partial "icon.html" (dict "name" "users") }}</div>
+        <h3>Responsive support</h3>
+        <p>A named point of contact for every account, so questions get answered the same day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT SPLIT ═══ -->
+<section class="section section--alt">
+  <div class="container split">
+    <div class="split__media" data-reveal="left">
+      <img src="{{ "img/site/facility.jpg" | relURL }}" alt="Inside the Niyati Chem Labs manufacturing facility" loading="lazy" width="770" height="440">
+      <div class="split__badge">
+        <strong>{{ site.Params.established }}</strong>
+        <span>Manufacturing since</span>
+      </div>
+    </div>
+    <div data-reveal="right">
+      <span class="eyebrow">About Niyati Chem Labs</span>
+      <h2>An Indian manufacturer with a global footprint</h2>
+      <p style="margin-top:1rem;color:var(--ink-600)">
+        We are a Mumbai-based company with manufacturing units at Vasai, Maharashtra and
+        Navsari, Gujarat — known for transparent dealings and for delivering on time. Our
+        facilities are outfitted with modern equipment for product development, in-house
+        testing, storage, packaging, labelling and dispatch.
+      </p>
+      <ul class="checklist">
+        <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>GMP &amp; ISO certified manufacturing units</span></li>
+        <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Strong presence across Asia, Africa and the EU</span></li>
+        <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Third-party and contract manufacturing available</span></li>
+        <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Franchisee and distributor partnerships welcome</span></li>
+      </ul>
+      <a class="btn btn--ghost" href="{{ "about/" | relURL }}" style="margin-top:1.75rem">
+        More about us {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURED PRODUCTS ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--center" data-reveal>
+      <span class="eyebrow eyebrow--center">From the catalogue</span>
+      <h2>Selected products</h2>
+    </div>
+
+    <div class="card-grid" data-stagger="70">
+      {{- range $featured }}
+      {{ partial "product-card.html" . }}
+      {{- end }}
+    </div>
+
+    <div style="text-align:center;margin-top:3rem" data-reveal>
+      <a class="btn btn--ghost btn--lg" href="{{ "products/" | relURL }}">
+        View all {{ len $products }} products {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CERTIFICATION ═══ -->
+<section class="section section--alt">
+  <div class="container split">
+    <div data-reveal="left">
+      <span class="eyebrow">Quality &amp; compliance</span>
+      <h2>Certified, and happy to prove it</h2>
+      <p style="margin-top:1rem;color:var(--ink-600)">
+        Our units hold GMP, WHO-GMP and ISO certification. Copies of our certificates are
+        published openly — and product-specific documentation, including certificates of
+        analysis, is available to buyers on request.
+      </p>
+      <a class="btn" href="{{ "certification/" | relURL }}" style="margin-top:1.75rem">
+        See our certificates {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+      </a>
+    </div>
+    <div class="grid grid--3" style="gap:1rem" data-stagger="100" data-reveal="right">
+      <div class="feature" style="text-align:center;padding:1.25rem">
+        <div class="feature__icon" style="margin-inline:auto">{{ partial "icon.html" (dict "name" "award") }}</div>
+        <h4>GMP</h4>
+      </div>
+      <div class="feature" style="text-align:center;padding:1.25rem">
+        <div class="feature__icon" style="margin-inline:auto">{{ partial "icon.html" (dict "name" "shield") }}</div>
+        <h4>WHO-GMP</h4>
+      </div>
+      <div class="feature" style="text-align:center;padding:1.25rem">
+        <div class="feature__icon" style="margin-inline:auto">{{ partial "icon.html" (dict "name" "check") }}</div>
+        <h4>ISO</h4>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="cta-band" data-reveal>
+      <h2>Let's talk about your requirement</h2>
+      <p>
+        Whether you need an existing formulation under your own label or something developed
+        from scratch, send us the brief and we will come back with rates and timelines.
+      </p>
+      <div class="cta-band__actions">
+        <a class="btn btn--white btn--lg" href="{{ "contact/" | relURL }}">
+          Request a quote {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        </a>
+        <a class="btn btn--outline-light btn--lg" href="tel:{{ replace site.Params.phone " " "" }}">
+          {{ partial "icon.html" (dict "name" "phone") }} {{ site.Params.phone }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

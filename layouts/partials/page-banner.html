@@ -1,0 +1,18 @@
+{{- $p := . -}}
+<section class="page-banner">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ "/" | relLangURL }}">Home</a>
+      {{- if and $p.Parent (not $p.Parent.IsHome) }}
+        {{ partial "icon.html" (dict "name" "chevron-right") }}
+        <a href="{{ $p.Parent.RelPermalink }}">{{ $p.Parent.LinkTitle | default "Products" }}</a>
+      {{- end }}
+      {{ partial "icon.html" (dict "name" "chevron-right") }}
+      <span>{{ $p.Title }}</span>
+    </nav>
+    <h1 data-reveal>{{ $p.Params.heading | default $p.Title }}</h1>
+    {{- with ($p.Params.intro | default $p.Params.description) }}
+    <p class="lede" data-reveal data-reveal-delay="80" style="margin-top:0.75rem">{{ . | safeHTML }}</p>
+    {{- end }}
+  </div>
+</section>

@@ -1,0 +1,131 @@
+{{ define "main" }}
+{{ partial "page-banner.html" . }}
+
+<section class="section">
+  <div class="container contact-grid">
+    <!-- Details -->
+    <div data-reveal="left">
+      <span class="eyebrow">Reach us</span>
+      <h2 style="font-size:var(--step-3);margin-bottom:1rem">We reply the same working day</h2>
+      <p style="color:var(--ink-600)">
+        Send us your requirement — product, quantity, packing and destination — and we will
+        come back with rates, lead times and documentation.
+      </p>
+
+      <div style="margin-top:1.5rem">
+        <div class="contact-item">
+          <span class="contact-item__icon">{{ partial "icon.html" (dict "name" "pin") }}</span>
+          <div>
+            <h4>{{ site.Params.address.unit1Label }}</h4>
+            <p>{{ site.Params.address.unit1 }}</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item__icon">{{ partial "icon.html" (dict "name" "factory") }}</span>
+          <div>
+            <h4>{{ site.Params.address.unit2Label }}</h4>
+            <p>{{ site.Params.address.unit2 }}</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item__icon">{{ partial "icon.html" (dict "name" "phone") }}</span>
+          <div>
+            <h4>Phone</h4>
+            <p>
+              <a href="tel:{{ replace site.Params.phone " " "" }}">{{ site.Params.phone }}</a><br>
+              <a href="tel:{{ replace site.Params.phoneAlt " " "" }}">{{ site.Params.phoneAlt }}</a>
+            </p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item__icon">{{ partial "icon.html" (dict "name" "mail") }}</span>
+          <div>
+            <h4>Email</h4>
+            <p><a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item__icon">{{ partial "icon.html" (dict "name" "clock") }}</span>
+          <div>
+            <h4>Office hours</h4>
+            <p>Monday – Saturday, 9:30 am – 6:30 pm IST</p>
+          </div>
+        </div>
+      </div>
+
+      <a class="btn btn--ghost" href="https://wa.me/{{ site.Params.whatsapp }}" target="_blank" rel="noopener" style="margin-top:1.5rem">
+        {{ partial "icon.html" (dict "name" "whatsapp") }} Message us on WhatsApp
+      </a>
+    </div>
+
+    <!-- Form -->
+    <div data-reveal="right">
+      <div class="form-card">
+        <h3 style="margin-bottom:0.35rem">Send an enquiry</h3>
+        <p style="color:var(--ink-500);font-size:0.94rem;margin-bottom:1.5rem">
+          Fill this in and your email app will open with the details ready to send.
+        </p>
+
+        <form data-mailto-form="{{ site.Params.email }}" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-name">Your name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Full name" required>
+            </div>
+            <div class="field">
+              <label for="f-company">Company</label>
+              <input id="f-company" name="company" type="text" autocomplete="organization" placeholder="Company name">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
+            </div>
+            <div class="field">
+              <label for="f-phone">Phone</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 ..." >
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-product">Product of interest</label>
+            <input id="f-product" name="product" type="text" placeholder="e.g. Immunopan Tablet, or a formulation to develop">
+          </div>
+
+          <div class="field">
+            <label for="f-message">Your requirement</label>
+            <textarea id="f-message" name="message" placeholder="Quantity, packing, destination country, timelines..."></textarea>
+          </div>
+
+          <button class="btn btn--lg" type="submit" style="width:100%">
+            {{ partial "icon.html" (dict "name" "mail") }} Send enquiry
+          </button>
+          <p class="form-note">
+            Prefer email? Write to
+            <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a> directly.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Map -->
+<section class="section section--tight section--alt">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Find us</span>
+      <h2 style="font-size:var(--step-3)">{{ site.Params.address.unit1Label }}</h2>
+    </div>
+    <div data-reveal style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--ink-100)">
+      <iframe
+        title="Map showing the location of {{ site.Params.company }}"
+        src="https://www.google.com/maps?q={{ site.Params.address.unit1 | urlquery }}&output=embed"
+        width="100%" height="420" style="border:0;display:block" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800" role="img" aria-label="WHO-GMP placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f2f8f5"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f7757"/>
+      <stop offset="1" stop-color="#073b29"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <rect x="18" y="18" width="564" height="764" fill="none" stroke="#d9e3de" stroke-width="2" rx="10"/>
+  <rect x="34" y="34" width="532" height="732" fill="none" stroke="#ade4cd" stroke-width="1.5" stroke-dasharray="8 8" rx="6"/>
+
+  <!-- seal -->
+  <circle cx="300" cy="250" r="86" fill="none" stroke="url(#ribbon)" stroke-width="3"/>
+  <circle cx="300" cy="250" r="72" fill="none" stroke="#ade4cd" stroke-width="1.5"/>
+  <g transform="translate(300 250)" fill="none" stroke="#0b5c3f" stroke-width="4"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0-38 C24-38 42-20 42 4 C42 30 20 42 0 46 C-20 42 -42 30 -42 4 C-42-20 -24-38 0-38Z"/>
+    <path d="M-16 4 l10 11 l22-24"/>
+  </g>
+
+  <text x="300" y="404" text-anchor="middle" font-family="Sora, Segoe UI, sans-serif"
+        font-size="40" font-weight="700" fill="#0b1512" letter-spacing="-0.5">WHO-GMP</text>
+  <text x="300" y="446" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif"
+        font-size="19" fill="#5c716a">Niyati Chem Labs</text>
+
+  <line x1="150" y1="486" x2="450" y2="486" stroke="#d9e3de" stroke-width="1.5"/>
+
+  <text x="300" y="530" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif"
+        font-size="17" fill="#86988f">Certificate scan to be added</text>
+  <text x="300" y="560" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif"
+        font-size="17" fill="#86988f">once issued in the company name</text>
+
+  <rect x="176" y="612" width="248" height="46" rx="23" fill="#eefaf4" stroke="#ade4cd" stroke-width="1.5"/>
+  <text x="300" y="641" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif"
+        font-size="15" font-weight="600" fill="#0f7757">Placeholder — sample layout</text>
+
+  <text x="300" y="726" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif"
+        font-size="13" fill="#b3c2bb">World Health Organization GMP schedule</text>
+</svg>

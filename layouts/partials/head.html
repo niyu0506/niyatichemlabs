@@ -1,0 +1,59 @@
+{{- $site := .Site -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b5c3f">
+
+{{- $title := cond .IsHome (printf "%s — %s" $site.Title (site.Params.tagline | plainify)) (printf "%s | %s" .Title $site.Title) -}}
+<title>{{ $title }}</title>
+
+{{- $desc := "" -}}
+{{- with .Params.description }}{{ $desc = . }}
+{{- else }}{{ with .Description }}{{ $desc = . }}{{ else }}{{ $desc = site.Params.description }}{{ end }}{{ end -}}
+<meta name="description" content="{{ $desc | plainify }}">
+<link rel="canonical" href="{{ .Permalink }}">
+
+<meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
+<meta property="og:site_name" content="{{ $site.Title }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $desc | plainify }}">
+<meta property="og:url" content="{{ .Permalink }}">
+{{- with .Params.image }}
+<meta property="og:image" content="{{ . | absURL }}">
+{{- end }}
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{ "favicon.svg" | relURL }}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap">
+
+{{- $css := resources.Get "css/main.css" | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+
+{{- if hugo.IsProduction }}
+{{- with .OutputFormats.Get "RSS" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ $site.Title }}">
+{{- end }}
+{{- end }}
+
+{{- /* Organisation schema — helps Google show the business properly */ -}}
+{{- if .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ site.Params.company }},
+  "url": {{ site.BaseURL }},
+  "description": {{ site.Params.description | plainify }},
+  "email": {{ site.Params.email }},
+  "telephone": {{ site.Params.phone }},
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": {{ site.Params.address.unit1 }},
+    "addressCountry": "IN"
+  }
+}
+</script>
+{{- end }}

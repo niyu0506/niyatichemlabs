@@ -1,0 +1,94 @@
+{{ define "main" }}
+{{ partial "page-banner.html" . }}
+
+<!-- Story + facility -->
+<section class="section">
+  <div class="container split split--top">
+    <div class="split__media" data-reveal="left">
+      <img src="{{ "img/site/facility.jpg" | relURL }}" alt="Niyati Chem Labs manufacturing facility" loading="lazy" width="770" height="440">
+      <div class="split__badge">
+        <strong>{{ site.Params.established }}</strong>
+        <span>Manufacturing since</span>
+      </div>
+    </div>
+    <div class="prose" data-reveal="right">
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+
+<!-- Pillars -->
+{{- with .Params.pillars }}
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-head section-head--center" data-reveal>
+      <span class="eyebrow eyebrow--center">How we work</span>
+      <h2>Three things we do not compromise on</h2>
+    </div>
+    <div class="grid grid--3" data-stagger="100">
+      {{- range . }}
+      <div class="feature" data-reveal>
+        <div class="feature__icon">{{ partial "icon.html" (dict "name" .icon) }}</div>
+        <h3>{{ .title }}</h3>
+        <p>{{ .body }}</p>
+      </div>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{- end }}
+
+<!-- Capability list -->
+{{- with .Params.capabilities }}
+<section class="section">
+  <div class="container split">
+    <div data-reveal="left">
+      <span class="eyebrow">Product capability</span>
+      <h2>Categories we manufacture</h2>
+      <p style="margin-top:1rem;color:var(--ink-600)">
+        Our units are equipped to produce the full ayurvedic range — and to develop new
+        formulations to a customer's brief.
+      </p>
+      <a class="btn" href="{{ "products/" | relURL }}" style="margin-top:1.75rem">
+        Browse the catalogue {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+      </a>
+    </div>
+    <div data-reveal="right">
+      <ul class="checklist" style="margin-top:0">
+        {{- range . }}
+        <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>{{ . }}</span></li>
+        {{- end }}
+      </ul>
+    </div>
+  </div>
+</section>
+{{- end }}
+
+<!-- Stats -->
+<section class="section section--tight section--alt">
+  <div class="container">
+    <div class="stats" data-reveal>
+      {{- range site.Params.stats }}
+      <div class="stat">
+        <div class="stat__value" data-count="{{ .value }}">{{ .value }}</div>
+        <div class="stat__label">{{ .label }}</div>
+      </div>
+      {{- end }}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="cta-band" data-reveal>
+      <h2>Work with us</h2>
+      <p>Third-party manufacturing, private label, franchisee and distribution enquiries are all welcome.</p>
+      <div class="cta-band__actions">
+        <a class="btn btn--white btn--lg" href="{{ "contact/" | relURL }}">
+          Get in touch {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

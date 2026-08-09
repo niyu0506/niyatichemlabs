@@ -1,0 +1,9 @@
+# Hugo build cache — not the output. docs/ IS committed, that's what Pages serves.
+/resources/_gen/
+/.hugo_build.lock
+/public/
+.DS_Store
+*.log
+
+# local preview helper
+/.serve/

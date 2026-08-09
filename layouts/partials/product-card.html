@@ -1,0 +1,19 @@
+{{- $p := . -}}
+{{- $catName := "" -}}
+{{- range site.Params.categories }}{{ if eq .key $p.Params.category }}{{ $catName = .name }}{{ end }}{{ end -}}
+<a class="product-card" href="{{ $p.RelPermalink }}" data-category="{{ $p.Params.category }}" data-reveal="zoom">
+  <div class="product-card__media">
+    {{- with $p.Params.image }}
+    <img src="{{ . | relURL }}" alt="{{ $p.Title }} pack shot" loading="lazy" width="600" height="900">
+    {{- end }}
+    {{- with $catName }}<span class="product-card__tag">{{ . }}</span>{{ end }}
+  </div>
+  <div class="product-card__body">
+    <span class="product-card__title">{{ $p.Title }}</span>
+    {{- with $p.Params.tagline }}<span class="product-card__sub">{{ . }}</span>{{ end }}
+    {{- with $p.Params.summary }}<p class="product-card__excerpt">{{ . }}</p>{{ end }}
+    <span class="product-card__foot">
+      View details {{ partial "icon.html" (dict "name" "arrow-right") }}
+    </span>
+  </div>
+</a>

@@ -1,0 +1,49 @@
+{{ define "main" }}
+{{- $products := where site.RegularPages "Section" "products" -}}
+{{ partial "page-banner.html" . }}
+
+<section class="section">
+  <div class="container">
+    {{- with .Content }}
+    <div class="prose" style="margin-bottom:2.5rem" data-reveal>{{ . }}</div>
+    {{- end }}
+
+    <div class="filters" data-reveal role="group" aria-label="Filter products by category">
+      <button class="filter-pill is-active" type="button" data-filter="all">
+        All products <span>{{ len $products }}</span>
+      </button>
+      {{- range site.Params.categories }}
+        {{- $n := len (where $products "Params.category" .key) }}
+        {{- if $n }}
+        <button class="filter-pill" type="button" data-filter="{{ .key }}">
+          {{ .name }} <span>{{ $n }}</span>
+        </button>
+        {{- end }}
+      {{- end }}
+    </div>
+
+    <div class="card-grid" data-stagger="55">
+      {{- range $products }}
+      {{ partial "product-card.html" . }}
+      {{- end }}
+    </div>
+
+    <p data-empty hidden style="text-align:center;color:var(--ink-400);padding:3rem 0">
+      No products in this category yet.
+    </p>
+
+    <div class="cta-band" style="margin-top:4.5rem" data-reveal>
+      <h2>Can't find what you need?</h2>
+      <p>
+        We develop new formulations to order, and we manufacture existing ones under your
+        own brand. Tell us what you are looking for.
+      </p>
+      <div class="cta-band__actions">
+        <a class="btn btn--white btn--lg" href="{{ "contact/" | relURL }}">
+          Talk to us {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

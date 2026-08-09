@@ -1,0 +1,10 @@
+{{ define "main" }}
+{{ partial "page-banner.html" . }}
+<section class="section">
+  <div class="container container--narrow">
+    <div class="prose" data-reveal>
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+{{ end }}

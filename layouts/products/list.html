@@ -1,23 +1,39 @@
 {{ define "main" }}
-{{- $products := where site.RegularPages "Section" "products" -}}
+{{- $products := partial "ordered-products.html" . -}}
+{{- $cats := site.Params.categories -}}
 {{ partial "page-banner.html" . }}
 
 <section class="section">
   <div class="container">
     {{- with .Content }}
-    <div class="prose" style="margin-bottom:2.5rem" data-reveal>{{ . }}</div>
+    <div class="prose" style="max-width:74ch;margin-bottom:2.5rem" data-reveal>{{ . }}</div>
     {{- end }}
 
-    <div class="filters" data-reveal role="group" aria-label="Filter products by category">
-      <button class="filter-pill is-active" type="button" data-filter="all">
+    <div class="filters" data-reveal role="group" aria-label="Filter products">
+      <button class="filter-pill is-active" type="button" data-filter="all" data-filter-attr="all">
         All products <span>{{ len $products }}</span>
       </button>
-      {{- range site.Params.categories }}
-        {{- $n := len (where $products "Params.category" .key) }}
-        {{- if $n }}
-        <button class="filter-pill" type="button" data-filter="{{ .key }}">
-          {{ .name }} <span>{{ $n }}</span>
+
+      {{- range site.Params.divisions }}
+        {{- $dkey := .key }}
+        {{- $dcats := where $cats "division" $dkey }}
+        {{- $dcount := 0 }}
+        {{- range $dcats }}{{ $dcount = add $dcount (len (where $products "Params.category" .key)) }}{{ end }}
+        {{- if $dcount }}
+        <span class="filters__divider" aria-hidden="true"></span>
+        <button class="filter-pill filter-pill--division" type="button"
+                data-filter="{{ $dkey }}" data-filter-attr="division">
+          {{ .name }} <span>{{ $dcount }}</span>
         </button>
+          {{- range $dcats }}
+            {{- $n := len (where $products "Params.category" .key) }}
+            {{- if $n }}
+            <button class="filter-pill filter-pill--sub" type="button"
+                    data-filter="{{ .key }}" data-filter-attr="category">
+              {{ .name }} <span>{{ $n }}</span>
+            </button>
+            {{- end }}
+          {{- end }}
         {{- end }}
       {{- end }}
     </div>
@@ -29,18 +45,36 @@
     </div>
 
     <p data-empty hidden style="text-align:center;color:var(--ink-400);padding:3rem 0">
-      No products in this category yet.
+      No products listed in this category yet — please
+      <a href="{{ "contact/" | relURL }}">get in touch</a> and we'll send you the current list.
     </p>
 
-    <div class="cta-band" style="margin-top:4.5rem" data-reveal>
-      <h2>Can't find what you need?</h2>
+    <!-- Sourcing note: honest about the fact that the published list is a subset -->
+    <div class="callout" style="margin-top:3rem;max-width:none" data-reveal>
+      {{ partial "icon.html" (dict "name" "info") }}
+      <div>
+        <h4>This is not the whole list</h4>
+        <p>
+          We source a far wider range of actives, excipients and nutraceutical raw materials
+          than we publish here, and we quote against your specification rather than from a
+          fixed catalogue. Tell us the material, grade and quantity you need and we will come
+          back with availability, pricing and documentation.
+        </p>
+      </div>
+    </div>
+
+    <div class="cta-band" style="margin-top:3rem" data-reveal>
+      <h2>Looking for a specific material?</h2>
       <p>
-        We develop new formulations to order, and we manufacture existing ones under your
-        own brand. Tell us what you are looking for.
+        Send us the name, grade or CAS number along with the quantity, and we will confirm
+        availability, lead time and price.
       </p>
       <div class="cta-band__actions">
         <a class="btn btn--white btn--lg" href="{{ "contact/" | relURL }}">
-          Talk to us {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+          Send an enquiry {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        </a>
+        <a class="btn btn--outline-light btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}" target="_blank" rel="noopener">
+          {{ partial "icon.html" (dict "name" "whatsapp") }} WhatsApp us
         </a>
       </div>
     </div>

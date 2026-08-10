@@ -7,7 +7,7 @@
 <section class="page-banner" style="padding-block:1.5rem 0;background:var(--surface-alt)">
   <div class="container">
     <nav class="breadcrumb" aria-label="Breadcrumb" style="margin-bottom:0">
-      <a href="{{ "/" | relLangURL }}">Home</a>
+      <a href="{{ site.Home.RelPermalink }}">Home</a>
       {{ partial "icon.html" (dict "name" "chevron-right") }}
       <a href="{{ "products/" | relURL }}">Products</a>
       {{- with $catName }}
@@ -113,10 +113,10 @@
       <aside data-reveal="right">
         <div class="feature" style="position:sticky;top:calc(var(--header-h) + 24px)">
           <div class="feature__icon">{{ partial "icon.html" (dict "name" "flask") }}</div>
-          <h3>Manufacturing enquiries</h3>
+          <h3>Enquiries &amp; samples</h3>
           <p style="margin-bottom:1.25rem">
-            Available for third-party and private-label manufacturing. Certificates of
-            analysis and product documentation supplied on request.
+            Available in sample through to bulk quantities. Specification sheet supplied at
+            quotation, certificate of analysis with every consignment.
           </p>
           <a class="btn btn--sm" href="{{ "contact/" | relURL }}" style="width:100%">Request a quote</a>
           <a class="btn btn--ghost btn--sm" href="tel:{{ replace site.Params.phone " " "" }}" style="width:100%;margin-top:0.6rem">

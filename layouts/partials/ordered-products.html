@@ -1,0 +1,25 @@
+{{- /*
+  Returns all product pages ordered by division (as listed in hugo.toml), then by
+  category within the division, then by the page's own weight. Without this Hugo
+  would order purely by weight and interleave the two divisions.
+
+  Usage:  {{ $products := partial "ordered-products.html" . }}
+*/ -}}
+{{- $all := where site.RegularPages "Section" "products" -}}
+{{- $cats := site.Params.categories -}}
+{{- $ordered := slice -}}
+{{- range site.Params.divisions }}
+  {{- $dkey := .key -}}
+  {{- range where $cats "division" $dkey }}
+    {{- with sort (where $all "Params.category" .key) "Weight" }}
+      {{- $ordered = $ordered | append . -}}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- /* Anything whose category isn't in the config still gets listed, at the end */ -}}
+{{- $known := slice -}}
+{{- range $cats }}{{ $known = $known | append .key }}{{ end -}}
+{{- range $all }}
+  {{- if not (in $known .Params.category) }}{{ $ordered = $ordered | append . }}{{ end }}
+{{- end }}
+{{- return $ordered -}}

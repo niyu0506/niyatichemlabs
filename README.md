@@ -1,14 +1,15 @@
 # Niyati Chem Labs — website
 
-Static website for Niyati Chem Labs, built with [Hugo](https://gohugo.io) and hosted free on
-GitHub Pages.
+Static website for Niyati Chem Labs — a Mumbai-based supplier of active pharmaceutical
+ingredients, nutraceutical raw materials and finished herbal formulations. Built with
+[Hugo](https://gohugo.io) and hosted free on GitHub Pages.
 
 **Live site:** https://keivan.in/niyatichemlabs/
 
-> ⚠️ This is a **mock-up for review**. The product range, photographs and company details are
-> placeholders carried over from a sister company's catalogue so that the design can be
-> evaluated with realistic content. Phone numbers are fictional. Real products, photos and
-> details are to be substituted before this goes live on a real domain.
+> ⚠️ **Review build.** Contact details, the FSSAI licence and the Soy Protein Isolate listing
+> are real. The remaining 27 finished-formulation products are placeholders carried over from
+> a sister company's catalogue so the design could be evaluated with realistic content — their
+> photographs still carry that company's label branding and must be replaced before launch.
 
 ---
 
@@ -24,7 +25,7 @@ hugo.toml                  site settings — phone, email, address, menu, catego
 content/
   _index.md                home page metadata
   about.md                 About Us
-  certification.md         Certification
+  certification.md         Quality
   contact.md               Contact
   products/
     _index.md              catalogue intro
@@ -34,7 +35,6 @@ layouts/                   HTML templates
 assets/css/main.css        the entire design system
 assets/js/main.js          menu, scroll animations, product filter
 static/img/products/       product photographs
-static/img/cert/           certificate scans
 docs/                      the built site — this is what GitHub Pages serves
 setup/                     one-time setup notes (auto-deploy, custom domain, form)
 ```

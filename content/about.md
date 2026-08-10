@@ -1,54 +1,52 @@
 ---
 title: "About Us"
-heading: "A manufacturer that buyers can audit"
-intro: "A Mumbai-based manufacturer and exporter of herbal ayurvedic formulations, running GMP and ISO certified units in Maharashtra and Gujarat, and shipping across Asia, Africa and the EU."
+heading: "Sourcing done properly"
+intro: "A Mumbai-based supplier of active pharmaceutical ingredients, nutraceutical raw materials and finished herbal formulations, working to your specification rather than a fixed catalogue."
 layout: "about"
 weight: 20
 pillars:
   - icon: "microscope"
-    title: "Tested before and after"
-    body: "Raw material is analysed before it enters production, and every finished batch is analysed again before release. Both sets of results are held against the batch number and travel with the consignment."
+    title: "We start from your specification"
+    body: "Tell us the grade, the assay, the pharmacopoeial standard you work to. We source against that rather than offering you the nearest thing we happen to hold."
   - icon: "shield"
-    title: "Certified and documented"
-    body: "Our units hold GMP, WHO-GMP and ISO certification. Batch records, certificates of analysis and export paperwork are available to buyers on request, and the units themselves can be audited."
-  - icon: "truck"
-    title: "Delivered when promised"
-    body: "Storage, packing, labelling and dispatch are handled in-house, which keeps the schedule under our own control. We quote a lead time at the outset and work to it."
+    title: "Documentation travels with the goods"
+    body: "Specification sheet at quotation, certificate of analysis with the consignment, source certifications on request. Nothing about the material should surprise your goods-in team."
+  - icon: "package"
+    title: "Trial quantity first"
+    body: "Take a sample through your own process before committing to bulk. We would rather you proved the material works than took our word for it."
 capabilities:
-  - "Herbal ayurvedic formulation capsules and tablets"
-  - "Herbal ayurvedic single-herb capsules and tablets"
-  - "Herbal ayurvedic powders and churna"
-  - "Herbal ayurvedic oils"
-  - "Herbal ayurvedic syrups and swaras (health juices)"
-  - "Ayurvedic classical preparations"
-  - "Herbal ayurvedic creams and lotions"
+  - "Active pharmaceutical ingredients and intermediates"
+  - "Nutraceutical actives — protein isolates, extracts and functional ingredients"
+  - "Excipients, binders, fillers and processing aids"
+  - "Herbal and botanical extracts"
+  - "Finished ayurvedic capsules and tablets"
+  - "Ayurvedic and herbal oils"
+  - "Churna, powders and classical preparations"
 ---
 
-Niyati Chem Labs is a Mumbai-based manufacturer of herbal ayurvedic products and dietary
-supplements. We started operations in 2012, and we have built the business on two ordinary
-things: transparent dealings, and delivering inside the timeframe we commit to.
+## Who we are
 
-Production runs from two units, at Vasai in Maharashtra and at Navsari in Gujarat. Between
-them they cover the full cycle — product development, granulation, compression and
-encapsulation, filling, packing, labelling and dispatch — with enough on-site storage that a
-repeat order does not sit waiting on procurement.
+Niyati Chem Labs is a Mumbai-based supplier of pharmaceutical and nutraceutical raw materials.
+We hold an FSSAI licence in our own name and we work with manufacturers, formulators and brand
+owners who need a material sourced reliably, documented properly, and delivered when they were
+told it would be.
 
-An in-house laboratory sits in the middle of that. Raw material is tested when it arrives,
-finished product is tested again before it is released, and both results stay on file against
-the batch number.
+The business runs on two fronts. The larger one is **raw materials and actives** — APIs,
+nutraceutical ingredients such as protein isolates and extracts, and the excipients that go
+around them. The second is **finished formulations**: ready-to-market ayurvedic capsules,
+tablets, oils and churna for customers who want a product rather than an ingredient.
 
-## Where our products go
+## How we actually work
 
-We are an Indian company with an established presence across Asia, Africa and the European
-Union, and we prepare export documentation to suit the destination market. Our units are GMP
-and ISO certified, and we are glad to have buyers inspect them.
+We are a supplier, not a plant, and we think that is worth saying out loud. What we bring is
+sourcing: knowing which manufacturing sites hold which certifications, what a given grade
+should actually test at, and what the material will do once it is in your process.
 
-Most of what we make carries someone else's name. We take third-party and contract
-manufacturing, private-label orders produced under a customer's own artwork, and franchisee
-and distributor appointments in markets where we are not yet represented. Order quantities,
-pack sizes, packaging format and label copy are settled at the quotation stage rather than
-after the fact.
+So an order tends to go the same way each time. You tell us the material, the grade and the
+quantity. We come back with price, lead time and the specification sheet — before you commit,
+so your quality team can look at it first. You take a trial quantity through your own process.
+When it works, we supply bulk against the same specification, with a certificate of analysis
+tied to each batch.
 
-What that adds up to is a supplier who answers questions. If you need a specification, a
-sample, a certificate or a delivery date confirmed, there is a named person on our side who
-knows your account and can give you the answer the same day you ask for it.
+If we cannot get something to the standard you need, we will say so rather than send you a
+substitute and hope.

@@ -1,5 +1,6 @@
 {{ define "main" }}
-{{- $products := where site.RegularPages "Section" "products" -}}
+{{- $products := partial "ordered-products.html" . -}}
+{{- $cats := site.Params.categories -}}
 {{- $featured := first 8 (where $products "Params.featured" true) -}}
 {{- if lt (len $featured) 8 }}{{ $featured = first 8 $products }}{{ end -}}
 
@@ -7,45 +8,45 @@
 <section class="hero">
   <div class="container hero__inner">
     <div class="hero__copy">
-      <span class="eyebrow" data-reveal>Established {{ site.Params.established }} &middot; Vasai &amp; Navsari, India</span>
+      <span class="eyebrow" data-reveal>Mumbai, India &middot; FSSAI Lic. {{ site.Params.fssai }}</span>
       <h1 data-reveal data-reveal-delay="60">
-        Herbal formulations,<br>made to
-        <span class="accent">pharmaceutical standard</span>
+        Raw materials and actives,<br>
+        <span class="accent">supplied to specification</span>
       </h1>
       <p class="lede hero__lede" data-reveal data-reveal-delay="140">
-        Niyati Chem Labs manufactures and exports ayurvedic capsules, tablets, oils and
-        churna — with in-house testing of every raw material and finished batch. Available for
-        third-party and contract manufacturing.
+        Niyati Chem Labs supplies active pharmaceutical ingredients, nutraceutical raw
+        materials and functional ingredients to manufacturers and brand owners — and
+        finished ayurvedic formulations for those who want a ready-to-market product.
       </p>
       <div class="hero__cta" data-reveal data-reveal-delay="220">
         <a class="btn btn--lg" href="{{ "products/" | relURL }}">
-          Explore our products {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+          See what we supply {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
         </a>
         <a class="btn btn--ghost btn--lg" href="{{ "contact/" | relURL }}">Request a quote</a>
       </div>
       <div class="hero__trust" data-reveal data-reveal-delay="300">
-        <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} GMP &amp; ISO certified</span>
-        <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} In-house QC laboratory</span>
-        <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} Custom packaging &amp; labelling</span>
+        <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} COA with every batch</span>
+        <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} Non-GMO sourcing</span>
+        <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} Sample to bulk quantities</span>
       </div>
     </div>
 
     <div class="hero__visual" aria-hidden="true">
       <div class="hero__blob"></div>
       <div class="hero__product hero__product--a">
-        <img src="{{ "img/products/immunopan-tab.jpg" | relURL }}" alt="" loading="eager" width="600" height="900">
-      </div>
-      <div class="hero__product hero__product--b">
         <img src="{{ "img/products/moringa-tab.jpg" | relURL }}" alt="" loading="eager" width="600" height="900">
       </div>
       <div class="hero__product hero__product--c">
         <img src="{{ "img/products/orthopan-oil.jpg" | relURL }}" alt="" loading="lazy" width="600" height="900">
       </div>
+      <div class="hero__product hero__product--b hero__product--lead">
+        <img src="{{ "img/products/soy-protein-isolate-90.jpg" | relURL }}" alt="" loading="eager" width="1080" height="1440">
+      </div>
       <div class="hero__badge">
         {{ partial "icon.html" (dict "name" "shield") }}
         <span>
-          <strong>WHO-GMP</strong>
-          <span>Certified facility</span>
+          <strong>FSSAI</strong>
+          <span>Licensed supplier</span>
         </span>
       </div>
     </div>
@@ -66,28 +67,39 @@
   </div>
 </section>
 
-<!-- ═══ CATEGORIES ═══ -->
-<section class="section section--alt" id="categories">
+<!-- ═══ DIVISIONS ═══ -->
+<section class="section section--alt" id="what-we-do">
   <div class="container">
     <div class="section-head section-head--center" data-reveal>
-      <span class="eyebrow eyebrow--center">What we make</span>
-      <h2>A complete ayurvedic range, under one roof</h2>
+      <span class="eyebrow eyebrow--center">What we do</span>
+      <h2>Two sides of the same business</h2>
       <p class="lede" style="margin-top:1rem">
-        From single-herb extracts to multi-herb classical formulations — manufactured,
-        tested, packed and labelled at our own units.
+        We supply the raw materials that go into a product, and we supply the finished
+        product itself. Most customers start with one and end up using both.
       </p>
     </div>
 
-    <div class="grid grid--4" data-stagger="90">
-      {{- range site.Params.categories }}
-      {{- $n := len (where $products "Params.category" .key) }}
-      <a class="cat-card" href="{{ printf "products/?c=%s" .key | relURL }}" data-reveal>
-        {{ partial "icon.html" (dict "name" .icon "class" "cat-card__glyph") }}
-        <span class="cat-card__count">{{ $n }} product{{ if ne $n 1 }}s{{ end }}</span>
-        <h3>{{ .name }}</h3>
+    <div class="grid grid--2" data-stagger="120">
+      {{- range site.Params.divisions }}
+      {{- $dkey := .key }}
+      {{- $dcats := where $cats "division" $dkey }}
+      {{- $dcount := 0 }}
+      {{- range $dcats }}{{ $dcount = add $dcount (len (where $products "Params.category" .key)) }}{{ end }}
+      <a class="division-card" href="{{ printf "products/?d=%s" $dkey | relURL }}" data-reveal>
+        {{ partial "icon.html" (dict "name" .icon "class" "division-card__glyph") }}
+        <div class="division-card__head">
+          <span class="division-card__icon">{{ partial "icon.html" (dict "name" .icon) }}</span>
+          <h3>{{ .name }}</h3>
+        </div>
         <p>{{ .blurb }}</p>
-        <span class="cat-card__more">
-          Browse {{ lower .name }} {{ partial "icon.html" (dict "name" "arrow-right") }}
+        <div class="division-card__tags">
+          {{- range $dcats }}
+          <span class="chip">{{ .name }}</span>
+          {{- end }}
+        </div>
+        <span class="division-card__more">
+          Browse {{ if $dcount }}{{ $dcount }} listed {{ end }}product{{ if ne $dcount 1 }}s{{ end }}
+          {{ partial "icon.html" (dict "name" "arrow-right") }}
         </span>
       </a>
       {{- end }}
@@ -100,72 +112,44 @@
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Why work with us</span>
-      <h2>Built for buyers who care what is inside the bottle</h2>
+      <h2>Built for buyers who check the paperwork</h2>
     </div>
 
     <div class="grid grid--4" data-stagger="90">
       <div class="feature" data-reveal>
         <div class="feature__icon">{{ partial "icon.html" (dict "name" "microscope") }}</div>
-        <h3>Tested twice</h3>
-        <p>Pre- and post-production analysis in our own laboratory — every incoming raw material and every finished batch.</p>
+        <h3>Documented, not described</h3>
+        <p>A certificate of analysis travels with every consignment, and specification sheets go out before you commit to an order.</p>
       </div>
       <div class="feature" data-reveal>
         <div class="feature__icon">{{ partial "icon.html" (dict "name" "package") }}</div>
-        <h3>Your label, your pack</h3>
-        <p>Tailored packaging, labelling and pack sizes for third-party and private-label orders.</p>
+        <h3>Sample to bulk</h3>
+        <p>Start with a trial quantity to run through your own process, then scale up on the same specification.</p>
       </div>
       <div class="feature" data-reveal>
-        <div class="feature__icon">{{ partial "icon.html" (dict "name" "truck") }}</div>
-        <h3>On committed timelines</h3>
-        <p>Equitable rates delivered inside the timeframe we commit to — with dispatch handled in-house.</p>
+        <div class="feature__icon">{{ partial "icon.html" (dict "name" "globe") }}</div>
+        <h3>Sourced against your spec</h3>
+        <p>We work from your requirement rather than a fixed catalogue, and we tell you where the material comes from.</p>
       </div>
       <div class="feature" data-reveal>
         <div class="feature__icon">{{ partial "icon.html" (dict "name" "users") }}</div>
-        <h3>Responsive support</h3>
-        <p>A named point of contact for every account, so questions get answered the same day.</p>
+        <h3>One person to call</h3>
+        <p>A direct line to someone who knows your account, not a general enquiries queue.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ ABOUT SPLIT ═══ -->
-<section class="section section--alt">
-  <div class="container split">
-    <div class="split__media" data-reveal="left">
-      <img src="{{ "img/site/facility.jpg" | relURL }}" alt="Inside the Niyati Chem Labs manufacturing facility" loading="lazy" width="770" height="440">
-      <div class="split__badge">
-        <strong>{{ site.Params.established }}</strong>
-        <span>Manufacturing since</span>
-      </div>
-    </div>
-    <div data-reveal="right">
-      <span class="eyebrow">About Niyati Chem Labs</span>
-      <h2>An Indian manufacturer with a global footprint</h2>
-      <p style="margin-top:1rem;color:var(--ink-600)">
-        We are a Mumbai-based company with manufacturing units at Vasai, Maharashtra and
-        Navsari, Gujarat — known for transparent dealings and for delivering on time. Our
-        facilities are outfitted with modern equipment for product development, in-house
-        testing, storage, packaging, labelling and dispatch.
-      </p>
-      <ul class="checklist">
-        <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>GMP &amp; ISO certified manufacturing units</span></li>
-        <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Strong presence across Asia, Africa and the EU</span></li>
-        <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Third-party and contract manufacturing available</span></li>
-        <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Franchisee and distributor partnerships welcome</span></li>
-      </ul>
-      <a class="btn btn--ghost" href="{{ "about/" | relURL }}" style="margin-top:1.75rem">
-        More about us {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
-      </a>
     </div>
   </div>
 </section>
 
 <!-- ═══ FEATURED PRODUCTS ═══ -->
-<section class="section">
+<section class="section section--alt">
   <div class="container">
     <div class="section-head section-head--center" data-reveal>
       <span class="eyebrow eyebrow--center">From the catalogue</span>
       <h2>Selected products</h2>
+      <p class="lede" style="margin-top:1rem">
+        A sample of what we stock and supply. The full range is much wider — ask us for
+        anything you don't see here.
+      </p>
     </div>
 
     <div class="card-grid" data-stagger="70">
@@ -182,53 +166,64 @@
   </div>
 </section>
 
-<!-- ═══ CERTIFICATION ═══ -->
-<section class="section section--alt">
-  <div class="container split">
-    <div data-reveal="left">
-      <span class="eyebrow">Quality &amp; compliance</span>
-      <h2>Certified, and happy to prove it</h2>
-      <p style="margin-top:1rem;color:var(--ink-600)">
-        Our units hold GMP, WHO-GMP and ISO certification. Copies of our certificates are
-        published openly — and product-specific documentation, including certificates of
-        analysis, is available to buyers on request.
-      </p>
-      <a class="btn" href="{{ "certification/" | relURL }}" style="margin-top:1.75rem">
-        See our certificates {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
-      </a>
+<!-- ═══ HOW WE WORK ═══ -->
+<section class="section">
+  <div class="container split split--top">
+    <div class="split__media" data-reveal="left">
+      <img src="{{ "img/site/facility.jpg" | relURL }}" alt="Laboratory analysis of raw materials" loading="lazy" width="770" height="440">
+      <div class="split__badge">
+        <strong>COA</strong>
+        <span>With every consignment</span>
+      </div>
     </div>
-    <div class="grid grid--3" style="gap:1rem" data-stagger="100" data-reveal="right">
-      <div class="feature" style="text-align:center;padding:1.25rem">
-        <div class="feature__icon" style="margin-inline:auto">{{ partial "icon.html" (dict "name" "award") }}</div>
-        <h4>GMP</h4>
-      </div>
-      <div class="feature" style="text-align:center;padding:1.25rem">
-        <div class="feature__icon" style="margin-inline:auto">{{ partial "icon.html" (dict "name" "shield") }}</div>
-        <h4>WHO-GMP</h4>
-      </div>
-      <div class="feature" style="text-align:center;padding:1.25rem">
-        <div class="feature__icon" style="margin-inline:auto">{{ partial "icon.html" (dict "name" "check") }}</div>
-        <h4>ISO</h4>
-      </div>
+    <div data-reveal="right">
+      <span class="eyebrow">How an order works</span>
+      <h2>From enquiry to delivery</h2>
+      <ol class="steps">
+        <li>
+          <span class="steps__n">1</span>
+          <div>
+            <h4>Tell us what you need</h4>
+            <p>Material and grade — or a CAS number — plus quantity and delivery location. A specification you already work to is ideal.</p>
+          </div>
+        </li>
+        <li>
+          <span class="steps__n">2</span>
+          <div>
+            <h4>We quote with documentation</h4>
+            <p>Price, lead time and the specification sheet, so your quality team can review before you commit.</p>
+          </div>
+        </li>
+        <li>
+          <span class="steps__n">3</span>
+          <div>
+            <h4>Sample, then scale</h4>
+            <p>Take a trial quantity through your own process. When it works, we supply bulk against the same specification.</p>
+          </div>
+        </li>
+      </ol>
+      <a class="btn btn--ghost" href="{{ "about/" | relURL }}" style="margin-top:1.5rem">
+        More about us {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+      </a>
     </div>
   </div>
 </section>
 
 <!-- ═══ CTA ═══ -->
-<section class="section">
+<section class="section section--tight">
   <div class="container">
     <div class="cta-band" data-reveal>
-      <h2>Let's talk about your requirement</h2>
+      <h2>Tell us what you're sourcing</h2>
       <p>
-        Whether you need an existing formulation under your own label or something developed
-        from scratch, send us the brief and we will come back with rates and timelines.
+        Send the material, grade and quantity. We'll come back with availability, price and
+        lead time — usually the same working day.
       </p>
       <div class="cta-band__actions">
         <a class="btn btn--white btn--lg" href="{{ "contact/" | relURL }}">
           Request a quote {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
         </a>
-        <a class="btn btn--outline-light btn--lg" href="tel:{{ replace site.Params.phone " " "" }}">
-          {{ partial "icon.html" (dict "name" "phone") }} {{ site.Params.phone }}
+        <a class="btn btn--outline-light btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}" target="_blank" rel="noopener">
+          {{ partial "icon.html" (dict "name" "whatsapp") }} WhatsApp us
         </a>
       </div>
     </div>

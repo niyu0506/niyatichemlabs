@@ -3,48 +3,69 @@
 
 <section class="section">
   <div class="container">
-    {{- with .Content }}
-    <div class="prose" style="margin-bottom:3rem;max-width:70ch" data-reveal>{{ . }}</div>
-    {{- end }}
+    <div class="grid" style="grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:3rem;align-items:start">
+      <div class="prose" data-reveal>
+        {{ .Content }}
+      </div>
 
-    <div class="grid grid--3" data-stagger="110">
-      {{- range .Params.certificates }}
-      <div class="cert-card" data-reveal="zoom">
-        <div class="cert-card__media">
-          <img src="{{ .image | relURL }}" alt="{{ .title }} certificate" loading="lazy">
+      <aside data-reveal="right">
+        <div class="licence-card">
+          <div class="licence-card__icon">{{ partial "icon.html" (dict "name" "shield") }}</div>
+          <span class="licence-card__label">FSSAI Licence No.</span>
+          <strong class="licence-card__number">{{ site.Params.fssai }}</strong>
+          <p>
+            Issued to {{ site.Params.company }} and printed on every pack we supply. You are
+            welcome to verify it on the FSSAI register.
+          </p>
         </div>
-        <div class="cert-card__body">
-          <h3>{{ .title }}</h3>
-          <p>{{ .body }}</p>
-        </div>
+      </aside>
+    </div>
+
+    <!-- Credentials -->
+    {{- with .Params.credentials }}
+    <div class="section-head" style="margin-top:4rem" data-reveal>
+      <span class="eyebrow">Credentials</span>
+      <h2 style="font-size:var(--step-3)">What backs the material</h2>
+    </div>
+    <div class="grid grid--3" data-stagger="100">
+      {{- range . }}
+      <div class="feature" data-reveal>
+        <div class="feature__icon">{{ partial "icon.html" (dict "name" .icon) }}</div>
+        <h3>{{ .title }}</h3>
+        <p>{{ .body }}</p>
+        {{- with .meta }}<p class="feature__meta">{{ . }}</p>{{ end }}
       </div>
       {{- end }}
     </div>
+    {{- end }}
 
-    <div class="grid grid--2" style="margin-top:4rem;gap:2rem" data-stagger="100">
-      <div class="feature" data-reveal>
-        <div class="feature__icon">{{ partial "icon.html" (dict "name" "microscope") }}</div>
-        <h3>In-house quality control</h3>
-        <p>
-          Raw materials are tested on arrival and finished batches are tested again before
-          release. Certificates of analysis are issued with every consignment.
-        </p>
-      </div>
-      <div class="feature" data-reveal>
-        <div class="feature__icon">{{ partial "icon.html" (dict "name" "list") }}</div>
-        <h3>Documentation on request</h3>
-        <p>
-          Batch records, stability data, heavy-metal and microbial reports, and export
-          documentation are available to buyers on request.
-        </p>
-      </div>
+    <!-- Source certifications -->
+    {{- with .Params.sourceCerts }}
+    <div class="section-head" style="margin-top:4rem" data-reveal>
+      <span class="eyebrow">Source manufacturer certifications</span>
+      <h2 style="font-size:var(--step-3)">Where the material comes from</h2>
+      <p style="margin-top:0.75rem;color:var(--ink-500)">
+        These are certifications held by the manufacturing sites we source from. Certificates
+        are shared with buyers on request, per material.
+      </p>
     </div>
+    <div class="badge-row" data-stagger="70">
+      {{- range . }}
+      <span class="badge-chip" data-reveal>
+        {{ partial "icon.html" (dict "name" "check") }} {{ . }}
+      </span>
+      {{- end }}
+    </div>
+    {{- end }}
 
     <div class="cta-band" style="margin-top:4.5rem" data-reveal>
-      <h2>Need our certificates for your file?</h2>
-      <p>We will send current copies of all certifications, along with product-specific documentation, the same working day.</p>
+      <h2>Need documentation for your file?</h2>
+      <p>
+        Specification sheets, certificates of analysis and source certifications are sent on
+        request — usually the same working day.
+      </p>
       <div class="cta-band__actions">
-        <a class="btn btn--white btn--lg" href="mailto:{{ site.Params.email }}?subject={{ "Request for certification documents" | urlquery }}">
+        <a class="btn btn--white btn--lg" href="mailto:{{ site.Params.email }}?subject={{ "Request for product documentation" | urlquery }}">
           {{ partial "icon.html" (dict "name" "mail") }} Request documents
         </a>
       </div>

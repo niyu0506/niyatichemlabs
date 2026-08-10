@@ -6,7 +6,8 @@
 #    don't need. Keep the --- fences at the top and bottom.
 
 title: "New Product Name"          # shown as the page heading
-category: "tablets"                # capsules | tablets | oils | other
+category: "nutraceutical"          # raw materials: nutraceutical | api | excipient
+                                   # formulations: capsules | tablets | oils | other
 tagline: "What it supports"        # short line under the title, e.g. "Liver Care"
 image: "img/products/my-photo.jpg" # upload the photo to static/img/products/ first
 weight: 999                        # lower number = appears earlier in the list
@@ -36,7 +37,7 @@ just type paragraphs. Leave a blank line between paragraphs.
 
 Use `**bold**` for emphasis and `## ` at the start of a line to make a new heading.
 
-## Manufacturing and supply
+## Sourcing and documentation
 
-Available for third-party and private-label manufacturing. Certificates of analysis are
-supplied with each consignment.
+Available in sample through to bulk quantities. Specification sheet supplied at quotation,
+certificate of analysis with every consignment.

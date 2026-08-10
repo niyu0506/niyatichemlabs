@@ -26,10 +26,10 @@ restored.
 | What you want to change | File to edit |
 |---|---|
 | Phone number, email, address, company name | `hugo.toml` |
-| The numbers in the stats strip (12+, 27, ...) | `hugo.toml` |
+| The stats strip (FSSAI, 100%, COA, 1 kg+) | `hugo.toml` |
 | Home page headline and section text | `layouts/index.html` |
 | "About Us" page | `content/about.md` |
-| "Certification" page | `content/certification.md` |
+| "Quality" page | `content/certification.md` |
 | "Contact" page intro | `content/contact.md` |
 | Products intro text | `content/products/_index.md` |
 | An individual product | `content/products/<product-name>.md` |
@@ -42,11 +42,24 @@ restored.
 Open **`hugo.toml`**. Near the middle you'll see:
 
 ```toml
-phone       = "+91 98765 43210"
-phoneAlt    = "+91 98765 43211"
-email       = "hi@niyatichemlabs.in"
-whatsapp    = "919876543210"        # digits only, for the wa.me link
+phone       = "+91 70457 17020"
+email       = "niyatichemlabs@gmail.com"
+whatsapp    = "917045717020"        # digits only, for the wa.me link
+
+fssai       = "11523011000215"      # FSSAI licence number, printed on our packs
 ```
+
+The registered address sits just below, under `[params.address]`:
+
+```toml
+[params.address]
+  unit1Label = "Registered Office"
+  unit1 = "M/404, Panchsheel Gardens, Mahavir Nagar, Kandivali West, Mumbai — 400067"
+  mapQuery = "M/404 Panchsheel Gardens, Mahavir Nagar, Kandivali West, Mumbai 400067"
+```
+
+`mapQuery` is what the map on the Contact page searches for, and what the
+"Get directions" link opens. Change both `unit1` and `mapQuery` together.
 
 Change what's inside the quotes. Keep the quotes. Commit.
 
@@ -116,7 +129,9 @@ need to add it to any list or menu.
 - Keep the `---` lines at the top and bottom of the settings block.
 - Keep every value **inside double quotes**.
 - Never use the Tab key for indentation — use spaces. (Two spaces, as shown above.)
-- `category:` must be exactly one of: `capsules`, `tablets`, `oils`, `other`.
+- `category:` must be exactly one of:
+  `nutraceutical`, `api`, `excipient` (raw materials) or
+  `capsules`, `tablets`, `oils`, `other` (finished formulations).
 - `weight:` controls the order. Lower numbers come first.
 - `featured: true` also shows it on the home page.
 
@@ -143,8 +158,8 @@ Write your page content here in normal paragraphs.
 ```
 
 The line `menus: "main"` is what puts it in the navbar. `weight` decides where — the existing
-items are Home 10, About 20, Products 30, Certification 40, Contact 50, so `45` would place it
-between Certification and Contact.
+items are Home 10, About 20, Products 30, Quality 40, Contact 50, so `45` would place it
+between Quality and Contact.
 
 ---
 
@@ -154,10 +169,11 @@ Open `hugo.toml`, find the `[[params.categories]]` blocks near the bottom, and c
 
 ```toml
 [[params.categories]]
-  key   = "syrups"
-  name  = "Syrups"
-  image = "img/site/other.jpg"
-  blurb = "Herbal syrups and health juices."
+  key      = "syrups"
+  division = "formulations"     # or "raw-materials"
+  name     = "Syrups"
+  icon     = "leaf"
+  blurb    = "Herbal syrups and health juices."
 ```
 
 Then use `category: "syrups"` in your product files. The filter buttons, the menu dropdown
@@ -191,6 +207,24 @@ Nothing is ever permanently broken. To undo:
 
 If the site stops updating, the most likely cause is a typo in a settings block — usually a
 missing quote mark, or a Tab used instead of spaces. Check the most recent file you edited.
+
+---
+
+## Turning the contact form on
+
+The Contact page currently shows WhatsApp / email / phone buttons instead of a form,
+because a form needs a service behind it to actually deliver the messages.
+
+Everything is already built — to switch it on, add these three lines under `[params]`
+in `hugo.toml` once you have signed up with a form service (see `setup/README.md`):
+
+```toml
+enableContactForm = true
+formEndpoint      = "https://api.web3forms.com/submit"
+formAccessKey     = "your-access-key-here"
+```
+
+Set `enableContactForm = false` to go back to the buttons.
 
 ---
 

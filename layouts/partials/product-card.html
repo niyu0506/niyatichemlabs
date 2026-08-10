@@ -1,7 +1,11 @@
 {{- $p := . -}}
 {{- $catName := "" -}}
-{{- range site.Params.categories }}{{ if eq .key $p.Params.category }}{{ $catName = .name }}{{ end }}{{ end -}}
-<a class="product-card" href="{{ $p.RelPermalink }}" data-category="{{ $p.Params.category }}" data-reveal="zoom">
+{{- $division := "" -}}
+{{- range site.Params.categories }}
+  {{- if eq .key $p.Params.category }}{{ $catName = (.short | default .name) }}{{ $division = .division }}{{ end }}
+{{- end -}}
+<a class="product-card" href="{{ $p.RelPermalink }}"
+   data-category="{{ $p.Params.category }}" data-division="{{ $division }}" data-reveal="zoom">
   <div class="product-card__media">
     {{- with $p.Params.image }}
     <img src="{{ . | relURL }}" alt="{{ $p.Title }} pack shot" loading="lazy" width="600" height="900">

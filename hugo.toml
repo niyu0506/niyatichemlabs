@@ -45,7 +45,7 @@ enableEmoji = true
     weight = 30
 
   [[menus.main]]
-    name = "Certification"
+    name = "Quality"
     pageRef = "/certification"
     weight = 40
 
@@ -58,60 +58,100 @@ enableEmoji = true
 [params]
   company     = "Niyati Chem Labs"
   legalName   = "Niyati Chem Labs"
-  tagline     = "Manufacturer & Exporter of Herbal Ayurvedic Formulations"
-  description = "Niyati Chem Labs is a GMP & ISO certified Indian manufacturer and exporter of herbal ayurvedic capsules, tablets, oils and powders, offering third-party and contract manufacturing."
-  established = "2012"
+  brandSub    = "APIs · Ingredients"
+  tagline     = "Suppliers of APIs, Nutraceutical Ingredients & Herbal Formulations"
+  description = "Niyati Chem Labs supplies active pharmaceutical ingredients, nutraceutical raw materials and finished herbal formulations to manufacturers and brand owners across India."
 
-  phone       = "+91 98765 43210"
-  phoneAlt    = "+91 98765 43211"
-  email       = "hi@niyatichemlabs.in"
-  whatsapp    = "919876543210"        # digits only, for the wa.me link
+  phone       = "+91 70457 17020"
+  email       = "niyatichemlabs@gmail.com"
+  whatsapp    = "917045717020"        # digits only, for the wa.me link
+
+  fssai       = "11523011000215"      # FSSAI licence number, printed on our packs
 
   [params.address]
     unit1Label = "Registered Office"
-    unit1 = "102 Trinity Industrial Park, NH-08, Bapane, Naigaon East, Vasai — 401208, Dist. Palghar, Maharashtra, India"
-    unit2Label = "Manufacturing Unit"
-    unit2 = "122/C-3, Kabilpore, Navsari, Gujarat — 396424, India"
+    unit1 = "M/404, Panchsheel Gardens, Mahavir Nagar, Kandivali West, Mumbai — 400067"
+    # Google Maps search string used for the map embed and the directions link
+    mapQuery = "M/404 Panchsheel Gardens, Mahavir Nagar, Kandivali West, Mumbai 400067"
 
-  # Numbers shown in the stats strip on the home page
+  # Numbers shown in the stats strip. Non-numeric values are displayed as-is.
   [[params.stats]]
-    value = "12+"
-    label = "Years of experience"
-  [[params.stats]]
-    value = "27"
-    label = "Products in catalogue"
-  [[params.stats]]
-    value = "3"
-    label = "Continents served"
+    value = "FSSAI"
+    label = "Licensed & registered"
   [[params.stats]]
     value = "100%"
-    label = "In-house QC tested"
+    label = "Non-GMO sourcing"
+  [[params.stats]]
+    value = "COA"
+    label = "With every consignment"
+  [[params.stats]]
+    value = "1 kg+"
+    label = "Sample to bulk quantities"
 
   # Disclaimer shown in the footer
-  disclaimer = "Information and statements about the products on this site have not been evaluated by the Food and Drug Administration and are not intended to diagnose, treat, cure or prevent any disease."
+  disclaimer = "Information and statements about the products on this site have not been evaluated by the Food Safety and Standards Authority of India or the Food and Drug Administration, and are not intended to diagnose, treat, cure or prevent any disease. Product specifications are indicative — refer to the certificate of analysis supplied with each consignment."
+
+# ── Business divisions ─────────────────────────────────────────────────────
+# Each product category below belongs to one of these.
+[[params.divisions]]
+  key   = "raw-materials"
+  name  = "Raw Materials & APIs"
+  icon  = "flask"
+  blurb = "Active pharmaceutical ingredients, nutraceutical actives and functional raw materials, supplied to specification with full documentation."
+[[params.divisions]]
+  key   = "formulations"
+  name  = "Finished Formulations"
+  icon  = "package"
+  blurb = "Ready-to-market ayurvedic capsules, tablets, oils and churna, available under your own label."
 
 # ── Product categories ─────────────────────────────────────────────────────
 # The `key` must match the `category` field in each product's .md file.
+# A category with no products in it is hidden automatically.
 [[params.categories]]
-  key   = "capsules"
-  name  = "Capsules"
-  icon  = "flask"
-  blurb = "Herbal and single-herb extract capsules in HPMC and gelatin shells."
+  key      = "nutraceutical"
+  division = "raw-materials"
+  name     = "Nutraceutical Ingredients"
+  short    = "Nutraceutical"
+  icon     = "sparkles"
+  blurb    = "Protein isolates, extracts and functional ingredients for sports nutrition, fortification and wellness."
 [[params.categories]]
-  key   = "tablets"
-  name  = "Tablets"
-  icon  = "package"
-  blurb = "Coated and uncoated ayurvedic formulation tablets."
+  key      = "api"
+  division = "raw-materials"
+  name     = "APIs & Actives"
+  short    = "API"
+  icon     = "flask"
+  blurb    = "Active pharmaceutical ingredients and intermediates, sourced against your specification."
 [[params.categories]]
-  key   = "oils"
-  name  = "Oils"
-  icon  = "leaf"
-  blurb = "Ayurvedic massage and hair oils, cold-processed and filtered."
+  key      = "excipient"
+  division = "raw-materials"
+  name     = "Excipients"
+  icon     = "microscope"
+  blurb    = "Binders, fillers, disintegrants and processing aids for oral solid dosage forms."
 [[params.categories]]
-  key   = "other"
-  name  = "Churna & Powders"
-  icon  = "sparkles"
-  blurb = "Classical churna preparations and blended herbal powders."
+  key      = "capsules"
+  division = "formulations"
+  name     = "Capsules"
+  icon     = "package"
+  blurb    = "Herbal and single-herb extract capsules in HPMC and gelatin shells."
+[[params.categories]]
+  key      = "tablets"
+  division = "formulations"
+  name     = "Tablets"
+  icon     = "package"
+  blurb    = "Coated and uncoated ayurvedic formulation tablets."
+[[params.categories]]
+  key      = "oils"
+  division = "formulations"
+  name     = "Oils"
+  icon     = "leaf"
+  blurb    = "Ayurvedic massage and hair oils, cold-processed and filtered."
+[[params.categories]]
+  key      = "other"
+  division = "formulations"
+  name     = "Churna & Powders"
+  short    = "Churna"
+  icon     = "sparkles"
+  blurb    = "Classical churna preparations and blended herbal powders."
 
 [outputs]
   home = ["HTML", "RSS", "SITEMAP"]

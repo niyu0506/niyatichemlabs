@@ -53,18 +53,27 @@ Once the domain (e.g. `niyatichemlabs.in`) is registered:
 If the DNS is on Cloudflare, leave the records **DNS only** (grey cloud) until GitHub has
 issued the certificate, then proxying can be turned on if desired.
 
-## 3. Make the contact form send email properly
+## 3. Turn the contact form on
 
-The contact form currently opens the visitor's own email app with the message pre-filled
-(this needs no server and cannot break). To have submissions arrive directly in an inbox
-instead:
+The Contact page currently shows WhatsApp / email / phone buttons rather than a form. A form
+on a static site needs a third-party service behind it to deliver the messages — without one
+a form looks functional but silently goes nowhere, which is worse than no form at all.
 
-1. Sign up at [web3forms.com](https://web3forms.com) (free, 250 submissions/month) and get
-   an access key.
-2. In `layouts/_default/contact.html`, replace the `<form data-mailto-form="...">` opening
-   tag with:
-   ```html
-   <form action="https://api.web3forms.com/submit" method="POST">
-     <input type="hidden" name="access_key" value="YOUR-ACCESS-KEY-HERE">
+The form is already built and sitting behind a switch. To enable it:
+
+1. Sign up at [web3forms.com](https://web3forms.com) — free, 250 submissions/month, no
+   server needed. It emails each submission straight to an inbox. (Formspree's free tier,
+   50/month, works the same way.)
+2. Copy the access key they give you.
+3. Add these three lines under `[params]` in `hugo.toml`:
+   ```toml
+   enableContactForm = true
+   formEndpoint      = "https://api.web3forms.com/submit"
+   formAccessKey     = "paste-the-access-key-here"
    ```
-3. Remove the `data-mailto-form` attribute so the JavaScript stops intercepting it.
+4. Rebuild and publish.
+
+Setting `enableContactForm = false` (or deleting the line) switches back to the buttons.
+
+**Send a test submission after enabling it** and confirm it arrives — the whole point of the
+switch is that the form is never live unless it actually delivers.

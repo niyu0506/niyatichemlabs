@@ -107,79 +107,58 @@
     stats.forEach(function (el) { so.observe(el); });
   }
 
-  /* ── Product category filter ────────────────────────────────────────── */
+  /* ── Product filter (by division or by category) ─────────────────────── */
   var pills = document.querySelectorAll(".filter-pill");
   var cards = document.querySelectorAll("[data-category]");
   var emptyMsg = document.querySelector("[data-empty]");
 
-  if (pills.length && cards.length) {
-    pills.forEach(function (pill) {
-      pill.addEventListener("click", function () {
-        var want = pill.getAttribute("data-filter");
-        pills.forEach(function (p) { p.classList.toggle("is-active", p === pill); });
+  function applyFilter(pill, updateUrl) {
+    var want = pill.getAttribute("data-filter");
+    var attr = pill.getAttribute("data-filter-attr") || "category";
+    pills.forEach(function (p) { p.classList.toggle("is-active", p === pill); });
 
-        var shown = 0;
-        cards.forEach(function (card) {
-          var match = want === "all" || card.getAttribute("data-category") === want;
-          card.classList.toggle("is-hidden", !match);
-          if (match) {
-            shown++;
-            if (!reduceMotion) {
-              card.style.animation = "none";
-              /* force reflow so the animation restarts */
-              void card.offsetWidth;
-              card.style.animation = "pageIn 0.5s var(--ease-out) both";
-            }
-          }
-        });
-        if (emptyMsg) emptyMsg.hidden = shown !== 0;
-
-        if (history.replaceState) {
-          history.replaceState(null, "", want === "all" ? location.pathname : "?c=" + want);
+    var shown = 0;
+    cards.forEach(function (card) {
+      var match = attr === "all" || card.getAttribute("data-" + attr) === want;
+      card.classList.toggle("is-hidden", !match);
+      if (match) {
+        shown++;
+        if (!reduceMotion) {
+          card.style.animation = "none";
+          /* force reflow so the animation restarts */
+          void card.offsetWidth;
+          card.style.animation = "pageIn 0.5s var(--ease-out) both";
         }
-      });
+      }
     });
+    if (emptyMsg) emptyMsg.hidden = shown !== 0;
 
-    /* Honour ?c=tablets on load */
-    var initial = new URLSearchParams(location.search).get("c");
-    if (initial) {
-      var target = document.querySelector('.filter-pill[data-filter="' + CSS.escape(initial) + '"]');
-      if (target) target.click();
+    if (updateUrl && history.replaceState) {
+      var q = attr === "all" ? location.pathname
+            : "?" + (attr === "division" ? "d" : "c") + "=" + encodeURIComponent(want);
+      history.replaceState(null, "", q);
     }
   }
 
-  /* ── Contact form (mailto fallback, no backend needed) ──────────────── */
-  var form = document.querySelector("[data-mailto-form]");
-  if (form) {
-    /* Prefill "product of interest" when arriving from a product page */
-    var wanted = new URLSearchParams(location.search).get("product");
-    var prodField = form.querySelector('[name="product"]');
-    if (wanted && prodField) {
-      prodField.value = wanted;
-      prodField.style.borderColor = "var(--brand-400)";
-    }
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var to = form.getAttribute("data-mailto-form");
-      var get = function (n) {
-        var el = form.querySelector('[name="' + n + '"]');
-        return el ? el.value.trim() : "";
-      };
-      var subject = "Enquiry from " + (get("name") || "website") +
-        (get("product") ? " — " + get("product") : "");
-      var body = [
-        "Name: " + get("name"),
-        "Email: " + get("email"),
-        "Phone: " + get("phone"),
-        get("product") ? "Product of interest: " + get("product") : "",
-        "",
-        get("message")
-      ].filter(Boolean).join("\n");
-      window.location.href = "mailto:" + to +
-        "?subject=" + encodeURIComponent(subject) +
-        "&body=" + encodeURIComponent(body);
+  if (pills.length && cards.length) {
+    pills.forEach(function (pill) {
+      pill.addEventListener("click", function () { applyFilter(pill, true); });
     });
+
+    /* Honour ?c=tablets or ?d=raw-materials on load */
+    var params = new URLSearchParams(location.search);
+    var wantCat = params.get("c");
+    var wantDiv = params.get("d");
+    var sel = null;
+    if (wantDiv) {
+      sel = '.filter-pill[data-filter-attr="division"][data-filter="' + CSS.escape(wantDiv) + '"]';
+    } else if (wantCat) {
+      sel = '.filter-pill[data-filter-attr="category"][data-filter="' + CSS.escape(wantCat) + '"]';
+    }
+    if (sel) {
+      var target = document.querySelector(sel);
+      if (target) applyFilter(target, false);
+    }
   }
 
   /* ── Current year in footer ─────────────────────────────────────────── */

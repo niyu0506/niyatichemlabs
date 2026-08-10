@@ -1,9 +1,10 @@
 {{- $products := where site.RegularPages "Section" "products" -}}
+{{- $cats := site.Params.categories -}}
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a class="brand" href="{{ "/" | relLangURL }}" style="margin-bottom:1rem">
+        <a class="brand" href="{{ site.Home.RelPermalink }}" style="margin-bottom:1rem">
           <span class="brand__mark">
             <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M9 2.5h6"/>
@@ -13,18 +14,21 @@
           </span>
           <span class="brand__text">
             <span class="brand__name">Niyati Chem Labs</span>
-            <span class="brand__sub">Herbal &middot; Ayurvedic</span>
+            <span class="brand__sub">{{ site.Params.brandSub }}</span>
           </span>
         </a>
         <p>{{ site.Params.description | plainify | truncate 180 }}</p>
+        <p style="margin-top:0.9rem;font-size:0.84rem;opacity:0.7">
+          FSSAI Licence No. {{ site.Params.fssai }}
+        </p>
       </div>
 
       <div>
         <h4>Company</h4>
         <ul>
-          <li><a href="{{ "/" | relLangURL }}">Home</a></li>
+          <li><a href="{{ site.Home.RelPermalink }}">Home</a></li>
           <li><a href="{{ "about/" | relURL }}">About Us</a></li>
-          <li><a href="{{ "certification/" | relURL }}">Certification</a></li>
+          <li><a href="{{ "certification/" | relURL }}">Quality</a></li>
           <li><a href="{{ "contact/" | relURL }}">Contact</a></li>
         </ul>
       </div>
@@ -33,11 +37,9 @@
         <h4>Products</h4>
         <ul>
           <li><a href="{{ "products/" | relURL }}">All products ({{ len $products }})</a></li>
-          {{- range site.Params.categories }}
-            {{- $n := len (where $products "Params.category" .key) }}
-            {{- if $n }}
-            <li><a href="{{ printf "products/?c=%s" .key | relURL }}">{{ .name }}</a></li>
-            {{- end }}
+          {{- range site.Params.divisions }}
+            {{- $dkey := .key }}
+            <li><a href="{{ printf "products/?d=%s" $dkey | relURL }}">{{ .name }}</a></li>
           {{- end }}
         </ul>
       </div>
@@ -57,7 +59,7 @@
 
     <div class="footer-bottom">
       <span>&copy; <span data-year>{{ now.Year }}</span> {{ site.Params.legalName }}. All rights reserved.</span>
-      <span>Established {{ site.Params.established }} &middot; Made in India</span>
+      <span>Mumbai, India</span>
     </div>
 
     <div class="footer-disclaimer">

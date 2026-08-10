@@ -1,4 +1,5 @@
 {{- $cats := site.Params.categories -}}
+{{- $divs := site.Params.divisions -}}
 {{- $products := where site.RegularPages "Section" "products" -}}
 
 <!-- Utility bar -->
@@ -6,17 +7,17 @@
   <div class="container topbar__inner">
     <div class="topbar__items">
       <span class="topbar__item topbar__item--hide-sm">
-        {{ partial "icon.html" (dict "name" "shield") }} GMP &amp; ISO Certified Manufacturer
+        {{ partial "icon.html" (dict "name" "shield") }} FSSAI Lic. {{ site.Params.fssai }}
       </span>
       <span class="topbar__item topbar__item--hide-sm">
-        {{ partial "icon.html" (dict "name" "globe") }} Exporting to Asia, Africa &amp; EU
+        {{ partial "icon.html" (dict "name" "package") }} Sample to bulk quantities
       </span>
     </div>
     <div class="topbar__items">
       <a class="topbar__item" href="tel:{{ replace site.Params.phone " " "" }}">
         {{ partial "icon.html" (dict "name" "phone") }} {{ site.Params.phone }}
       </a>
-      <a class="topbar__item" href="mailto:{{ site.Params.email }}">
+      <a class="topbar__item topbar__item--hide-xs" href="mailto:{{ site.Params.email }}">
         {{ partial "icon.html" (dict "name" "mail") }} {{ site.Params.email }}
       </a>
     </div>
@@ -25,7 +26,7 @@
 
 <header class="site-header">
   <div class="container site-header__inner">
-    <a class="brand" href="{{ "/" | relLangURL }}" aria-label="{{ site.Params.company }} — home">
+    <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="{{ site.Params.company }} — home">
       <span class="brand__mark">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M9 2.5h6"/>
@@ -35,7 +36,7 @@
       </span>
       <span class="brand__text">
         <span class="brand__name">Niyati Chem Labs</span>
-        <span class="brand__sub">Herbal &middot; Ayurvedic</span>
+        <span class="brand__sub">{{ site.Params.brandSub }}</span>
       </span>
     </a>
 
@@ -50,13 +51,27 @@
             {{- if $isProducts }}{{ partial "icon.html" (dict "name" "chevron-down") }}{{ end }}
           </a>
           {{- if $isProducts }}
-          <div class="dropdown">
-            <a href="{{ "products/" | relURL }}">All products <span>{{ len $products }}</span></a>
-            {{- range $cats }}
-              {{- $n := len (where $products "Params.category" .key) }}
-              {{- if $n }}
-              <a href="{{ printf "products/?c=%s" .key | relURL }}">{{ .name }} <span>{{ $n }}</span></a>
-              {{- end }}
+          <div class="dropdown dropdown--wide">
+            <a class="dropdown__all" href="{{ "products/" | relURL }}">
+              All products <span>{{ len $products }}</span>
+            </a>
+            {{- range $divs }}
+              {{- $dkey := .key }}
+              {{- $dcats := where $cats "division" $dkey }}
+              {{- $dcount := 0 }}
+              {{- range $dcats }}{{ $dcount = add $dcount (len (where $products "Params.category" .key)) }}{{ end }}
+              <div class="dropdown__group">
+                <span class="dropdown__label">{{ .name }}</span>
+                <a href="{{ printf "products/?d=%s" $dkey | relURL }}">
+                  All {{ lower .name }} <span>{{ $dcount }}</span>
+                </a>
+                {{- range $dcats }}
+                  {{- $n := len (where $products "Params.category" .key) }}
+                  {{- if $n }}
+                  <a href="{{ printf "products/?c=%s" .key | relURL }}">{{ .name }} <span>{{ $n }}</span></a>
+                  {{- end }}
+                {{- end }}
+              </div>
             {{- end }}
           </div>
           {{- end }}
@@ -79,35 +94,46 @@
 <div class="scrim" aria-hidden="true"></div>
 <div class="mobile-nav" id="mobile-nav" aria-hidden="true" aria-label="Mobile navigation">
   <div class="mobile-nav__head">
-    <span class="brand__name">Menu</span>
+    <span class="mobile-nav__title">Menu</span>
     <button class="mobile-nav__close" type="button" aria-label="Close menu">
       {{ partial "icon.html" (dict "name" "close") }}
     </button>
   </div>
 
-  {{- range site.Menus.main }}
-    {{- $active := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) -}}
-    <a class="m-link{{ if $active }} is-active{{ end }}" href="{{ .URL | relLangURL }}">
-      {{ .Name }}{{ partial "icon.html" (dict "name" "chevron-right") }}
-    </a>
-    {{- if eq .Name "Products" }}
-    <div class="m-sub">
-      {{- range $cats }}
-        {{- $n := len (where $products "Params.category" .key) }}
-        {{- if $n }}
-        <a href="{{ printf "products/?c=%s" .key | relURL }}">{{ .name }} ({{ $n }})</a>
+  <nav class="mobile-nav__links" aria-label="Mobile navigation links">
+    {{- range site.Menus.main }}
+      {{- $active := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) -}}
+      <a class="m-link{{ if $active }} is-active{{ end }}" href="{{ .URL | relLangURL }}">
+        <span>{{ .Name }}</span>{{ partial "icon.html" (dict "name" "chevron-right") }}
+      </a>
+      {{- if eq .Name "Products" }}
+      <div class="m-sub">
+        {{- range $divs }}
+          {{- $dkey := .key }}
+          {{- $dcats := where $cats "division" $dkey }}
+          {{- $dcount := 0 }}
+          {{- range $dcats }}{{ $dcount = add $dcount (len (where $products "Params.category" .key)) }}{{ end }}
+          {{- if $dcount }}
+          <span class="m-sub__label">{{ .name }}</span>
+          {{- range $dcats }}
+            {{- $n := len (where $products "Params.category" .key) }}
+            {{- if $n }}
+            <a href="{{ printf "products/?c=%s" .key | relURL }}">{{ .name }} <em>{{ $n }}</em></a>
+            {{- end }}
+          {{- end }}
+          {{- end }}
         {{- end }}
+      </div>
       {{- end }}
-    </div>
     {{- end }}
-  {{- end }}
+  </nav>
 
   <div class="mobile-nav__foot">
     <a class="btn" href="tel:{{ replace site.Params.phone " " "" }}">
-      {{ partial "icon.html" (dict "name" "phone") }} Call us
+      {{ partial "icon.html" (dict "name" "phone") }} {{ site.Params.phone }}
     </a>
     <a class="btn btn--ghost" href="mailto:{{ site.Params.email }}">
-      {{ partial "icon.html" (dict "name" "mail") }} {{ site.Params.email }}
+      {{ partial "icon.html" (dict "name" "mail") }} Email us
     </a>
   </div>
 </div>

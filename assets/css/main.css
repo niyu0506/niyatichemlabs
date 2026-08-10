@@ -982,9 +982,9 @@ body.nav-open { overflow: hidden; }
 /* ── 10 · Product detail ─────────────────────────────────────────────────── */
 .product-hero { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(1.5rem, 1rem + 3vw, 3.5rem); }
 .product-hero__media {
-  /* Sticky so it stays beside the spec table instead of leaving a tall gap */
-  position: sticky;
-  top: calc(var(--header-h) + 24px);
+  /* Deliberately NOT sticky. A sticky grid item is constrained by the grid
+     container, not its own row — so in the single-column mobile layout it
+     pinned to the top and the spec table scrolled over it. */
   align-self: start;
   background: linear-gradient(170deg, var(--surface-alt), #fff 65%);
   border: 1px solid var(--ink-100);
@@ -992,7 +992,11 @@ body.nav-open { overflow: hidden; }
   padding: var(--sp-6);
   display: grid; place-items: center;
 }
-.product-hero__media img { mix-blend-mode: multiply; max-height: 460px; width: auto; }
+.product-hero__media img {
+  mix-blend-mode: multiply;
+  max-height: 560px;
+  width: auto;
+}
 .product-hero h1 { font-size: var(--step-4); margin-bottom: var(--sp-2); }
 .product-hero__sub {
   display: inline-block;

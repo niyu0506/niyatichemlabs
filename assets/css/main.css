@@ -89,6 +89,10 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 16px);
+  /* `clip` contains sideways overflow (the closed mobile drawer, decorative
+     offsets, reveal transforms) WITHOUT breaking position:sticky the way
+     overflow-x:hidden on <html> does. */
+  overflow-x: clip;
 }
 
 body {
@@ -99,7 +103,12 @@ body {
   background: var(--surface);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+/* Fallback for engines without overflow:clip */
+@supports not (overflow: clip) {
+  body { overflow-x: hidden; }
 }
 
 img, svg, video { display: block; max-width: 100%; height: auto; }
@@ -177,13 +186,27 @@ p { text-wrap: pretty; }
 .grid--3 { grid-template-columns: repeat(3, 1fr); }
 .grid--4 { grid-template-columns: repeat(4, 1fr); }
 
+/* Visually hidden until focused — clip-path rather than left:-9999px, which
+   otherwise contributes to the scrollable area. */
 .skip-link {
-  position: absolute; left: -9999px;
-  background: var(--brand-700); color: #fff;
-  padding: var(--sp-3) var(--sp-5); border-radius: var(--radius-sm);
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
   z-index: 200;
 }
-.skip-link:focus { left: var(--sp-4); top: var(--sp-4); color: #fff; }
+.skip-link:focus {
+  position: fixed;
+  left: var(--sp-4); top: var(--sp-4);
+  width: auto; height: auto;
+  margin: 0; padding: var(--sp-3) var(--sp-5);
+  clip-path: none;
+  background: var(--brand-700); color: #fff;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+}
 
 /* ── 4b · Icons ──────────────────────────────────────────────────────────── */
 /* The icon partial emits class="icon" by default. Without a base size an inline
@@ -203,11 +226,16 @@ p { text-wrap: pretty; }
   align-items: center;
   justify-content: center;
   gap: var(--sp-2);
-  padding: 0.85em 1.7em;
+  padding: 0.8em 1.5em;
   font-family: var(--font-body);
   font-size: var(--step-0);
   font-weight: 600;
-  line-height: 1;
+  /* Never clip the label: wrap it instead. `overflow:hidden` here used to trim
+     longer labels (phone numbers, "Enquire about this product") on narrow cards. */
+  line-height: 1.25;
+  text-align: center;
+  white-space: normal;
+  min-width: 0;
   color: var(--btn-fg);
   background: var(--btn-bg);
   border: 1px solid transparent;
@@ -215,7 +243,6 @@ p { text-wrap: pretty; }
   cursor: pointer;
   position: relative;
   isolation: isolate;
-  overflow: hidden;
   transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out),
               background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   box-shadow: var(--shadow-sm);
@@ -223,6 +250,7 @@ p { text-wrap: pretty; }
 .btn::after {
   content: "";
   position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit;          /* replaces the old overflow:hidden clip */
   background: linear-gradient(120deg, var(--brand-600), var(--brand-500) 55%, var(--brand-400));
   opacity: 0;
   transition: opacity 0.35s var(--ease-out);
@@ -424,10 +452,11 @@ p { text-wrap: pretty; }
   padding: var(--sp-6) var(--sp-5) var(--sp-8);
   overflow-y: auto;
   transform: translateX(100%);
-  transition: transform 0.42s var(--ease-out);
+  visibility: hidden;           /* keeps the closed drawer out of the scroll area */
+  transition: transform 0.42s var(--ease-out), visibility 0.42s;
   display: flex; flex-direction: column; gap: var(--sp-2);
 }
-.mobile-nav.is-open { transform: translateX(0); }
+.mobile-nav.is-open { transform: translateX(0); visibility: visible; }
 .mobile-nav__head {
   display: flex; align-items: center; justify-content: space-between;
   padding-bottom: var(--sp-4);
@@ -574,21 +603,25 @@ body.nav-open { overflow: hidden; }
   animation: float 7s var(--ease-in-out) infinite;
 }
 .hero__product img { border-radius: var(--radius-sm); }
-.hero__product--a { width: 42%; left: 2%;  top: 4%;  animation-delay: 0s; }
-.hero__product--b { width: 40%; right: 3%; top: 20%; animation-delay: -2.4s; }
-.hero__product--c { width: 32%; left: 16%; bottom: 2%; animation-delay: -4.8s; }
+.hero__product--a { width: 36%; left: 2%; top: 2%; animation-delay: 0s; }
 /* The lead product sits in front — it's the one we actually want read */
-.hero__product--lead { z-index: 4; width: 46%; right: 0; top: 14%; }
+.hero__product--lead {
+  z-index: 4; width: 48%; right: 0; top: 14%;
+  animation-delay: -2.4s;
+}
 @keyframes float {
   0%,100% { transform: translateY(0) rotate(-1deg); }
   50%     { transform: translateY(-14px) rotate(1deg); }
 }
 .hero__badge {
-  position: absolute; z-index: 3; right: 4%; bottom: 14%;
+  /* Above every product card — it was being covered by the lead card */
+  position: absolute; z-index: 6; left: 0; bottom: 4%;
   background: #fff; border-radius: var(--radius);
   padding: var(--sp-3) var(--sp-4);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--ink-100);
   display: flex; align-items: center; gap: var(--sp-3);
+  white-space: nowrap;
   animation: float 8s var(--ease-in-out) -1.2s infinite;
 }
 .hero__badge svg { width: 30px; height: 30px; color: var(--brand-600); flex: none; }
@@ -949,13 +982,15 @@ body.nav-open { overflow: hidden; }
 /* ── 10 · Product detail ─────────────────────────────────────────────────── */
 .product-hero { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(1.5rem, 1rem + 3vw, 3.5rem); }
 .product-hero__media {
-  position: relative;
+  /* Sticky so it stays beside the spec table instead of leaving a tall gap */
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
+  align-self: start;
   background: linear-gradient(170deg, var(--surface-alt), #fff 65%);
   border: 1px solid var(--ink-100);
   border-radius: var(--radius-lg);
   padding: var(--sp-6);
   display: grid; place-items: center;
-  align-self: start;
 }
 .product-hero__media img { mix-blend-mode: multiply; max-height: 460px; width: auto; }
 .product-hero h1 { font-size: var(--step-4); margin-bottom: var(--sp-2); }
@@ -984,6 +1019,31 @@ body.nav-open { overflow: hidden; }
 .spec-table tr:last-child td { border-bottom: 0; }
 .spec-table tr:nth-child(even) td { background: var(--surface-alt); }
 .spec-table td:last-child { text-align: right; color: var(--ink-600); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Benefits panel on a product page */
+.benefits-panel {
+  background: linear-gradient(165deg, var(--brand-50), #fff 70%);
+  border: 1px solid var(--brand-100);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  margin-bottom: var(--sp-7);
+}
+.benefits-panel__title {
+  display: flex; align-items: center; gap: var(--sp-3);
+  font-size: var(--step-1);
+  margin-bottom: var(--sp-4);
+}
+.benefits-panel__title .icon { width: 22px; height: 22px; color: var(--brand-600); }
+.benefits-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-3); }
+.benefits-list li {
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  color: var(--ink-700); font-size: 0.98rem; line-height: 1.6;
+}
+.benefits-list li .icon {
+  width: 20px; height: 20px; margin-top: 3px;
+  color: var(--brand-500); flex: none;
+}
+.benefits-list li p { margin: 0; }
 
 .prose { max-width: 74ch; }
 .prose h2 { font-size: var(--step-2); margin-top: var(--sp-7); margin-bottom: var(--sp-4); }
@@ -1016,14 +1076,28 @@ body.nav-open { overflow: hidden; }
 .callout--warn { background: #fdf8ec; border-color: #f0e2bd; border-left-color: var(--gold-500); }
 .callout--warn svg { color: var(--gold-600); }
 
+/* Quality page: prose beside the licence card, stacking on narrow screens */
+.quality-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: clamp(2rem, 1.4rem + 2vw, 3rem);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .quality-layout { grid-template-columns: 1fr; }
+}
+
 /* Licence highlight card */
 .licence-card {
-  position: relative; overflow: hidden;
+  overflow: hidden;
   background: linear-gradient(160deg, var(--brand-800), var(--brand-950));
   color: #fff; border-radius: var(--radius-lg);
   padding: var(--sp-6);
   box-shadow: var(--shadow-lg);
   position: sticky; top: calc(var(--header-h) + 24px);
+}
+@media (max-width: 900px) {
+  .licence-card { position: static; }
 }
 .licence-card::before {
   content: ""; position: absolute; inset: -40% 40% 40% -40%;
@@ -1045,9 +1119,12 @@ body.nav-open { overflow: hidden; }
 }
 .licence-card__number {
   display: block; font-family: var(--font-display);
-  font-size: var(--step-2); letter-spacing: 0.02em;
+  /* 14 digits — must not run past the card edge on a narrow column */
+  font-size: clamp(1.15rem, 0.9rem + 1.1vw, 1.6rem);
+  letter-spacing: 0.01em;
   color: #fff; margin-bottom: var(--sp-4);
   font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
 }
 .licence-card p { font-size: 0.9rem; color: rgba(213, 242, 229, 0.85); }
 
@@ -1244,6 +1321,11 @@ body.nav-open { overflow: hidden; }
 
 /* ── 14 · Responsive ─────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
+  /* Sideways reveal transforms push full-width blocks past the viewport edge on
+     narrow screens. Below the two-column breakpoint they all rise instead. */
+  [data-reveal="left"], [data-reveal="right"] { transform: translateY(26px); }
+  .split__media::after { display: none; }
+
   .hero__inner { grid-template-columns: 1fr; }
   .hero__visual { min-height: 380px; order: -1; max-width: 520px; margin-inline: auto; width: 100%; }
   .product-hero { grid-template-columns: 1fr; }

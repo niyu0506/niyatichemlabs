@@ -87,43 +87,55 @@
 </section>
 
 <section class="section">
-  <div class="container">
-    <div class="grid" style="grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:3rem;align-items:start">
-      <div class="prose" data-reveal>
-        {{- with $p.Params.benefits }}
-        <h2>Benefits</h2>
-        <ul>
-          {{- range . }}<li>{{ . | markdownify }}</li>{{ end }}
-        </ul>
-        {{- end }}
+  <div class="container container--narrow">
+    {{- with $p.Params.benefits }}
+    <div class="benefits-panel" data-reveal>
+      <h2 class="benefits-panel__title">
+        {{ partial "icon.html" (dict "name" "check") }} Key benefits
+      </h2>
+      <ul class="benefits-list">
+        {{- range . }}<li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>{{ . | markdownify }}</span></li>{{ end }}
+      </ul>
+    </div>
+    {{- end }}
 
-        {{ $p.Content }}
+    <div class="prose" data-reveal>
+      {{ $p.Content }}
 
-        {{- with $p.Params.caution }}
-        <div class="callout callout--warn">
-          {{ partial "icon.html" (dict "name" "alert") }}
-          <div>
-            <h4>Caution</h4>
-            <p>{{ . }}</p>
-          </div>
+      {{- with $p.Params.caution }}
+      <div class="callout callout--warn">
+        {{ partial "icon.html" (dict "name" "alert") }}
+        <div>
+          <h4>Caution</h4>
+          <p>{{ . }}</p>
         </div>
-        {{- end }}
       </div>
+      {{- end }}
+    </div>
+  </div>
+</section>
 
-      <aside data-reveal="right">
-        <div class="feature" style="position:sticky;top:calc(var(--header-h) + 24px)">
-          <div class="feature__icon">{{ partial "icon.html" (dict "name" "flask") }}</div>
-          <h3>Enquiries &amp; samples</h3>
-          <p style="margin-bottom:1.25rem">
-            Available in sample through to bulk quantities. Specification sheet supplied at
-            quotation, certificate of analysis with every consignment.
-          </p>
-          <a class="btn btn--sm" href="{{ "contact/" | relURL }}" style="width:100%">Request a quote</a>
-          <a class="btn btn--ghost btn--sm" href="tel:{{ replace site.Params.phone " " "" }}" style="width:100%;margin-top:0.6rem">
-            {{ partial "icon.html" (dict "name" "phone") }} {{ site.Params.phone }}
-          </a>
-        </div>
-      </aside>
+<!-- Enquiry band -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="cta-band" data-reveal>
+      <h2>Enquiries &amp; samples</h2>
+      <p>
+        {{ $p.Title }} is available in sample through to bulk quantities. The specification
+        sheet is supplied at quotation, and a certificate of analysis goes out with every
+        consignment.
+      </p>
+      <div class="cta-band__actions">
+        <a class="btn btn--white btn--lg" href="{{ printf "contact/?product=%s" (urlquery $p.Title) | relURL }}">
+          Request a quote {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        </a>
+        <a class="btn btn--outline-light btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}?text={{ printf "Hi, I'd like details about %s" $p.Title | urlquery }}" target="_blank" rel="noopener">
+          {{ partial "icon.html" (dict "name" "whatsapp") }} WhatsApp
+        </a>
+        <a class="btn btn--outline-light btn--lg" href="tel:{{ replace site.Params.phone " " "" }}">
+          {{ partial "icon.html" (dict "name" "phone") }} {{ site.Params.phone }}
+        </a>
+      </div>
     </div>
   </div>
 </section>

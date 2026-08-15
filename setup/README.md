@@ -53,27 +53,28 @@ Once the domain (e.g. `niyatichemlabs.in`) is registered:
 If the DNS is on Cloudflare, leave the records **DNS only** (grey cloud) until GitHub has
 issued the certificate, then proxying can be turned on if desired.
 
-## 3. Turn the contact form on
+## 3. Turn the enquiry form on
 
-The Contact page currently shows WhatsApp / email / phone buttons rather than a form. A form
-on a static site needs a third-party service behind it to deliver the messages — without one
-a form looks functional but silently goes nowhere, which is worse than no form at all.
+The **Enquiry** page carries the full enquiry / feedback form, but a static site cannot send
+email on its own, so the form is inert (Submit greyed out, with a visible note saying so)
+until a delivery service is configured. That is deliberate: a form that looks functional and
+silently goes nowhere is worse than no form at all.
 
-The form is already built and sitting behind a switch. To enable it:
+To enable it:
 
-1. Sign up at [web3forms.com](https://web3forms.com) — free, 250 submissions/month, no
-   server needed. It emails each submission straight to an inbox. (Formspree's free tier,
-   50/month, works the same way.)
-2. Copy the access key they give you.
-3. Add these three lines under `[params]` in `hugo.toml`:
+1. Go to [web3forms.com](https://web3forms.com) — free, 250 submissions/month, no server
+   needed. Enter `niyatichemlabs@gmail.com`; they email an access key back.
+   (Formspree's free tier, 50/month, works the same way — just change `formEndpoint` too.)
+2. Paste the key into `hugo.toml`:
    ```toml
-   enableContactForm = true
-   formEndpoint      = "https://api.web3forms.com/submit"
-   formAccessKey     = "paste-the-access-key-here"
+   formEndpoint  = "https://api.web3forms.com/submit"
+   formAccessKey = "paste-the-access-key-here"
    ```
-4. Rebuild and publish.
+3. Rebuild and publish.
 
-Setting `enableContactForm = false` (or deleting the line) switches back to the buttons.
+Emptying `formAccessKey` again switches the form back off. On success the visitor is sent to
+`/thank-you/`, which is already built. A hidden `botcheck` honeypot field is included; Web3Forms
+discards any submission that fills it.
 
 **Send a test submission after enabling it** and confirm it arrives — the whole point of the
 switch is that the form is never live unless it actually delivers.

@@ -1,0 +1,57 @@
+{{ define "main" }}
+{{- $products := partial "ordered-products.html" . -}}
+{{- $cats := where site.Params.categories "division" "formulations" -}}
+{{- $own := slice -}}
+{{- range $cats }}
+  {{- $own = $own | append (where $products "Params.category" .key) -}}
+{{- end -}}
+{{ partial "page-banner.html" . }}
+
+<section class="section">
+  <div class="container">
+    {{- with .Content }}
+    <div class="prose" style="max-width:74ch;margin-bottom:2.5rem" data-reveal>{{ . }}</div>
+    {{- end }}
+
+    <div class="filters" data-reveal role="group" aria-label="Filter formulations">
+      <button class="filter-pill is-active" type="button" data-filter="all" data-filter-attr="all">
+        All {{ len $own }}
+      </button>
+      {{- range $cats }}
+        {{- $n := len (where $products "Params.category" .key) }}
+        <button class="filter-pill filter-pill--sub{{ if not $n }} is-empty{{ end }}" type="button"
+                data-filter="{{ .key }}" data-filter-attr="category">
+          {{ .name }} <span>{{ $n }}</span>
+        </button>
+      {{- end }}
+    </div>
+
+    <div class="card-grid card-grid--flat" data-stagger="55">
+      {{- range $own }}
+      {{ partial "product-card.html" . }}
+      {{- end }}
+    </div>
+
+    <p data-empty hidden style="text-align:center;color:var(--ink-400);padding:3rem 0">
+      Nothing listed under this dosage form yet — please
+      <a href="{{ "enquiry/" | relURL }}">get in touch</a> and we'll send you the current list.
+    </p>
+
+    <div class="cta-band" style="margin-top:3rem" data-reveal>
+      <h2>Want these under your own label?</h2>
+      <p>
+        Every formulation on this page can be supplied in your own branding and pack size.
+        Tell us the product, the quantity and the format you want it in.
+      </p>
+      <div class="cta-band__actions">
+        <a class="btn btn--white btn--lg" href="{{ "enquiry/" | relURL }}">
+          Send an enquiry {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        </a>
+        <a class="btn btn--outline-light btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}" target="_blank" rel="noopener">
+          {{ partial "icon.html" (dict "name" "whatsapp") }} WhatsApp us
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

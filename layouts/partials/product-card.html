@@ -4,15 +4,24 @@
 {{- range site.Params.categories }}
   {{- if eq .key $p.Params.category }}{{ $catName = (.short | default .name) }}{{ $division = .division }}{{ end }}
 {{- end -}}
-<a class="product-card" href="{{ $p.RelPermalink }}"
+{{- /* A division can switch its pack shots off (hideImages in hugo.toml) — the
+       finished formulations do, because their photos are being re-shot. */ -}}
+{{- $hide := false -}}
+{{- range site.Params.divisions }}
+  {{- if and (eq .key $division) .hideImages }}{{ $hide = true }}{{ end }}
+{{- end -}}
+{{- $img := "" -}}
+{{- if not $hide }}{{ $img = $p.Params.image }}{{ end -}}
+<a class="product-card{{ if not $img }} product-card--flat{{ end }}" href="{{ $p.RelPermalink }}"
    data-category="{{ $p.Params.category }}" data-division="{{ $division }}" data-reveal="zoom">
+  {{- with $img }}
   <div class="product-card__media">
-    {{- with $p.Params.image }}
     <img src="{{ . | relURL }}" alt="{{ $p.Title }} pack shot" loading="lazy" width="600" height="900">
-    {{- end }}
     {{- with $catName }}<span class="product-card__tag">{{ . }}</span>{{ end }}
   </div>
+  {{- end }}
   <div class="product-card__body">
+    {{- if not $img }}{{ with $catName }}<span class="product-card__pill">{{ . }}</span>{{ end }}{{ end }}
     <span class="product-card__title">{{ $p.Title }}</span>
     {{- with $p.Params.tagline }}<span class="product-card__sub">{{ . }}</span>{{ end }}
     {{- with $p.Params.summary }}<p class="product-card__excerpt">{{ . }}</p>{{ end }}

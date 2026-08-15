@@ -3,9 +3,16 @@
   <div class="container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="{{ site.Home.RelPermalink }}">Home</a>
-      {{- if and $p.Parent (not $p.Parent.IsHome) }}
+      {{- /* An explicit crumb, for pages that sit outside their URL's section
+             (e.g. Raw Material, which lives at /products/raw-materials/) */ -}}
+      {{- with $p.Params.crumbLabel }}
+        {{ partial "icon.html" (dict "name" "chevron-right") }}
+        <a href="{{ $p.Params.crumbURL | default "products/" | relURL }}">{{ . }}</a>
+      {{- else }}
+        {{- if and $p.Parent (not $p.Parent.IsHome) }}
         {{ partial "icon.html" (dict "name" "chevron-right") }}
         <a href="{{ $p.Parent.RelPermalink }}">{{ $p.Parent.LinkTitle | default "Products" }}</a>
+        {{- end }}
       {{- end }}
       {{ partial "icon.html" (dict "name" "chevron-right") }}
       <span>{{ $p.Title }}</span>

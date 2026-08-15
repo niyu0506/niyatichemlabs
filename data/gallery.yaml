@@ -1,0 +1,92 @@
+# ═══════════════════════════════════════════════════════════════════════════
+#  Photo gallery — drives /gallery/
+#
+#  To add a photo: put the image file in  static/img/gallery/  (or anywhere
+#  under static/img/) and add a "- src / caption" line to the right group.
+#  To add a new group, copy a whole "- title / blurb / photos" block.
+#
+#  `src` is the path underneath  static/  — e.g. an image saved as
+#  static/img/gallery/warehouse-1.jpg  is written  img/gallery/warehouse-1.jpg
+#
+#  NOTE: the pack shots below still carry the old Panacea label artwork and
+#  should be replaced with re-shot Niyati photographs before launch.
+# ═══════════════════════════════════════════════════════════════════════════
+
+groups:
+  - title: Laboratory & quality
+    blurb: Materials are checked against the specification they were bought on.
+    photos:
+      - src: img/site/facility.jpg
+        caption: Analytical testing of an incoming consignment
+
+  - title: Raw materials
+    blurb: Actives, vitamins and nutraceutical ingredients in trade packs.
+    photos:
+      - src: img/products/soy-protein-isolate-90.jpg
+        caption: Soy Protein Isolate 90% — cold water soluble
+
+  - title: Capsules
+    blurb: Single-herb and blended extract capsules in HPMC and gelatin shells.
+    photos:
+      - src: img/products/acaiberry-cap.jpg
+        caption: Acai Berry Capsule
+      - src: img/products/colostrum-cap.jpg
+        caption: Cow Colostrum Capsule
+      - src: img/products/grape-seed-cap.jpg
+        caption: Grapopan Capsule
+      - src: img/products/green-coffee-cap.jpg
+        caption: Green Coffee Bean Capsule
+      - src: img/products/green-tea-cap.jpg
+        caption: Green Tea Capsule
+      - src: img/products/papaya-cap.jpg
+        caption: Papaya Leaf Capsule
+
+  - title: Tablets
+    blurb: Coated and uncoated ayurvedic formulation tablets.
+    photos:
+      - src: img/products/calcypan-tablet.jpg
+        caption: Calcypan Tablet
+      - src: img/products/dermopan-tablet.jpg
+        caption: Dermopan Tablet
+      - src: img/products/detox-tab.jpg
+        caption: Detox Tablet
+      - src: img/products/diabopan-tab.jpg
+        caption: Diabopan Tablet
+      - src: img/products/digespan-tablet.jpg
+        caption: Digespan Tablet
+      - src: img/products/dilopan-tablet.jpg
+        caption: Dilopan Tablet
+      - src: img/products/garcipan-tab.jpg
+        caption: Garcipan Tablet
+      - src: img/products/immunopan-tab.jpg
+        caption: Immunopan Tablet
+      - src: img/products/livo-tablet.jpg
+        caption: Livo Tablet
+      - src: img/products/moringa-tab.jpg
+        caption: Moringa Tablet
+      - src: img/products/moringano-f-tab.jpg
+        caption: Moringano-F Tablet
+      - src: img/products/moringano-m-tab.jpg
+        caption: Moringano-M Tablet
+      - src: img/products/orthopan-tab.jpg
+        caption: Orthopan Tablet
+      - src: img/products/pilopan-tablet.jpg
+        caption: Pilopan Tablet
+      - src: img/products/prostopan-tablet.jpg
+        caption: Prostopan Tablet
+      - src: img/products/silencer-tab.jpg
+        caption: Silencer Tablet
+      - src: img/products/spirovit-tab.jpg
+        caption: Spirovit Tablet
+      - src: img/products/thyropan-tab.jpg
+        caption: Thyropan Tablet
+
+  - title: Oils & churna
+    blurb: Cold-processed oils and classical churna preparations.
+    photos:
+      - src: img/products/herbal-hair-oil.jpg
+        caption: Herbal Hair Oil
+      - src: img/products/orthopan-oil.jpg
+        caption: Orthopan Oil
+      - src: img/products/diabopan-churna.jpg
+        caption: Diabopan Churna

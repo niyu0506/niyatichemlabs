@@ -14,6 +14,27 @@ pillars:
   - icon: "package"
     title: "Trial quantity first"
     body: "Take a sample through your own process before committing to bulk. We would rather you proved the material works than took our word for it."
+showcase:
+  - image: "img/products/soy-protein-isolate-90.jpg"
+    title: "Bulk raw material"
+    note: "Soy Protein Isolate 90% — cold water soluble"
+    alt: "Soy Protein Isolate 90% pouch"
+    url: "products/raw-materials/"
+  - image: "img/site/facility.jpg"
+    title: "Checked on arrival"
+    note: "Assay against the specification it was bought on"
+    alt: "Analytical testing of an incoming consignment"
+    url: "certification/"
+  - image: "img/products/green-tea-cap.jpg"
+    title: "Capsules"
+    note: "HPMC and gelatin shells"
+    alt: "Green Tea Capsule pack"
+    url: "products/formulations/?c=capsules"
+  - image: "img/products/orthopan-oil.jpg"
+    title: "Oils & churna"
+    note: "Cold-processed, filtered, packed to order"
+    alt: "Orthopan Oil bottle"
+    url: "products/formulations/?c=oils"
 capabilities:
   - "Active pharmaceutical ingredients and intermediates"
   - "Nutraceutical actives — protein isolates, extracts and functional ingredients"
@@ -26,7 +47,7 @@ capabilities:
 
 ## Who we are
 
-Niyati Chem Labs is a Mumbai-based supplier of pharmaceutical and nutraceutical raw materials.
+Niyati Chemlabs is a Mumbai-based supplier of pharmaceutical and nutraceutical raw materials.
 We hold an FSSAI licence in our own name and we work with manufacturers, formulators and brand
 owners who need a material sourced reliably, documented properly, and delivered when they were
 told it would be.

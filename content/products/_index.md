@@ -5,7 +5,7 @@ intro: "Active pharmaceutical ingredients, nutraceutical raw materials and finis
 weight: 30
 ---
 
-We work in two areas. **Raw materials and APIs** is the core of the business: actives,
+The catalogue splits in two. **Raw Material** is the core of the business: actives, vitamins,
 nutraceutical ingredients and excipients, sourced against your specification and supplied with
-full batch documentation. **Finished formulations** covers ready-to-market ayurvedic capsules,
-tablets, oils and churna, available under your own label.
+full batch documentation. **Finished Dosage Formulation** covers ready-to-market ayurvedic
+capsules, tablets, syrups, oils and churna, available under your own label.

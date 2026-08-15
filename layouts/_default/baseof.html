@@ -11,6 +11,10 @@
     {{ block "main" . }}{{ end }}
   </main>
 
+  {{- /* Outside <main> on purpose: main.page-enter animates a transform, which
+         makes it a containing block for position:fixed children. */ -}}
+  {{- if eq .Params.layout "gallery" }}{{ partial "lightbox.html" . }}{{ end }}
+
   {{ partial "footer.html" . }}
 
   {{- $js := resources.Get "js/main.js" | minify | fingerprint -}}

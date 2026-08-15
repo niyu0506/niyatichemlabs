@@ -10,7 +10,7 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 W="${1:-390}"
 PORT=8899
 
-PAGES="/ /about/ /products/ /certification/ /contact/ /products/soy-protein-isolate-90/ /products/diabopan-tablet/ /404.html"
+PAGES="/ /about/ /products/ /products/raw-materials/ /products/formulations/ /enquiry/ /gallery/ /thank-you/ /certification/ /contact/ /products/soy-protein-isolate-90/ /products/diabopan-tablet/ /404.html"
 
 read -r -d '' SCRIPT <<'EOJS'
 <script>
@@ -22,7 +22,8 @@ window.addEventListener('load', function () {
     var vw = docEl.clientWidth;
     var out = [];
     var scrolls = docEl.scrollWidth > vw + 1;
-    out.push((scrolls ? 'SCROLLS' : 'OK') + ' viewport=' + vw + ' scrollWidth=' + docEl.scrollWidth);
+    out.push((scrolls ? 'SCROLLS' : 'OK') + ' viewport=' + vw + ' scrollWidth=' + docEl.scrollWidth +
+             (vw > __WANT__ + 1 ? '  ⚠ requested ' + __WANT__ + 'px but chromium laid out at ' + vw + 'px' : ''));
     function clipped(el) {
       for (var n = el.parentElement; n && n !== document.body; n = n.parentElement) {
         var ov = getComputedStyle(n).overflowX;
@@ -71,7 +72,9 @@ if ! curl -s -o /dev/null --max-time 2 "http://127.0.0.1:$PORT/niyatichemlabs/";
   done
 fi
 
-echo "=== overflow audit @ ${W}px ==="
+SCRIPT="${SCRIPT//__WANT__/$W}"
+
+echo "=== overflow audit @ ${W}px requested ==="
 for p in $PAGES; do
   src="$ROOT/docs${p}"
   [ "${p: -1}" = "/" ] && src="$ROOT/docs${p}index.html"
@@ -86,7 +89,11 @@ s = s.replace('</body>', script + '</body>') if '</body>' in s else s + script
 open(dst, 'w', encoding='utf-8').write(s)
 PY
 
-  dom=$(chromium --headless=new --disable-gpu --no-sandbox --hide-scrollbars \
+  # NB: headless chromium on this box refuses to lay out below ~500 CSS px,
+  # whichever headless mode is used. Asking for 390 silently measures 500, so
+  # the audit reports the requested width AND the width actually used — never
+  # read a "@390px" heading as proof that 390px is clean.
+  dom=$(chromium --headless --disable-gpu --no-sandbox --hide-scrollbars \
         --window-size="$W,900" --virtual-time-budget=8000 --dump-dom \
         "http://127.0.0.1:$PORT/niyatichemlabs/$tmpname" 2>/dev/null)
 

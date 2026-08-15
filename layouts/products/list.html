@@ -1,53 +1,61 @@
 {{ define "main" }}
 {{- $products := partial "ordered-products.html" . -}}
 {{- $cats := site.Params.categories -}}
+{{- $rm := site.Data.rawmaterials -}}
 {{ partial "page-banner.html" . }}
 
 <section class="section">
   <div class="container">
     {{- with .Content }}
-    <div class="prose" style="max-width:74ch;margin-bottom:2.5rem" data-reveal>{{ . }}</div>
+    <div class="prose" style="max-width:74ch;margin-bottom:3rem" data-reveal>{{ . }}</div>
     {{- end }}
 
-    <div class="filters" data-reveal role="group" aria-label="Filter products">
-      <button class="filter-pill is-active" type="button" data-filter="all" data-filter-attr="all">
-        All products <span>{{ len $products }}</span>
-      </button>
-
+    <!-- The two branches of the catalogue -->
+    <div class="grid grid--2" data-stagger="120">
       {{- range site.Params.divisions }}
-        {{- $dkey := .key }}
-        {{- $dcats := where $cats "division" $dkey }}
-        {{- $dcount := 0 }}
-        {{- range $dcats }}{{ $dcount = add $dcount (len (where $products "Params.category" .key)) }}{{ end }}
-        {{- if $dcount }}
-        <span class="filters__divider" aria-hidden="true"></span>
-        <button class="filter-pill filter-pill--division" type="button"
-                data-filter="{{ $dkey }}" data-filter-attr="division">
-          {{ .name }} <span>{{ $dcount }}</span>
-        </button>
-          {{- range $dcats }}
+      {{- $dkey := .key }}
+      {{- $dcats := where $cats "division" $dkey }}
+
+      {{- /* How many things sit under this branch: raw materials are counted
+             from the data file, formulations from the product pages. */ -}}
+      {{- $count := 0 }}
+      {{- $unit := "product" }}
+      {{- if eq $dkey "raw-materials" }}
+        {{- range $rm.categories }}{{ $count = add $count (len .items) }}{{ end }}
+        {{- $unit = "material" }}
+      {{- else }}
+        {{- range $dcats }}{{ $count = add $count (len (where $products "Params.category" .key)) }}{{ end }}
+      {{- end }}
+
+      <a class="branch-card" href="{{ .url | relURL }}" data-reveal>
+        {{ partial "icon.html" (dict "name" .icon "class" "branch-card__glyph") }}
+        <span class="branch-card__step">{{ if eq $dkey "raw-materials" }}1{{ else }}2{{ end }}</span>
+        <div class="branch-card__head">
+          <span class="branch-card__icon">{{ partial "icon.html" (dict "name" .icon) }}</span>
+          <h2>{{ .name }}</h2>
+        </div>
+        <p>{{ .blurb }}</p>
+
+        <ul class="branch-card__list">
+          {{- if eq $dkey "raw-materials" }}
+            {{- range $rm.categories }}
+            <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>{{ .name }} <em>{{ len .items }}</em></span></li>
+            {{- end }}
+          {{- else }}
+            {{- range $dcats }}
             {{- $n := len (where $products "Params.category" .key) }}
-            {{- if $n }}
-            <button class="filter-pill filter-pill--sub" type="button"
-                    data-filter="{{ .key }}" data-filter-attr="category">
-              {{ .name }} <span>{{ $n }}</span>
-            </button>
+            <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>{{ .name }}{{ if $n }} <em>{{ $n }}</em>{{ end }}</span></li>
             {{- end }}
           {{- end }}
-        {{- end }}
+        </ul>
+
+        <span class="branch-card__more">
+          Browse {{ $count }} {{ $unit }}{{ if ne $count 1 }}s{{ end }}
+          {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        </span>
+      </a>
       {{- end }}
     </div>
-
-    <div class="card-grid" data-stagger="55">
-      {{- range $products }}
-      {{ partial "product-card.html" . }}
-      {{- end }}
-    </div>
-
-    <p data-empty hidden style="text-align:center;color:var(--ink-400);padding:3rem 0">
-      No products listed in this category yet — please
-      <a href="{{ "contact/" | relURL }}">get in touch</a> and we'll send you the current list.
-    </p>
 
     <!-- Sourcing note: honest about the fact that the published list is a subset -->
     <div class="callout" style="margin-top:3rem;max-width:none" data-reveal>
@@ -70,7 +78,7 @@
         availability, lead time and price.
       </p>
       <div class="cta-band__actions">
-        <a class="btn btn--white btn--lg" href="{{ "contact/" | relURL }}">
+        <a class="btn btn--white btn--lg" href="{{ "enquiry/" | relURL }}">
           Send an enquiry {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
         </a>
         <a class="btn btn--outline-light btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}" target="_blank" rel="noopener">

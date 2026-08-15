@@ -1,7 +1,13 @@
 {{ define "main" }}
 {{- $p := . -}}
 {{- $catName := "" -}}
-{{- range site.Params.categories }}{{ if eq .key $p.Params.category }}{{ $catName = .name }}{{ end }}{{ end -}}
+{{- $division := "" -}}
+{{- range site.Params.categories }}{{ if eq .key $p.Params.category }}{{ $catName = .name }}{{ $division = .division }}{{ end }}{{ end -}}
+{{- /* Divisions with hideImages set don't show pack shots anywhere */ -}}
+{{- $img := $p.Params.image -}}
+{{- range site.Params.divisions }}{{ if and (eq .key $division) .hideImages }}{{ $img = "" }}{{ end }}{{ end -}}
+{{- $branch := "products/" -}}
+{{- range site.Params.divisions }}{{ if eq .key $division }}{{ $branch = .url }}{{ end }}{{ end -}}
 {{- $related := first 4 (shuffle (where (where site.RegularPages "Section" "products") "Params.category" $p.Params.category)) -}}
 
 <section class="page-banner" style="padding-block:1.5rem 0;background:var(--surface-alt)">
@@ -12,7 +18,7 @@
       <a href="{{ "products/" | relURL }}">Products</a>
       {{- with $catName }}
       {{ partial "icon.html" (dict "name" "chevron-right") }}
-      <a href="{{ printf "products/?c=%s" $p.Params.category | relURL }}">{{ . }}</a>
+      <a href="{{ printf "%s?c=%s" (relURL $branch) $p.Params.category }}">{{ . }}</a>
       {{- end }}
       {{ partial "icon.html" (dict "name" "chevron-right") }}
       <span>{{ $p.Title }}</span>
@@ -21,12 +27,12 @@
 </section>
 
 <section class="section section--tight" style="background:var(--surface-alt)">
-  <div class="container product-hero">
+  <div class="container product-hero{{ if not $img }} product-hero--noimg{{ end }}">
+    {{- with $img }}
     <div class="product-hero__media" data-reveal="left">
-      {{- with $p.Params.image }}
       <img src="{{ . | relURL }}" alt="{{ $p.Title }} pack shot" width="600" height="900">
-      {{- end }}
     </div>
+    {{- end }}
 
     <div data-reveal="right">
       {{- with $catName }}<span class="eyebrow">{{ . }}</span>{{ end }}
@@ -75,7 +81,7 @@
       {{- end }}
 
       <div class="product-actions">
-        <a class="btn" href="{{ printf "contact/?product=%s" (urlquery $p.Title) | relURL }}">
+        <a class="btn" href="{{ printf "enquiry/?product=%s" (urlquery $p.Title) | relURL }}">
           Enquire about this product {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
         </a>
         <a class="btn btn--ghost" href="https://wa.me/{{ site.Params.whatsapp }}?text={{ printf "Hi, I'd like details about %s" $p.Title | urlquery }}" target="_blank" rel="noopener">
@@ -126,7 +132,7 @@
         consignment.
       </p>
       <div class="cta-band__actions">
-        <a class="btn btn--white btn--lg" href="{{ printf "contact/?product=%s" (urlquery $p.Title) | relURL }}">
+        <a class="btn btn--white btn--lg" href="{{ printf "enquiry/?product=%s" (urlquery $p.Title) | relURL }}">
           Request a quote {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
         </a>
         <a class="btn btn--outline-light btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}?text={{ printf "Hi, I'd like details about %s" $p.Title | urlquery }}" target="_blank" rel="noopener">

@@ -5,11 +5,7 @@
 <section class="section">
   <div class="container split split--top">
     <div class="split__media" data-reveal="left">
-      <img src="{{ "img/site/facility.jpg" | relURL }}" alt="Niyati Chem Labs manufacturing facility" loading="lazy" width="770" height="440">
-      <div class="split__badge">
-        <strong>FSSAI</strong>
-        <span>Lic. {{ site.Params.fssai }}</span>
-      </div>
+      <img src="{{ "img/site/facility.jpg" | relURL }}" alt="Analytical testing of an incoming consignment" loading="lazy" width="770" height="440">
     </div>
     <div class="prose" data-reveal="right">
       {{ .Content }}
@@ -32,6 +28,35 @@
         <h3>{{ .title }}</h3>
         <p>{{ .body }}</p>
       </div>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{- end }}
+
+<!-- Second image layout: a mosaic of what actually leaves the building -->
+{{- with .Params.showcase }}
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--center" data-reveal>
+      <span class="eyebrow eyebrow--center">What we supply</span>
+      <h2>From drum to dosage form</h2>
+      <p class="lede" style="margin-top:1rem">
+        The same business seen from both ends — the bulk material that goes into a product,
+        and the finished pack that comes out of one.
+      </p>
+    </div>
+
+    <div class="mosaic" data-stagger="90">
+      {{- range $i, $t := . }}
+      <figure class="mosaic__tile{{ if eq $i 0 }} mosaic__tile--lead{{ end }}" data-reveal="zoom">
+        <img src="{{ $t.image | relURL }}" alt="{{ $t.alt | default $t.title }}" loading="lazy" width="600" height="900">
+        <figcaption>
+          <strong>{{ $t.title }}</strong>
+          {{- with $t.note }}<span>{{ . }}</span>{{ end }}
+        </figcaption>
+        {{- with $t.url }}<a href="{{ . | relURL }}" aria-label="{{ $t.title }}"></a>{{ end }}
+      </figure>
       {{- end }}
     </div>
   </div>

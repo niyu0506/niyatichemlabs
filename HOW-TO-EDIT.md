@@ -30,10 +30,14 @@ restored.
 | Home page headline and section text | `layouts/index.html` |
 | "About Us" page | `content/about.md` |
 | "Quality" page | `content/certification.md` |
-| "Contact" page intro | `content/contact.md` |
+| "Contact Us" page intro | `content/contact.md` |
 | Products intro text | `content/products/_index.md` |
-| An individual product | `content/products/<product-name>.md` |
+| **The Raw Material table** (vitamins, APIs…) | `data/rawmaterials.yaml` |
+| An individual finished product | `content/products/<product-name>.md` |
+| **The Gallery photos** | `data/gallery.yaml` |
+| "Enquiry" page intro | `content/enquiry.md` |
 | Product photos | `static/img/products/` |
+| Gallery photos | `static/img/gallery/` (make the folder) |
 
 ---
 
@@ -210,21 +214,86 @@ missing quote mark, or a Tab used instead of spaces. Check the most recent file 
 
 ---
 
-## Turning the contact form on
+## Switching the enquiry form on
 
-The Contact page currently shows WhatsApp / email / phone buttons instead of a form,
-because a form needs a service behind it to actually deliver the messages.
+The **Enquiry** page shows the full form, but until it has a delivery service behind it the
+Submit button is greyed out and an amber note explains why. A website on GitHub Pages is just
+files — it cannot send email on its own, so a free outside service does that part.
 
-Everything is already built — to switch it on, add these three lines under `[params]`
-in `hugo.toml` once you have signed up with a form service (see `setup/README.md`):
+**Two minutes, once:**
 
-```toml
-enableContactForm = true
-formEndpoint      = "https://api.web3forms.com/submit"
-formAccessKey     = "your-access-key-here"
+1. Go to **web3forms.com**.
+2. Type `niyatichemlabs@gmail.com` into the box and press the button.
+3. They email you an **access key** — a long string of letters and numbers.
+4. Open `hugo.toml`, find this line, and paste the key between the quotes:
+
+   ```toml
+   formAccessKey = ""                  # ← paste the Web3Forms access key here
+   ```
+
+5. Commit. That's it — enquiries now arrive in the Gmail inbox, and people who submit the
+   form land on a "thank you" page.
+
+Nothing else needs changing. To turn the form back off, empty the quotes again.
+
+---
+
+## The Raw Material table
+
+The list on **Products → Raw Material** comes from one file: `data/rawmaterials.yaml`.
+It is a plain list — to add a product, copy the three lines of an existing one:
+
+```yaml
+      - name: PYRIDOXINE (VIT B6)
+        packing: 25KG
+        cas: 58-56-0
 ```
 
-Set `enableContactForm = false` to go back to the buttons.
+The **Sr No.** column numbers itself, so never type row numbers. For a material with no CAS
+number, write `cas: ""` and the table shows a dash.
+
+To add a whole new category (Antibiotics, Steroids, Anti Diabetic…), copy a block starting
+at `- key:` and give it a new `key` (lowercase, no spaces) and `name`. It appears in the
+left-hand rail, in the Products menu and in the counts automatically. A category with no
+products in it simply doesn't appear.
+
+**Indentation is done with spaces, never Tabs**, and the dashes and colons must line up with
+the ones above. If the site stops building, that is almost always why.
+
+---
+
+## The photo gallery
+
+The **Gallery** page is driven by `data/gallery.yaml`, which works the same way.
+
+1. Put the photo in `static/img/gallery/` (click **Add file → Upload files** on github.com,
+   and type `static/img/gallery/` into the folder box).
+2. Add two lines to whichever group it belongs in:
+
+   ```yaml
+      - src: img/gallery/warehouse-1.jpg
+        caption: Bulk store, Kandivali
+   ```
+
+Note the `src` leaves off the `static/` part. To start a new group, copy a whole
+`- title: … blurb: … photos:` block.
+
+> The pack shots currently in the gallery still carry the old **Panacea Herbals** label
+> artwork. They should be re-shot with Niyati packs before the site is promoted anywhere.
+
+---
+
+## Why the finished products have no photos
+
+The finished-formulation cards and pages deliberately show no pack shot, for the reason
+above. When new photographs are ready, open `hugo.toml`, find the
+`Finished Dosage Formulation` block and delete this line:
+
+```toml
+  hideImages = true      # pack shots are being re-shot — cards show text only
+```
+
+Every product that has an `image:` line in its own file gets its photo back at once.
 
 ---
 

@@ -85,8 +85,15 @@ for m in md:
         bad("NO-PAGE", slug, "product markdown did not render")
         continue
     s = open(page, encoding="utf-8", errors="replace").read()
-    if "product-hero__media" not in s:
+    # Finished formulations deliberately ship without pack shots (hideImages in
+    # hugo.toml) until the photos are re-shot — only raw materials carry one.
+    fm = open(m, encoding="utf-8", errors="replace").read()
+    raw_material = any(('category: "%s"' % c) in fm
+                       for c in ("nutraceutical", "api", "excipient"))
+    if raw_material and "product-hero__media" not in s:
         bad("NO-IMAGE-BLOCK", slug, "product hero media missing")
+    if not raw_material and "product-hero__media" in s:
+        bad("STRAY-IMAGE", slug, "formulation page still shows a pack shot")
     if "spec-table" not in s:
         bad("NO-COMPOSITION", slug, "no composition table rendered")
     # NB: the build is minified, so attribute values may be unquoted — match bare.
@@ -95,7 +102,9 @@ for m in md:
 
 # 6. required top-level pages
 for want in ["index.html", "about/index.html", "certification/index.html",
-             "contact/index.html", "products/index.html", "404.html"]:
+             "contact/index.html", "products/index.html", "404.html",
+             "enquiry/index.html", "gallery/index.html", "thank-you/index.html",
+             "products/raw-materials/index.html", "products/formulations/index.html"]:
     if not os.path.exists(os.path.join(DOCS, want)):
         bad("MISSING-PAGE", want, "expected page not built")
 

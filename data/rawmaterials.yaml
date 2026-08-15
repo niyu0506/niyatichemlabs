@@ -1,0 +1,47 @@
+# ═══════════════════════════════════════════════════════════════════════════
+#  Raw Material catalogue — drives the table on /products/raw-materials/
+#
+#  To add a product, copy an existing "- name / packing / cas" block and edit
+#  it. To add a whole new category, copy a "- key / name / items" block.
+#  Row numbers ("Sr No.") are generated automatically — don't type them.
+#
+#  Leave `cas:` empty (just `cas: ""`) for materials that have no CAS number,
+#  such as blends and plant extracts.
+# ═══════════════════════════════════════════════════════════════════════════
+
+categories:
+  - key: vitamins
+    name: Vitamins
+    blurb: >-
+      Pharmacopoeial-grade vitamins and vitamin actives, supplied against IP/USP
+      specification with the batch certificate of analysis.
+    items:
+      - name: METHYLCOBALAMINE IP.
+        packing: 100GM / 500GM / 01KG
+        cas: 13422-55-4
+      - name: THIAMINE MONO IP/USP (VIT B1 MONO)
+        packing: 5 / 10 / 25KG
+        cas: 532-43-4
+      - name: THIAMINE HCL IP/USP (VIT B1 HCL)
+        packing: 5 / 10 / 25KG
+        cas: 67-03-8
+      - name: PYRIDOXINE (VIT B6)
+        packing: 25KG
+        cas: 58-56-0
+      - name: CYANOCOBALAMIN (VIT B12)
+        packing: 100GM / 01KG
+        cas: 68-19-9
+      - name: CALCIUM D PANTOTHENATE
+        packing: 25KG
+        cas: 137-08-6
+
+  - key: nutraceutical
+    name: Nutraceutical Ingredients
+    blurb: >-
+      Protein isolates, standardised extracts and functional ingredients for
+      sports nutrition, fortification and wellness formats.
+    items:
+      - name: SOY PROTEIN ISOLATE 90% (COLD WATER SOLUBLE)
+        packing: 01KG POUCH / BULK
+        cas: 9010-10-0
+        page: products/soy-protein-isolate-90/

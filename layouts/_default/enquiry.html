@@ -1,0 +1,145 @@
+{{ define "main" }}
+{{- $key := site.Params.formAccessKey -}}
+{{ partial "page-banner.html" . }}
+
+<section class="section">
+  <div class="container enquiry-layout">
+
+    <!-- The form -->
+    <div data-reveal="left">
+      <div class="form-card">
+        <h2 class="form-card__title">Enquiry / feedback form</h2>
+        <p class="form-card__sub">
+          Fields marked <span class="req">*</span> are required. Everything else helps us quote
+          faster, but leave it blank if it doesn't apply.
+        </p>
+
+        {{- if $key }}
+        <form action="{{ site.Params.formEndpoint }}" method="POST" class="enquiry-form">
+          <input type="hidden" name="access_key" value="{{ $key }}">
+          <input type="hidden" name="subject" value="{{ site.Params.formSubject }}">
+          <input type="hidden" name="from_name" value="{{ site.Params.company }} website">
+          <input type="hidden" name="redirect" value="{{ "thank-you/" | absURL }}">
+          {{- /* Honeypot — bots fill this in, humans never see it */ -}}
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+        {{- else }}
+        {{- /* No form backend configured yet — the fields still render so the page can be
+               reviewed, but the form is inert rather than silently swallowing enquiries. */ -}}
+        <div class="callout callout--warn" style="margin-bottom:1.75rem">
+          {{ partial "icon.html" (dict "name" "alert") }}
+          <div>
+            <h4>This form isn't connected yet</h4>
+            <p>
+              Get a free access key at <strong>web3forms.com</strong> and paste it into
+              <code>formAccessKey</code> in <code>hugo.toml</code>. Until then, please use the
+              WhatsApp, email or phone buttons alongside &mdash; they reach us straight away.
+            </p>
+          </div>
+        </div>
+        <form class="enquiry-form" onsubmit="return false" aria-disabled="true">
+        {{- end }}
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-name">Name <span class="req">*</span></label>
+              <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Full name" required>
+            </div>
+            <div class="field">
+              <label for="f-org">Organization</label>
+              <input id="f-org" name="organization" type="text" autocomplete="organization" placeholder="Company name">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-designation">Designation</label>
+              <input id="f-designation" name="designation" type="text" autocomplete="organization-title" placeholder="e.g. Purchase Manager">
+            </div>
+            <div class="field">
+              <label for="f-country">Country</label>
+              <input id="f-country" name="country" type="text" autocomplete="country-name" placeholder="India" value="India">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-address">Address</label>
+            <textarea id="f-address" name="address" rows="2" autocomplete="street-address" placeholder="Street, city, state and PIN code"></textarea>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-mobile">Mobile No. <span class="req">*</span></label>
+              <input id="f-mobile" name="mobile" type="tel" autocomplete="tel" placeholder="+91 ..." required>
+            </div>
+            <div class="field">
+              <label for="f-fax">Fax</label>
+              <input id="f-fax" name="fax" type="text" placeholder="Optional">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-email">Email <span class="req">*</span></label>
+            <input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
+          </div>
+
+          <div class="field">
+            <label for="f-product">Product</label>
+            <input id="f-product" name="product" type="text" placeholder="Material, grade or CAS number — e.g. Pyridoxine (Vit B6), 58-56-0">
+          </div>
+
+          <div class="field">
+            <label for="f-message">Message</label>
+            <textarea id="f-message" name="message" rows="5" placeholder="Quantity, packing, delivery location, timelines, and any specification you work to."></textarea>
+          </div>
+
+          <button class="btn btn--lg enquiry-form__submit" type="submit"{{ if not $key }} disabled{{ end }}>
+            {{ partial "icon.html" (dict "name" "mail") }} Submit
+          </button>
+
+          <p class="form-card__legal">
+            We use what you send here only to answer your enquiry. We don't add you to a mailing
+            list and we don't pass your details on.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Reach us another way -->
+    <aside data-reveal="right">
+      <div class="enquiry-side">
+        <h2>Prefer to talk?</h2>
+        <p>
+          WhatsApp is usually the fastest route to a price. Include the material and grade, the
+          quantity, and where it needs to be delivered.
+        </p>
+
+        <div class="enquiry-side__actions">
+          <a class="btn btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}?text={{ "Hi, I'd like a quote for:" | urlquery }}" target="_blank" rel="noopener">
+            {{ partial "icon.html" (dict "name" "whatsapp") }} Message on WhatsApp
+          </a>
+          <a class="btn btn--ghost btn--lg" href="mailto:{{ site.Params.email }}?subject={{ "Product enquiry" | urlquery }}">
+            {{ partial "icon.html" (dict "name" "mail") }} {{ site.Params.email }}
+          </a>
+          <a class="btn btn--ghost btn--lg" href="tel:{{ replace site.Params.phone " " "" }}">
+            {{ partial "icon.html" (dict "name" "phone") }} {{ site.Params.phone }}
+          </a>
+        </div>
+
+        <ul class="checklist" style="margin-top:1.75rem">
+          <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Replies the same working day</span></li>
+          <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Samples available on request</span></li>
+          <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Certificate of analysis with every consignment</span></li>
+          <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Sample quantities through to bulk</span></li>
+        </ul>
+
+        <div class="enquiry-side__addr">
+          <h3>{{ site.Params.address.unit1Label }}</h3>
+          <p>{{ site.Params.address.unit1 }}</p>
+          <p class="enquiry-side__hours">Monday &ndash; Saturday, 10:00 am &ndash; 7:00 pm IST</p>
+          <p class="enquiry-side__lic">FSSAI Licence No. {{ site.Params.fssai }}</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+{{ end }}

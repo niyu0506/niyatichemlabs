@@ -27,17 +27,9 @@
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="{{ site.Params.company }} — home">
-      <span class="brand__mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M9 2.5h6"/>
-          <path d="M10 2.5v6.2L5.2 17.6A2.1 2.1 0 0 0 7 20.8h10a2.1 2.1 0 0 0 1.8-3.2L14 8.7V2.5"/>
-          <path d="M7.6 14.6c1.9-1.5 3.6.9 5.4-.6 1.3-1.1 2.4.2 3.4-.3"/>
-        </svg>
-      </span>
-      <span class="brand__text">
-        <span class="brand__name">Niyati Chem Labs</span>
-        <span class="brand__sub">{{ site.Params.brandSub }}</span>
-      </span>
+      <img class="brand__logo" src="{{ "img/site/logo.png" | relURL }}"
+           alt="{{ site.Params.company }}" width="400" height="119">
+      <span class="brand__sub">{{ site.Params.brandSub }}</span>
     </a>
 
     <nav class="nav" aria-label="Main navigation">
@@ -53,22 +45,23 @@
           {{- if $isProducts }}
           <div class="dropdown dropdown--wide">
             <a class="dropdown__all" href="{{ "products/" | relURL }}">
-              All products <span>{{ len $products }}</span>
+              Products overview
             </a>
             {{- range $divs }}
               {{- $dkey := .key }}
               {{- $dcats := where $cats "division" $dkey }}
-              {{- $dcount := 0 }}
-              {{- range $dcats }}{{ $dcount = add $dcount (len (where $products "Params.category" .key)) }}{{ end }}
               <div class="dropdown__group">
                 <span class="dropdown__label">{{ .name }}</span>
-                <a href="{{ printf "products/?d=%s" $dkey | relURL }}">
-                  All {{ lower .name }} <span>{{ $dcount }}</span>
-                </a>
-                {{- range $dcats }}
-                  {{- $n := len (where $products "Params.category" .key) }}
-                  {{- if $n }}
-                  <a href="{{ printf "products/?c=%s" .key | relURL }}">{{ .name }} <span>{{ $n }}</span></a>
+                {{- if eq $dkey "raw-materials" }}
+                  <a href="{{ .url | relURL }}">All raw materials</a>
+                  {{- range site.Data.rawmaterials.categories }}
+                  <a href="{{ printf "%s?c=%s" (relURL "products/raw-materials/") .key }}">{{ .name }} <span>{{ len .items }}</span></a>
+                  {{- end }}
+                {{- else }}
+                  <a href="{{ .url | relURL }}">All formulations</a>
+                  {{- range $dcats }}
+                    {{- $n := len (where $products "Params.category" .key) }}
+                    <a href="{{ printf "%s?c=%s" (relURL "products/formulations/") .key }}">{{ .name }}{{ if $n }} <span>{{ $n }}</span>{{ end }}</a>
                   {{- end }}
                 {{- end }}
               </div>
@@ -80,7 +73,7 @@
     </nav>
 
     <div class="header__actions">
-      <a class="btn btn--sm" href="{{ "contact/" | relURL }}">
+      <a class="btn btn--sm" href="{{ "enquiry/" | relURL }}">
         Request a quote {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
@@ -111,16 +104,18 @@
         {{- range $divs }}
           {{- $dkey := .key }}
           {{- $dcats := where $cats "division" $dkey }}
-          {{- $dcount := 0 }}
-          {{- range $dcats }}{{ $dcount = add $dcount (len (where $products "Params.category" .key)) }}{{ end }}
-          {{- if $dcount }}
           <span class="m-sub__label">{{ .name }}</span>
-          {{- range $dcats }}
-            {{- $n := len (where $products "Params.category" .key) }}
-            {{- if $n }}
-            <a href="{{ printf "products/?c=%s" .key | relURL }}">{{ .name }} <em>{{ $n }}</em></a>
+          {{- if eq $dkey "raw-materials" }}
+            <a href="{{ .url | relURL }}">All raw materials</a>
+            {{- range site.Data.rawmaterials.categories }}
+            <a href="{{ printf "%s?c=%s" (relURL "products/raw-materials/") .key }}">{{ .name }} <em>{{ len .items }}</em></a>
             {{- end }}
-          {{- end }}
+          {{- else }}
+            <a href="{{ .url | relURL }}">All formulations</a>
+            {{- range $dcats }}
+              {{- $n := len (where $products "Params.category" .key) }}
+              <a href="{{ printf "%s?c=%s" (relURL "products/formulations/") .key }}">{{ .name }}{{ if $n }} <em>{{ $n }}</em>{{ end }}</a>
+            {{- end }}
           {{- end }}
         {{- end }}
       </div>

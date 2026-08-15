@@ -1,4 +1,4 @@
-/* Niyati Chem Labs — interactions
+/* Niyati Chemlabs — interactions
    Vanilla JS, no dependencies. Everything degrades gracefully without it. */
 (function () {
   "use strict";
@@ -159,6 +159,119 @@
       var target = document.querySelector(sel);
       if (target) applyFilter(target, false);
     }
+  }
+
+  /* ── Raw material category rail ─────────────────────────────────────── */
+  var rmLinks = document.querySelectorAll("[data-rm-filter]");
+  var rmBlocks = document.querySelectorAll("[data-rm-cat]");
+
+  function applyRm(link, updateUrl) {
+    var want = link.getAttribute("data-rm-filter");
+    rmLinks.forEach(function (l) { l.classList.toggle("is-active", l === link); });
+    rmBlocks.forEach(function (b) {
+      b.hidden = want !== "all" && b.getAttribute("data-rm-cat") !== want;
+    });
+    if (updateUrl && history.replaceState) {
+      history.replaceState(null, "", want === "all" ? location.pathname
+                                                    : "?c=" + encodeURIComponent(want));
+    }
+  }
+
+  if (rmLinks.length && rmBlocks.length) {
+    rmLinks.forEach(function (link) {
+      link.addEventListener("click", function () { applyRm(link, true); });
+    });
+    var rmWant = new URLSearchParams(location.search).get("c");
+    if (rmWant) {
+      var rmTarget = document.querySelector('[data-rm-filter="' + CSS.escape(rmWant) + '"]');
+      if (rmTarget) applyRm(rmTarget, false);
+    }
+  }
+
+  /* ── Gallery: group filter + lightbox ───────────────────────────────── */
+  var galPills = document.querySelectorAll("[data-gal-filter]");
+  var galGroups = document.querySelectorAll("[data-gal-group]");
+
+  if (galPills.length && galGroups.length) {
+    galPills.forEach(function (pill) {
+      pill.addEventListener("click", function () {
+        var want = pill.getAttribute("data-gal-filter");
+        galPills.forEach(function (p) { p.classList.toggle("is-active", p === pill); });
+        galGroups.forEach(function (g) {
+          g.hidden = want !== "all" && g.getAttribute("data-gal-group") !== want;
+        });
+      });
+    });
+  }
+
+  var lb = document.getElementById("lightbox");
+  var tiles = document.querySelectorAll("[data-gal-index]");
+
+  if (lb && tiles.length) {
+    var lbImg = lb.querySelector(".lightbox__img");
+    var lbCap = lb.querySelector(".lightbox__caption");
+    var lbClose = lb.querySelector(".lightbox__close");
+    var lbPrev = lb.querySelector(".lightbox__nav--prev");
+    var lbNext = lb.querySelector(".lightbox__nav--next");
+    var opener = null;
+    var at = 0;
+
+    /* Only the photos currently on screen are navigable, so paging through a
+       filtered gallery doesn't wander into a hidden group. */
+    function visibleTiles() {
+      return Array.prototype.filter.call(tiles, function (t) {
+        return t.offsetParent !== null;
+      });
+    }
+
+    function show(list, i) {
+      if (!list.length) return;
+      at = (i + list.length) % list.length;
+      var t = list[at];
+      lbImg.src = t.getAttribute("data-gal-src");
+      lbImg.alt = t.getAttribute("data-gal-caption") || "";
+      lbCap.textContent = t.getAttribute("data-gal-caption") || "";
+    }
+
+    function openLb(tile) {
+      var list = visibleTiles();
+      opener = tile;
+      show(list, list.indexOf(tile));
+      lb.hidden = false;
+      lb.setAttribute("aria-hidden", "false");
+      document.body.classList.add("nav-open");
+      lbClose.focus();
+    }
+
+    function closeLb() {
+      lb.hidden = true;
+      lb.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("nav-open");
+      if (opener) opener.focus();
+    }
+
+    function step(d) { var list = visibleTiles(); show(list, at + d); }
+
+    tiles.forEach(function (t) {
+      t.addEventListener("click", function () { openLb(t); });
+    });
+    lbClose.addEventListener("click", closeLb);
+    lbPrev.addEventListener("click", function () { step(-1); });
+    lbNext.addEventListener("click", function () { step(1); });
+    lb.addEventListener("click", function (e) { if (e.target === lb) closeLb(); });
+    document.addEventListener("keydown", function (e) {
+      if (lb.hidden) return;
+      if (e.key === "Escape") closeLb();
+      else if (e.key === "ArrowLeft") step(-1);
+      else if (e.key === "ArrowRight") step(1);
+    });
+  }
+
+  /* ── Prefill the enquiry form from ?product=… ───────────────────────── */
+  var productField = document.getElementById("f-product");
+  if (productField) {
+    var wantProduct = new URLSearchParams(location.search).get("product");
+    if (wantProduct) productField.value = wantProduct;
   }
 
   /* ── Current year in footer ─────────────────────────────────────────── */

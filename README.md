@@ -1,6 +1,6 @@
-# Niyati Chem Labs — website
+# Niyati Chemlabs — website
 
-Static website for Niyati Chem Labs — a Mumbai-based supplier of active pharmaceutical
+Static website for Niyati Chemlabs — a Mumbai-based supplier of active pharmaceutical
 ingredients, nutraceutical raw materials and finished herbal formulations. Built with
 [Hugo](https://gohugo.io) and hosted free on GitHub Pages.
 
@@ -9,7 +9,12 @@ ingredients, nutraceutical raw materials and finished herbal formulations. Built
 > ⚠️ **Review build.** Contact details, the FSSAI licence and the Soy Protein Isolate listing
 > are real. The remaining 27 finished-formulation products are placeholders carried over from
 > a sister company's catalogue so the design could be evaluated with realistic content — their
-> photographs still carry that company's label branding and must be replaced before launch.
+> photographs still carry that company's label branding, which is why pack shots are currently
+> switched off on the formulation pages (`hideImages` in `hugo.toml`). The gallery still uses
+> those shots and needs re-shooting before launch.
+>
+> The **Enquiry** form is built but inert until a Web3Forms access key is pasted into
+> `formAccessKey` in `hugo.toml` — see `setup/README.md`.
 
 ---
 
@@ -26,14 +31,22 @@ content/
   _index.md                home page metadata
   about.md                 About Us
   certification.md         Quality
-  contact.md               Contact
+  raw-materials.md         Products → Raw Material   (URL /products/raw-materials/)
+  formulations.md          Products → Finished Dosage Formulation
+  enquiry.md               Enquiry — the enquiry / feedback form
+  gallery.md               Gallery
+  thank-you.md             post-submission page (unlisted)
+  contact.md               Contact Us
   products/
-    _index.md              catalogue intro
-    *.md                   one file per product
+    _index.md              catalogue hub — the two branches
+    *.md                   one file per finished product
+data/
+  rawmaterials.yaml        the Raw Material catalogue (Sr No. / Product / Packing / CAS)
+  gallery.yaml             the photo gallery
 archetypes/products.md     template to copy when adding a product
 layouts/                   HTML templates
 assets/css/main.css        the entire design system
-assets/js/main.js          menu, scroll animations, product filter
+assets/js/main.js          menu, scroll animations, filters, gallery lightbox
 static/img/products/       product photographs
 docs/                      the built site — this is what GitHub Pages serves
 setup/                     one-time setup notes (auto-deploy, custom domain, form)

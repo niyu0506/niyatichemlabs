@@ -1,0 +1,101 @@
+{{ define "main" }}
+{{- $rm := site.Data.rawmaterials -}}
+{{- $cats := where $rm.categories "items" "!=" nil -}}
+{{- $total := 0 -}}
+{{- range $cats }}{{ $total = add $total (len .items) }}{{ end -}}
+{{ partial "page-banner.html" . }}
+
+<section class="section">
+  <div class="container rm-layout">
+
+    <!-- Category rail -->
+    <aside class="rm-rail" data-reveal="left">
+      <div class="rm-rail__inner">
+        <h2 class="rm-rail__title">Product categories</h2>
+        <nav class="rm-rail__nav" aria-label="Raw material categories">
+          <button class="rm-link is-active" type="button" data-rm-filter="all">
+            All Products <span>{{ $total }}</span>
+          </button>
+          {{- range $cats }}
+          <button class="rm-link" type="button" data-rm-filter="{{ .key }}">
+            {{ .name }} <span>{{ len .items }}</span>
+          </button>
+          {{- end }}
+        </nav>
+
+        <div class="rm-rail__note">
+          <p>Not seeing what you need? Send us the material name, grade or CAS number.</p>
+          <a class="btn btn--sm" href="{{ "enquiry/" | relURL }}">
+            Send an enquiry {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Tables -->
+    <div class="rm-main" id="product">
+      {{- with .Content }}
+      <div class="prose" style="margin-bottom:2.5rem" data-reveal>{{ . }}</div>
+      {{- end }}
+
+      {{- range $cats }}
+      <div class="rm-block" data-rm-cat="{{ .key }}" data-reveal>
+        <div class="rm-block__head">
+          <h2>{{ .name }}</h2>
+          {{- with .blurb }}<p>{{ . }}</p>{{ end }}
+        </div>
+
+        <p class="rm-swipe">{{ partial "icon.html" (dict "name" "arrow-right") }} Swipe the table sideways for packing and CAS number</p>
+        <div class="rm-table-wrap">
+          <table class="rm-table">
+            <thead>
+              <tr>
+                <th scope="col" class="rm-table__sr">Sr No.</th>
+                <th scope="col">Name of Product</th>
+                <th scope="col">Packing</th>
+                <th scope="col">CAS Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{- range $i, $item := .items }}
+              <tr>
+                <td class="rm-table__sr">{{ add $i 1 }}</td>
+                <td class="rm-table__name">
+                  {{- with $item.page }}<a href="{{ . | relURL }}">{{ $item.name }}</a>
+                  {{- else }}{{ $item.name }}{{ end }}
+                </td>
+                <td>{{ $item.packing | default "On request" }}</td>
+                <td class="rm-table__cas">{{ with $item.cas }}{{ . }}{{ else }}&mdash;{{ end }}</td>
+              </tr>
+              {{- end }}
+            </tbody>
+          </table>
+        </div>
+
+        <p class="rm-block__foot">
+          {{ partial "icon.html" (dict "name" "info") }}
+          Packing sizes are indicative. Every consignment ships with the batch certificate of
+          analysis, and the specification sheet is sent at quotation.
+        </p>
+      </div>
+      {{- end }}
+
+      <div class="cta-band" style="margin-top:3rem" data-reveal>
+        <h2>Ask for the full list</h2>
+        <p>
+          We supply a far wider range of actives and ingredients than we publish here. Tell us
+          the material, grade and quantity and we will confirm availability, price and lead time.
+        </p>
+        <div class="cta-band__actions">
+          <a class="btn btn--white btn--lg" href="{{ "enquiry/" | relURL }}">
+            Send an enquiry {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+          </a>
+          <a class="btn btn--outline-light btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}" target="_blank" rel="noopener">
+            {{ partial "icon.html" (dict "name" "whatsapp") }} WhatsApp us
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

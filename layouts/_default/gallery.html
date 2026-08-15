@@ -1,0 +1,58 @@
+{{ define "main" }}
+{{- $groups := site.Data.gallery.groups -}}
+{{ partial "page-banner.html" . }}
+
+<section class="section">
+  <div class="container">
+    {{- with .Content }}
+    <div class="prose" style="max-width:74ch;margin-bottom:2.5rem" data-reveal>{{ . }}</div>
+    {{- end }}
+
+    <div class="filters" data-reveal role="group" aria-label="Filter photos">
+      <button class="filter-pill is-active" type="button" data-gal-filter="all">All photos</button>
+      {{- range $gi, $g := $groups }}
+      <button class="filter-pill filter-pill--sub" type="button" data-gal-filter="g{{ $gi }}">
+        {{ $g.title }} <span>{{ len $g.photos }}</span>
+      </button>
+      {{- end }}
+    </div>
+
+    {{- $n := 0 }}
+    {{- range $gi, $g := $groups }}
+    <div class="gal-group" data-gal-group="g{{ $gi }}">
+      <div class="gal-group__head" data-reveal>
+        <h2>{{ $g.title }}</h2>
+        {{- with $g.blurb }}<p>{{ . }}</p>{{ end }}
+      </div>
+
+      <div class="gal-grid" data-stagger="45">
+        {{- range $g.photos }}
+        <button class="gal-tile" type="button" data-reveal="zoom"
+                data-gal-index="{{ $n }}"
+                data-gal-src="{{ .src | relURL }}"
+                data-gal-caption="{{ .caption }}">
+          <img src="{{ .src | relURL }}" alt="{{ .caption }}" loading="lazy" width="600" height="900">
+          <span class="gal-tile__overlay">
+            <span class="gal-tile__caption">{{ .caption }}</span>
+            {{ partial "icon.html" (dict "name" "expand" "class" "icon gal-tile__zoom") }}
+          </span>
+        </button>
+        {{- $n = add $n 1 }}
+        {{- end }}
+      </div>
+    </div>
+    {{- end }}
+
+    <div class="callout" style="margin-top:3rem;max-width:none" data-reveal>
+      {{ partial "icon.html" (dict "name" "info") }}
+      <div>
+        <h4>Want a closer look?</h4>
+        <p>
+          We can send high-resolution pack shots, label artwork and sample material for any
+          product shown here. Ask and we'll put a set together for you.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

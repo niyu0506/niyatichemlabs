@@ -7,7 +7,7 @@ weight: 40
 credentials:
   - icon: "shield"
     title: "FSSAI licensed"
-    body: "Niyati Chem Labs holds a current FSSAI licence, printed on every pack we supply. It is the licence that permits us to trade food and nutraceutical materials in India."
+    body: "Niyati Chemlabs holds a current FSSAI licence, printed on every pack we supply. It is the licence that permits us to trade food and nutraceutical materials in India."
     meta: "Licence No. 11523011000215"
   - icon: "microscope"
     title: "Certificate of analysis per batch"
@@ -25,7 +25,7 @@ sourceCerts:
 
 ## Being straight about what we are
 
-Niyati Chem Labs is a **supplier**. That distinction matters when you are assessing a vendor,
+Niyati Chemlabs is a **supplier**. That distinction matters when you are assessing a vendor,
 so we would rather state it plainly than let a website imply otherwise.
 
 What it means in practice: we hold an FSSAI licence in our own name, we source from

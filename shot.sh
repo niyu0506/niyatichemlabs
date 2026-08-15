@@ -16,6 +16,10 @@ if ! curl -s -o /dev/null --max-time 2 "http://127.0.0.1:$PORT/niyatichemlabs/";
   done
 fi
 
+# NB: headless chromium here will not lay out below ~500 CSS px. Passing a
+# width under that renders a 500px-wide layout and crops the image to <W>,
+# which reads as "content is cut off" when it is only cropped. Trust widths
+# of 500 and up; below that, check on a real phone.
 PATH_="${1:-/}"
 W="${2:-1440}"
 OUT="${3:-/tmp/shot.png}"

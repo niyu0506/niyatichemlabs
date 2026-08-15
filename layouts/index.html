@@ -5,16 +5,17 @@
 {{- if lt (len $featured) 8 }}{{ $featured = first 8 $products }}{{ end -}}
 
 <!-- ═══ HERO ═══ -->
-<section class="hero">
+{{- /* Deliberately flat: no floating pack shots, no badge stickers. Just the
+       proposition, the two calls to action, and the three things buyers ask. */ -}}
+<section class="hero hero--plain">
   <div class="container hero__inner">
     <div class="hero__copy">
       <span class="eyebrow" data-reveal>Mumbai, India &middot; FSSAI Lic. {{ site.Params.fssai }}</span>
       <h1 data-reveal data-reveal-delay="60">
-        Raw materials and actives,<br>
-        <span class="accent">supplied to specification</span>
+        Raw materials and actives, <span class="accent">supplied to specification</span>
       </h1>
       <p class="lede hero__lede" data-reveal data-reveal-delay="140">
-        Niyati Chem Labs supplies active pharmaceutical ingredients, nutraceutical raw
+        Niyati Chemlabs supplies active pharmaceutical ingredients, nutraceutical raw
         materials and functional ingredients to manufacturers and brand owners — and
         finished ayurvedic formulations for those who want a ready-to-market product.
       </p>
@@ -22,29 +23,12 @@
         <a class="btn btn--lg" href="{{ "products/" | relURL }}">
           See what we supply {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
         </a>
-        <a class="btn btn--ghost btn--lg" href="{{ "contact/" | relURL }}">Request a quote</a>
+        <a class="btn btn--ghost btn--lg" href="{{ "enquiry/" | relURL }}">Request a quote</a>
       </div>
       <div class="hero__trust" data-reveal data-reveal-delay="300">
         <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} COA with every batch</span>
         <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} Non-GMO sourcing</span>
         <span class="hero__trust-item">{{ partial "icon.html" (dict "name" "check") }} Sample to bulk quantities</span>
-      </div>
-    </div>
-
-    <div class="hero__visual" aria-hidden="true">
-      <div class="hero__blob"></div>
-      <div class="hero__product hero__product--a">
-        <img src="{{ "img/products/moringa-tab.jpg" | relURL }}" alt="" loading="eager" width="600" height="900">
-      </div>
-      <div class="hero__product hero__product--lead">
-        <img src="{{ "img/products/soy-protein-isolate-90.jpg" | relURL }}" alt="" loading="eager" width="1080" height="1440">
-      </div>
-      <div class="hero__badge">
-        {{ partial "icon.html" (dict "name" "shield") }}
-        <span>
-          <strong>FSSAI</strong>
-          <span>Licensed supplier</span>
-        </span>
       </div>
     </div>
   </div>
@@ -81,8 +65,12 @@
       {{- $dkey := .key }}
       {{- $dcats := where $cats "division" $dkey }}
       {{- $dcount := 0 }}
-      {{- range $dcats }}{{ $dcount = add $dcount (len (where $products "Params.category" .key)) }}{{ end }}
-      <a class="division-card" href="{{ printf "products/?d=%s" $dkey | relURL }}" data-reveal>
+      {{- if eq $dkey "raw-materials" }}
+        {{- range site.Data.rawmaterials.categories }}{{ $dcount = add $dcount (len .items) }}{{ end }}
+      {{- else }}
+        {{- range $dcats }}{{ $dcount = add $dcount (len (where $products "Params.category" .key)) }}{{ end }}
+      {{- end }}
+      <a class="division-card" href="{{ .url | relURL }}" data-reveal>
         {{ partial "icon.html" (dict "name" .icon "class" "division-card__glyph") }}
         <div class="division-card__head">
           <span class="division-card__icon">{{ partial "icon.html" (dict "name" .icon) }}</span>
@@ -90,12 +78,14 @@
         </div>
         <p>{{ .blurb }}</p>
         <div class="division-card__tags">
-          {{- range $dcats }}
-          <span class="chip">{{ .name }}</span>
+          {{- if eq $dkey "raw-materials" }}
+            {{- range site.Data.rawmaterials.categories }}<span class="chip">{{ .name }}</span>{{ end }}
+          {{- else }}
+            {{- range $dcats }}<span class="chip">{{ .name }}</span>{{ end }}
           {{- end }}
         </div>
         <span class="division-card__more">
-          Browse {{ if $dcount }}{{ $dcount }} listed {{ end }}product{{ if ne $dcount 1 }}s{{ end }}
+          Browse {{ if $dcount }}{{ $dcount }} listed {{ end }}{{ if eq $dkey "raw-materials" }}material{{ else }}product{{ end }}{{ if ne $dcount 1 }}s{{ end }}
           {{ partial "icon.html" (dict "name" "arrow-right") }}
         </span>
       </a>
@@ -149,7 +139,7 @@
       </p>
     </div>
 
-    <div class="card-grid" data-stagger="70">
+    <div class="card-grid card-grid--flat" data-stagger="70">
       {{- range $featured }}
       {{ partial "product-card.html" . }}
       {{- end }}
@@ -157,7 +147,7 @@
 
     <div style="text-align:center;margin-top:3rem" data-reveal>
       <a class="btn btn--ghost btn--lg" href="{{ "products/" | relURL }}">
-        View all {{ len $products }} products {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        Browse the full catalogue {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
       </a>
     </div>
   </div>
@@ -168,10 +158,6 @@
   <div class="container split split--top">
     <div class="split__media" data-reveal="left">
       <img src="{{ "img/site/facility.jpg" | relURL }}" alt="Laboratory analysis of raw materials" loading="lazy" width="770" height="440">
-      <div class="split__badge">
-        <strong>COA</strong>
-        <span>With every consignment</span>
-      </div>
     </div>
     <div data-reveal="right">
       <span class="eyebrow">How an order works</span>
@@ -216,7 +202,7 @@
         lead time — usually the same working day.
       </p>
       <div class="cta-band__actions">
-        <a class="btn btn--white btn--lg" href="{{ "contact/" | relURL }}">
+        <a class="btn btn--white btn--lg" href="{{ "enquiry/" | relURL }}">
           Request a quote {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
         </a>
         <a class="btn btn--outline-light btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}" target="_blank" rel="noopener">

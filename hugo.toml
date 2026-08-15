@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════════
-#  Niyati Chem Labs — site configuration
+#  Niyati Chemlabs — site configuration
 #
 #  Most things you'd want to change day-to-day live under [params] below:
 #  phone number, email, address, and the headline text on the home page.
@@ -8,7 +8,7 @@
 
 baseURL = "https://keivan.in/niyatichemlabs/"
 languageCode = "en-in"
-title = "Niyati Chem Labs"
+title = "Niyati Chemlabs"
 publishDir = "docs"          # GitHub Pages serves the site from this folder
 enableRobotsTXT = true
 enableEmoji = true
@@ -50,17 +50,27 @@ enableEmoji = true
     weight = 40
 
   [[menus.main]]
-    name = "Contact"
+    name = "Enquiry"
+    pageRef = "/enquiry"
+    weight = 45
+
+  [[menus.main]]
+    name = "Gallery"
+    pageRef = "/gallery"
+    weight = 47
+
+  [[menus.main]]
+    name = "Contact Us"
     pageRef = "/contact"
     weight = 50
 
 # ── Site-wide details ──────────────────────────────────────────────────────
 [params]
-  company     = "Niyati Chem Labs"
-  legalName   = "Niyati Chem Labs"
-  brandSub    = "APIs · Ingredients"
+  company     = "Niyati Chemlabs"
+  legalName   = "Niyati Chemlabs"
+  brandSub    = "Experience Quality"
   tagline     = "Suppliers of APIs, Nutraceutical Ingredients & Herbal Formulations"
-  description = "Niyati Chem Labs supplies active pharmaceutical ingredients, nutraceutical raw materials and finished herbal formulations to manufacturers and brand owners across India."
+  description = "Niyati Chemlabs supplies active pharmaceutical ingredients, nutraceutical raw materials and finished herbal formulations to manufacturers and brand owners across India."
 
   phone       = "+91 70457 17020"
   email       = "niyatichemlabs@gmail.com"
@@ -71,8 +81,20 @@ enableEmoji = true
   [params.address]
     unit1Label = "Registered Office"
     unit1 = "M/404, Panchsheel Gardens, Mahavir Nagar, Kandivali West, Mumbai — 400067"
-    # Google Maps search string used for the map embed and the directions link
+
+    # Exact pin for the map and the "Get directions" link. Searching by address
+    # alone landed in the wrong place, so the coordinates win when they're set.
+    # To change them: open the spot in Google Maps, right-click it, and click
+    # the latitude/longitude at the top of the menu to copy it.
+    mapLat = "19.2108397"
+    mapLng = "72.8402699"
+
+    # Fallback, used only if the two lines above are left blank
     mapQuery = "M/404 Panchsheel Gardens, Mahavir Nagar, Kandivali West, Mumbai 400067"
+
+    # How tightly the map is zoomed in: higher is closer. 15 = neighbourhood,
+    # 17 = a few streets, 19 = individual buildings.
+    mapZoom = "17"
 
   # Numbers shown in the stats strip. Non-numeric values are displayed as-is.
   [[params.stats]]
@@ -88,6 +110,18 @@ enableEmoji = true
     value = "1 kg+"
     label = "Sample to bulk quantities"
 
+  # ── Enquiry form ─────────────────────────────────────────────────────────
+  # The site is static, so the form needs an outside service to deliver the
+  # email. We use Web3Forms (free): go to https://web3forms.com, type
+  # niyatichemlabs@gmail.com into the box, and they email you an access key.
+  # Paste that key below and the form starts working — nothing else to change.
+  #
+  # Until a key is pasted in, the Enquiry page shows the WhatsApp/email/phone
+  # buttons instead of a form that would silently go nowhere.
+  formEndpoint  = "https://api.web3forms.com/submit"
+  formAccessKey = ""                  # ← paste the Web3Forms access key here
+  formSubject   = "New enquiry from niyatichemlabs.com"
+
   # Disclaimer shown in the footer
   disclaimer = "Information and statements about the products on this site have not been evaluated by the Food Safety and Standards Authority of India or the Food and Drug Administration, and are not intended to diagnose, treat, cure or prevent any disease. Product specifications are indicative — refer to the certificate of analysis supplied with each consignment."
 
@@ -95,14 +129,19 @@ enableEmoji = true
 # Each product category below belongs to one of these.
 [[params.divisions]]
   key   = "raw-materials"
-  name  = "Raw Materials & APIs"
+  name  = "Raw Material"
+  long  = "Raw Materials & APIs"
+  url   = "products/raw-materials/"
   icon  = "flask"
-  blurb = "Active pharmaceutical ingredients, nutraceutical actives and functional raw materials, supplied to specification with full documentation."
+  blurb = "Active pharmaceutical ingredients, vitamins, nutraceutical actives and functional raw materials, supplied to specification with full documentation."
 [[params.divisions]]
   key   = "formulations"
-  name  = "Finished Formulations"
+  name  = "Finished Dosage Formulation"
+  long  = "Finished Dosage Formulations"
+  url   = "products/formulations/"
   icon  = "package"
-  blurb = "Ready-to-market ayurvedic capsules, tablets, oils and churna, available under your own label."
+  hideImages = true      # pack shots are being re-shot — cards show text only
+  blurb = "Ready-to-market ayurvedic capsules, tablets, syrups, oils and churna, available under your own label."
 
 # ── Product categories ─────────────────────────────────────────────────────
 # The `key` must match the `category` field in each product's .md file.
@@ -139,6 +178,12 @@ enableEmoji = true
   name     = "Tablets"
   icon     = "package"
   blurb    = "Coated and uncoated ayurvedic formulation tablets."
+[[params.categories]]
+  key      = "syrups"
+  division = "formulations"
+  name     = "Syrups"
+  icon     = "flask"
+  blurb    = "Ayurvedic and herbal syrups, filled and labelled under your own brand."
 [[params.categories]]
   key      = "oils"
   division = "formulations"

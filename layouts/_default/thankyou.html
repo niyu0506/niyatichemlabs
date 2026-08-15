@@ -1,0 +1,28 @@
+{{ define "main" }}
+{{ partial "page-banner.html" . }}
+
+<section class="section">
+  <div class="container container--narrow" style="text-align:center">
+    <div class="thanks" data-reveal>
+      <span class="thanks__mark">{{ partial "icon.html" (dict "name" "check") }}</span>
+      <h2>Enquiry received</h2>
+      <p>
+        Thank you for getting in touch with {{ site.Params.company }}. Your message has reached
+        us and we will reply to the email address you gave, usually the same working day.
+      </p>
+      <p>
+        If it is urgent, WhatsApp or call us on
+        <a href="tel:{{ replace site.Params.phone " " "" }}">{{ site.Params.phone }}</a>.
+      </p>
+      <div class="cta-band__actions" style="justify-content:center;margin-top:2rem">
+        <a class="btn btn--lg" href="{{ site.Home.RelPermalink }}">
+          Back to home {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
+        </a>
+        <a class="btn btn--ghost btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}" target="_blank" rel="noopener">
+          {{ partial "icon.html" (dict "name" "whatsapp") }} WhatsApp us
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

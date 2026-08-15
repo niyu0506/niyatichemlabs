@@ -1,5 +1,10 @@
 {{ define "main" }}
-{{- $mapQ := site.Params.address.mapQuery | default site.Params.address.unit1 -}}
+{{- $addr := site.Params.address -}}
+{{- /* Coordinates pin the map exactly; the address string is only a fallback,
+       because geocoding it put the marker on the wrong street. */ -}}
+{{- $mapQ := $addr.mapQuery | default $addr.unit1 -}}
+{{- if and $addr.mapLat $addr.mapLng }}{{ $mapQ = printf "%s,%s" $addr.mapLat $addr.mapLng }}{{ end -}}
+{{- $mapZoom := $addr.mapZoom | default "17" -}}
 {{ partial "page-banner.html" . }}
 
 <section class="section">
@@ -20,7 +25,7 @@
             <h4>{{ site.Params.address.unit1Label }}</h4>
             <p>{{ site.Params.address.unit1 }}</p>
             <p style="margin-top:6px">
-              <a class="link-arrow" href="https://www.google.com/maps/search/?api=1&query={{ $mapQ | urlquery }}" target="_blank" rel="noopener">
+              <a class="link-arrow" href="https://www.google.com/maps/dir/?api=1&destination={{ $mapQ | urlquery }}" target="_blank" rel="noopener">
                 Get directions {{ partial "icon.html" (dict "name" "arrow-right") }}
               </a>
             </p>
@@ -59,66 +64,24 @@
 
     <!-- Enquiry panel -->
     <div data-reveal="right">
-      {{- if site.Params.enableContactForm }}
-      {{- /* Switched on via `enableContactForm = true` in hugo.toml once a form
-             backend (e.g. Web3Forms) is wired up — see setup/README.md */ -}}
-      <div class="form-card">
-        <h3 style="margin-bottom:0.35rem">Send an enquiry</h3>
-        <p style="color:var(--ink-500);font-size:0.94rem;margin-bottom:1.5rem">
-          We'll get back to you the same working day.
-        </p>
-        <form action="{{ site.Params.formEndpoint }}" method="POST">
-          {{- with site.Params.formAccessKey }}
-          <input type="hidden" name="access_key" value="{{ . }}">
-          {{- end }}
-          <div class="field-row">
-            <div class="field">
-              <label for="f-name">Your name</label>
-              <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Full name" required>
-            </div>
-            <div class="field">
-              <label for="f-company">Company</label>
-              <input id="f-company" name="company" type="text" autocomplete="organization" placeholder="Company name">
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="f-email">Email</label>
-              <input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
-            </div>
-            <div class="field">
-              <label for="f-phone">Phone</label>
-              <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 ...">
-            </div>
-          </div>
-          <div class="field">
-            <label for="f-product">Material or product</label>
-            <input id="f-product" name="product" type="text" placeholder="e.g. Soy Protein Isolate 90%, or a CAS number">
-          </div>
-          <div class="field">
-            <label for="f-message">Your requirement</label>
-            <textarea id="f-message" name="message" placeholder="Quantity, grade, packing, delivery location, timelines..."></textarea>
-          </div>
-          <button class="btn btn--lg" type="submit" style="width:100%">
-            {{ partial "icon.html" (dict "name" "mail") }} Send enquiry
-          </button>
-        </form>
-      </div>
-      {{- else }}
       <div class="enquiry-card">
         <div class="enquiry-card__icon">{{ partial "icon.html" (dict "name" "sparkles") }}</div>
         <h3>Send us your requirement</h3>
         <p>
-          The quickest way to get a quote is WhatsApp or email. Include the
-          <strong>material and grade</strong>, the <strong>quantity</strong>, and where it needs
-          to be delivered — and we'll come straight back with price and lead time.
+          The full enquiry form lives on its own page &mdash; it asks for the details we need to
+          quote properly. If you would rather not fill anything in, WhatsApp or email works just
+          as well: include the <strong>material and grade</strong>, the <strong>quantity</strong>,
+          and where it needs to be delivered.
         </p>
 
         <div class="enquiry-card__actions">
-          <a class="btn btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}?text={{ "Hi, I'd like a quote for:" | urlquery }}" target="_blank" rel="noopener">
+          <a class="btn btn--lg" href="{{ "enquiry/" | relURL }}">
+            {{ partial "icon.html" (dict "name" "list") }} Open the enquiry form
+          </a>
+          <a class="btn btn--ghost btn--lg" href="https://wa.me/{{ site.Params.whatsapp }}?text={{ "Hi, I'd like a quote for:" | urlquery }}" target="_blank" rel="noopener">
             {{ partial "icon.html" (dict "name" "whatsapp") }} Message on WhatsApp
           </a>
-          <a class="btn btn--ghost btn--lg" href="mailto:{{ site.Params.email }}?subject={{ "Product enquiry" | urlquery }}&body={{ "Material / grade:%0D%0AQuantity:%0D%0ADelivery location:%0D%0ACompany:%0D%0A" | safeURL }}">
+          <a class="btn btn--ghost btn--lg" href="mailto:{{ site.Params.email }}?subject={{ "Product enquiry" | urlquery }}">
             {{ partial "icon.html" (dict "name" "mail") }} Email us
           </a>
           <a class="btn btn--ghost btn--lg" href="tel:{{ replace site.Params.phone " " "" }}">
@@ -132,7 +95,6 @@
           <li>{{ partial "icon.html" (dict "name" "check-bare") }} <span>Sample quantities through to bulk</span></li>
         </ul>
       </div>
-      {{- end }}
     </div>
   </div>
 </section>
@@ -142,12 +104,19 @@
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Find us</span>
-      <h2 style="font-size:var(--step-3)">{{ site.Params.address.unit1Label }}</h2>
+      <h2 style="font-size:var(--step-3)">{{ $addr.unit1Label }}</h2>
+      <p class="map-address">
+        {{ partial "icon.html" (dict "name" "pin") }}
+        <span>{{ $addr.unit1 }}</span>
+        <a class="link-arrow" href="https://www.google.com/maps/dir/?api=1&destination={{ $mapQ | urlquery }}" target="_blank" rel="noopener">
+          Get directions {{ partial "icon.html" (dict "name" "arrow-right") }}
+        </a>
+      </p>
     </div>
     <div data-reveal style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--ink-100)">
       <iframe
         title="Map showing the location of {{ site.Params.company }}"
-        src="https://www.google.com/maps?q={{ $mapQ | urlquery }}&output=embed"
+        src="https://www.google.com/maps?q={{ $mapQ | urlquery }}&z={{ $mapZoom }}&output=embed"
         width="100%" height="420" style="border:0;display:block" loading="lazy"
         referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
     </div>

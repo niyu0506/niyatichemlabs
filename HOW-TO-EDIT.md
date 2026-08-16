@@ -135,7 +135,9 @@ need to add it to any list or menu.
 - Never use the Tab key for indentation — use spaces. (Two spaces, as shown above.)
 - `category:` must be exactly one of:
   `nutraceutical`, `api`, `excipient` (raw materials) or
-  `capsules`, `tablets`, `oils`, `other` (finished formulations).
+  `capsules`, `tablets`, `syrups`, `oils`, `other` (finished formulations).
+  Spell it exactly — `tablet` instead of `tablets` is the one mistake that
+  matters, and the checker below is there to catch it.
 - `weight:` controls the order. Lower numbers come first.
 - `featured: true` also shows it on the home page.
 
@@ -162,8 +164,8 @@ Write your page content here in normal paragraphs.
 ```
 
 The line `menus: "main"` is what puts it in the navbar. `weight` decides where — the existing
-items are Home 10, About 20, Products 30, Quality 40, Contact 50, so `45` would place it
-between Quality and Contact.
+items are Home 10, About Us 20, Products 30, Quality 40, Enquiry 45, Gallery 47,
+Contact Us 50, so `48` would place it between Gallery and Contact Us.
 
 ---
 

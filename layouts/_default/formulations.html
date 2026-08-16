@@ -5,6 +5,19 @@
 {{- range $cats }}
   {{- $own = $own | append (where $products "Params.category" .key) -}}
 {{- end -}}
+
+{{- /* A product whose `category:` matches no key in hugo.toml would otherwise
+       vanish from every listing with no warning — a misspelling is the easiest
+       mistake to make when adding one. Show it here instead, and say so in the
+       build log. */ -}}
+{{- $known := slice -}}
+{{- range site.Params.categories }}{{ $known = $known | append .key }}{{ end -}}
+{{- range $products }}
+  {{- if not (in $known .Params.category) }}
+    {{- warnf "%s has category %q, which is not one of %s — listing it under Formulations so it is at least visible. Fix the category: line in that file." .File.Path (.Params.category | default "") (delimit $known ", ") -}}
+    {{- $own = $own | append . -}}
+  {{- end }}
+{{- end -}}
 {{ partial "page-banner.html" . }}
 
 <section class="section">

@@ -51,6 +51,44 @@
     if (e.key === "Escape" && drawer && drawer.classList.contains("is-open")) setNav(false);
   });
 
+  /* ── Drawer accordion (Products → division → categories) ─────────────
+     Each [data-acc-toggle] owns the [data-acc-panel] next to it. Opening one
+     closes its siblings inside the same [data-acc-group], so only the section
+     that was tapped is ever open. */
+  function accPanel(btn) {
+    var panel = btn.nextElementSibling;
+    return panel && panel.hasAttribute("data-acc-panel") ? panel : null;
+  }
+
+  function setAcc(btn, open) {
+    var panel = accPanel(btn);
+    if (!panel) return;
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    panel.classList.toggle("is-open", open);
+    if (!open) {
+      /* collapse anything nested, so reopening starts from a clean state */
+      panel.querySelectorAll("[data-acc-toggle]").forEach(function (inner) {
+        inner.setAttribute("aria-expanded", "false");
+        var p = accPanel(inner);
+        if (p) p.classList.remove("is-open");
+      });
+    }
+  }
+
+  document.querySelectorAll(".mobile-nav [data-acc-toggle]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var open = btn.getAttribute("aria-expanded") !== "true";
+      var group = btn.closest("[data-acc-group]");
+      var scope = group && group.parentElement ? group.parentElement : null;
+      if (scope) {
+        scope.querySelectorAll(":scope > [data-acc-group] > [data-acc-toggle]").forEach(function (sib) {
+          if (sib !== btn) setAcc(sib, false);
+        });
+      }
+      setAcc(btn, open);
+    });
+  });
+
   /* ── Scroll reveal ──────────────────────────────────────────────────── */
   var revealables = document.querySelectorAll("[data-reveal]");
   if (reduceMotion || !("IntersectionObserver" in window)) {

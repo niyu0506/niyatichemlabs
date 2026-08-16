@@ -7,7 +7,7 @@
 
 title: "New Product Name"          # shown as the page heading
 category: "nutraceutical"          # raw materials: nutraceutical | api | excipient
-                                   # formulations: capsules | tablets | oils | other
+                                   # formulations: capsules | tablets | syrups | oils | other
 tagline: "What it supports"        # short line under the title, e.g. "Liver Care"
 image: "img/products/my-photo.jpg" # upload the photo to static/img/products/ first
 weight: 999                        # lower number = appears earlier in the list

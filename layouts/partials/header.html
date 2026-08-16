@@ -36,7 +36,8 @@
       {{- range site.Menus.main }}
         {{- $isProducts := eq .Name "Products" -}}
         {{- $active := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) -}}
-        {{- if and $isProducts (not $active) }}{{ $active = hasPrefix $.RelPermalink (.PageRef | relURL) }}{{ end }}
+        {{- /* relURL leaves a leading-slash pageRef alone, so match on the resolved menu URL */ -}}
+        {{- if and $isProducts (not $active) }}{{ $active = hasPrefix $.RelPermalink (.URL | relLangURL) }}{{ end }}
         <div class="nav__item">
           <a class="nav__link{{ if $active }} is-active{{ end }}" href="{{ .URL | relLangURL }}">
             {{ .Name }}
@@ -95,30 +96,59 @@
 
   <nav class="mobile-nav__links" aria-label="Mobile navigation links">
     {{- range site.Menus.main }}
+      {{- $isProducts := eq .Name "Products" -}}
       {{- $active := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) -}}
+      {{- /* relURL leaves a leading-slash pageRef alone, so match on the resolved menu URL */ -}}
+        {{- if and $isProducts (not $active) }}{{ $active = hasPrefix $.RelPermalink (.URL | relLangURL) }}{{ end }}
+      {{- if $isProducts }}
+      {{- /* Products is an accordion: tapping it reveals the two divisions, and
+             tapping a division reveals only that division's categories. */ -}}
+      <div class="m-acc" data-acc-group>
+        <button class="m-link m-link--toggle{{ if $active }} is-active{{ end }}" type="button"
+                data-acc-toggle aria-expanded="{{ if $active }}true{{ else }}false{{ end }}" aria-controls="m-acc-products">
+          <span>{{ .Name }}</span>
+          {{ partial "icon.html" (dict "name" "chevron-down" "class" "icon m-caret") }}
+        </button>
+        <div class="m-acc__panel{{ if $active }} is-open{{ end }}" id="m-acc-products" data-acc-panel>
+          <div class="m-acc__inner">
+            <a class="m-sub__all" href="{{ "products/" | relURL }}">
+              {{ partial "icon.html" (dict "name" "list" "class" "icon m-sub__all-icon") }} All products
+            </a>
+            {{- range $divs }}
+              {{- $dkey := .key }}
+              {{- $dcats := where $cats "division" $dkey }}
+              {{- $dopen := hasPrefix $.RelPermalink (.url | relURL) }}
+              <div class="m-acc m-acc--sub" data-acc-group>
+                <button class="m-sub__toggle{{ if $dopen }} is-active{{ end }}" type="button"
+                        data-acc-toggle aria-expanded="{{ if $dopen }}true{{ else }}false{{ end }}" aria-controls="m-acc-{{ $dkey }}">
+                  <span>{{ .long }}</span>
+                  {{ partial "icon.html" (dict "name" "chevron-down" "class" "icon m-caret") }}
+                </button>
+                <div class="m-acc__panel{{ if $dopen }} is-open{{ end }}" id="m-acc-{{ $dkey }}" data-acc-panel>
+                  <div class="m-acc__inner m-sub">
+                    {{- if eq $dkey "raw-materials" }}
+                      <a href="{{ .url | relURL }}">All raw materials</a>
+                      {{- range site.Data.rawmaterials.categories }}
+                      <a href="{{ printf "%s?c=%s" (relURL "products/raw-materials/") .key }}">{{ .name }} <em>{{ len .items }}</em></a>
+                      {{- end }}
+                    {{- else }}
+                      <a href="{{ .url | relURL }}">All formulations</a>
+                      {{- range $dcats }}
+                        {{- $n := len (where $products "Params.category" .key) }}
+                        <a href="{{ printf "%s?c=%s" (relURL "products/formulations/") .key }}">{{ .name }}{{ if $n }} <em>{{ $n }}</em>{{ end }}</a>
+                      {{- end }}
+                    {{- end }}
+                  </div>
+                </div>
+              </div>
+            {{- end }}
+          </div>
+        </div>
+      </div>
+      {{- else }}
       <a class="m-link{{ if $active }} is-active{{ end }}" href="{{ .URL | relLangURL }}">
         <span>{{ .Name }}</span>{{ partial "icon.html" (dict "name" "chevron-right") }}
       </a>
-      {{- if eq .Name "Products" }}
-      <div class="m-sub">
-        {{- range $divs }}
-          {{- $dkey := .key }}
-          {{- $dcats := where $cats "division" $dkey }}
-          <span class="m-sub__label">{{ .name }}</span>
-          {{- if eq $dkey "raw-materials" }}
-            <a href="{{ .url | relURL }}">All raw materials</a>
-            {{- range site.Data.rawmaterials.categories }}
-            <a href="{{ printf "%s?c=%s" (relURL "products/raw-materials/") .key }}">{{ .name }} <em>{{ len .items }}</em></a>
-            {{- end }}
-          {{- else }}
-            <a href="{{ .url | relURL }}">All formulations</a>
-            {{- range $dcats }}
-              {{- $n := len (where $products "Params.category" .key) }}
-              <a href="{{ printf "%s?c=%s" (relURL "products/formulations/") .key }}">{{ .name }}{{ if $n }} <em>{{ $n }}</em>{{ end }}</a>
-            {{- end }}
-          {{- end }}
-        {{- end }}
-      </div>
       {{- end }}
     {{- end }}
   </nav>

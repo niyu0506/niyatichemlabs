@@ -476,7 +476,7 @@ p { text-wrap: pretty; }
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 .mobile-nav__close:hover { background: var(--surface-alt); border-color: var(--ink-300); }
-.mobile-nav a.m-link {
+.mobile-nav .m-link {
   padding: 0.8rem 0.75rem; border-radius: var(--radius-sm);
   font-family: var(--font-display); font-weight: 600; font-size: 1.02rem;
   color: var(--ink-800);
@@ -484,23 +484,78 @@ p { text-wrap: pretty; }
   display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
   line-height: 1.25;
 }
-.mobile-nav a.m-link .icon {
+.mobile-nav .m-link .icon {
   width: 16px; height: 16px;
   color: var(--ink-300);
   transition: transform 0.25s var(--ease-out), color 0.25s ease;
 }
-.mobile-nav a.m-link:hover, .mobile-nav a.m-link.is-active {
+.mobile-nav .m-link:hover, .mobile-nav .m-link.is-active {
   background: var(--brand-50); color: var(--brand-800);
 }
 .mobile-nav a.m-link:hover .icon, .mobile-nav a.m-link.is-active .icon {
   color: var(--brand-500); transform: translateX(3px);
 }
 .mobile-nav__close .icon { width: 18px; height: 18px; color: var(--ink-600); }
+
+/* ── Drawer accordion (Products → division → categories) ─────────────────── */
+.mobile-nav .m-acc { display: block; }
+.mobile-nav .m-link--toggle {
+  width: 100%; text-align: left; background: none; cursor: pointer;
+  border: 0; border-bottom: 1px solid var(--ink-100);
+  font-family: inherit;
+}
+.mobile-nav .m-caret {
+  width: 16px; height: 16px; flex: none;
+  color: var(--ink-300);
+  transition: transform 0.3s var(--ease-out), color 0.25s ease;
+}
+.mobile-nav [aria-expanded="true"] > .m-caret { transform: rotate(180deg); color: var(--brand-500); }
+.mobile-nav [aria-expanded="true"].m-link--toggle { background: var(--brand-50); color: var(--brand-800); }
+
+/* Collapsible panel — the 0fr→1fr grid trick animates to content height
+   without measuring it in JS. */
+.mobile-nav .m-acc__panel {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s var(--ease-out), visibility 0.32s;
+  visibility: hidden;
+}
+.mobile-nav .m-acc__panel.is-open { grid-template-rows: 1fr; visibility: visible; }
+.mobile-nav .m-acc__inner { overflow: hidden; min-height: 0; }
+
+.mobile-nav .m-sub__all {
+  display: flex; align-items: center; gap: 0.55rem;
+  margin: var(--sp-3) 0 var(--sp-2);
+  padding: 0.55rem 0.75rem; border-radius: var(--radius-sm);
+  background: var(--surface-sub);
+  font-size: 0.85rem; font-weight: 600; color: var(--ink-700);
+}
+.mobile-nav .m-sub__all-icon { width: 15px; height: 15px; color: var(--brand-500); }
+.mobile-nav .m-sub__all:hover { background: var(--brand-50); color: var(--brand-800); }
+
+/* Close the top-level panel off from the menu item that follows it */
+.mobile-nav .m-acc:not(.m-acc--sub) > .m-acc__panel.is-open > .m-acc__inner {
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--ink-100);
+}
+
+.mobile-nav .m-acc--sub { border-bottom: 1px solid var(--ink-100); }
+.mobile-nav .m-acc--sub:last-child { border-bottom: 0; }
+.mobile-nav .m-sub__toggle {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sp-3); padding: 0.7rem 0.75rem;
+  background: none; border: 0; cursor: pointer;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display); font-weight: 600; font-size: 0.9rem;
+  line-height: 1.3; text-align: left; color: var(--ink-700);
+}
+.mobile-nav .m-sub__toggle:hover,
+.mobile-nav .m-sub__toggle[aria-expanded="true"] { color: var(--brand-700); }
+.mobile-nav .m-sub__toggle .m-caret { width: 14px; height: 14px; }
+
 .mobile-nav .m-sub {
-  padding: var(--sp-2) 0 var(--sp-3) var(--sp-3);
+  padding: var(--sp-1) 0 var(--sp-3) var(--sp-3);
   margin-left: var(--sp-3);
   border-left: 2px solid var(--brand-100);
-  border-bottom: 1px solid var(--ink-100);
 }
 .mobile-nav .m-sub__label {
   display: block; padding: var(--sp-3) 0.75rem 0.25rem;
@@ -1049,7 +1104,9 @@ body.nav-open { overflow: hidden; }
   align-items: start;
 }
 @media (max-width: 900px) {
-  .quality-layout { grid-template-columns: 1fr; }
+  /* Stacked, with the licence up front rather than buried under the prose */
+  .quality-layout { grid-template-columns: 1fr; gap: var(--sp-6); }
+  .quality-layout > aside { order: -1; }
 }
 
 /* Licence highlight card */
@@ -1062,11 +1119,14 @@ body.nav-open { overflow: hidden; }
   position: sticky; top: calc(var(--header-h) + 24px);
 }
 @media (max-width: 900px) {
-  .licence-card { position: static; }
+  /* Must stay positioned: `static` would hand the ::before bloom below to the
+     page instead of the card, painting a green wash down the left of the page. */
+  .licence-card { position: relative; top: auto; }
 }
 .licence-card::before {
   content: ""; position: absolute; inset: -40% 40% 40% -40%;
   background: radial-gradient(circle at 35% 35%, rgba(63, 177, 136, 0.45), transparent 65%);
+  pointer-events: none;
 }
 .licence-card > * { position: relative; z-index: 1; }
 .licence-card__icon {

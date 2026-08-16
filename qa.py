@@ -100,6 +100,19 @@ for m in md:
     if "eyebrow" not in s:
         bad("NO-CATEGORY", slug, "category eyebrow missing — bad category key?")
 
+# 5b. category keys must exist in hugo.toml — a typo here is the easiest mistake
+#     to make when adding a product, and the site can only half-recover from it.
+conf = open(os.path.join(ROOT, "hugo.toml"), encoding="utf-8").read()
+cat_block = conf[conf.find("[[params.categories]]"):]      # divisions have keys too
+valid_cats = re.findall(r'^\s*key\s*=\s*"([^"]+)"', cat_block, re.M)
+for m in md:
+    fm = open(m, encoding="utf-8", errors="replace").read()
+    got = re.search(r'^category:\s*"?([^"\n]*)"?', fm, re.M)
+    key = got.group(1).strip() if got else ""
+    if key not in valid_cats:
+        bad("BAD-CATEGORY", os.path.basename(m),
+            'category: "%s" — must be one of: %s' % (key, ", ".join(sorted(set(valid_cats)))))
+
 # 6. required top-level pages
 for want in ["index.html", "about/index.html", "certification/index.html",
              "contact/index.html", "products/index.html", "404.html",

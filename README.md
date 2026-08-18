@@ -4,20 +4,6 @@ Static website for Niyati Chemlabs — a Mumbai-based supplier of active pharmac
 ingredients, nutraceutical raw materials and finished herbal formulations. Built with
 [Hugo](https://gohugo.io) and hosted free on GitHub Pages.
 
-**Live site:** https://keivan.in/niyatichemlabs/
-
-> ⚠️ **Review build.** Contact details, the FSSAI licence and the Soy Protein Isolate listing
-> are real. The remaining 27 finished-formulation products are placeholders carried over from
-> a sister company's catalogue so the design could be evaluated with realistic content — their
-> photographs still carry that company's label branding, which is why pack shots are currently
-> switched off on the formulation pages (`hideImages` in `hugo.toml`). The gallery still uses
-> those shots and needs re-shooting before launch.
->
-> The **Enquiry** form is built but inert until a Web3Forms access key is pasted into
-> `formAccessKey` in `hugo.toml` — see `setup/README.md`.
-
----
-
 ## Editing the site
 
 👉 **[HOW-TO-EDIT.md](HOW-TO-EDIT.md)** — a plain-English guide written for someone who has
@@ -64,11 +50,7 @@ Hugo **extended** v0.148.1 or newer is required.
 
 ## How it publishes
 
-The built site is committed to `docs/`, and GitHub Pages serves that folder from the `main`
-branch. This means content changes need a rebuild to appear.
-
-`setup/README.md` explains how to switch to a GitHub Actions build, after which every commit
-publishes automatically.
+Every commit triggers a Github action that publishes the updated website automatically.
 
 ## Design notes
 

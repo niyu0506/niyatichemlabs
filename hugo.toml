@@ -119,8 +119,8 @@ enableEmoji = true
   # Until a key is pasted in, the Enquiry page shows the WhatsApp/email/phone
   # buttons instead of a form that would silently go nowhere.
   formEndpoint  = "https://api.web3forms.com/submit"
-  formAccessKey = ""                  # ← paste the Web3Forms access key here
-  formSubject   = "New enquiry from niyatichemlabs.com"
+  formAccessKey = "fbfe71c6-dde0-4b99-bcfb-5b326c30622f"
+  formSubject   = "New enquiry from niyatichemlabs.in"
 
   # Disclaimer shown in the footer
   disclaimer = "Information and statements about the products on this site have not been evaluated by the Food Safety and Standards Authority of India or the Food and Drug Administration, and are not intended to diagnose, treat, cure or prevent any disease. Product specifications are indicative — refer to the certificate of analysis supplied with each consignment."

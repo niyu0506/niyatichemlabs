@@ -1,5 +1,4 @@
 {{ define "main" }}
-{{- $key := site.Params.formAccessKey -}}
 {{ partial "page-banner.html" . }}
 
 <section class="section">
@@ -14,15 +13,14 @@
           faster, but leave it blank if it doesn't apply.
         </p>
 
-        {{- if $key }}
-        <form action="{{ site.Params.formEndpoint }}" method="POST" class="enquiry-form">
-          <input type="hidden" name="access_key" value="{{ $key }}">
-          <input type="hidden" name="subject" value="{{ site.Params.formSubject }}">
-          <input type="hidden" name="from_name" value="{{ site.Params.company }} website">
+        {{ if .Site.Params.formAccessKey }}
+        <form action="{{ .Site.Params.formEndpoint }}" method="POST" class="enquiry-form">
+          <input type="hidden" name="access_key" value="{{ .Site.Params.formAccessKey }}">
+          <input type="hidden" name="subject" value="{{ .Site.Params.formSubject }}">
+          <input type="hidden" name="from_name" value="{{ .Site.Params.company }} website">
           <input type="hidden" name="redirect" value="{{ "thank-you/" | absURL }}">
-          {{- /* Honeypot — bots fill this in, humans never see it */ -}}
           <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
-        {{- else }}
+        {{ else }}
         {{- /* No form backend configured yet — the fields still render so the page can be
                reviewed, but the form is inert rather than silently swallowing enquiries. */ -}}
         <div class="callout callout--warn" style="margin-bottom:1.75rem">
@@ -37,7 +35,7 @@
           </div>
         </div>
         <form class="enquiry-form" onsubmit="return false" aria-disabled="true">
-        {{- end }}
+        {{ end }}
 
           <div class="field-row">
             <div class="field">
@@ -92,7 +90,7 @@
             <textarea id="f-message" name="message" rows="5" placeholder="Quantity, packing, delivery location, timelines, and any specification you work to."></textarea>
           </div>
 
-          <button class="btn btn--lg enquiry-form__submit" type="submit"{{ if not $key }} disabled{{ end }}>
+          <button class="btn btn--lg enquiry-form__submit" type="submit"{{ if not .Site.Params.formAccessKey }} disabled{{ end }}>
             {{ partial "icon.html" (dict "name" "mail") }} Submit
           </button>
 

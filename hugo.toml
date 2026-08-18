@@ -78,6 +78,21 @@ enableEmoji = true
 
   fssai       = "11523011000215"      # FSSAI licence number, printed on our packs
 
+  # ── Enquiry form ─────────────────────────────────────────────────────────
+  # The site is static, so the form needs an outside service to deliver the
+  # email. We use Web3Forms (free): go to https://web3forms.com, type
+  # niyatichemlabs@gmail.com into the box, and they email you an access key.
+  # Paste that key below and the form starts working — nothing else to change.
+  #
+  # Until a key is pasted in, the Enquiry page shows the WhatsApp/email/phone
+  # buttons instead of a form that would silently go nowhere.
+  formEndpoint  = "https://api.web3forms.com/submit"
+  formAccessKey = "fbfe71c6-dde0-4b99-bcfb-5b326c30622f"
+  formSubject   = "New enquiry from niyatichemlabs.in"
+
+  # Disclaimer shown in the footer
+  disclaimer = "Information and statements about the products on this site have not been evaluated by the Food Safety and Standards Authority of India or the Food and Drug Administration, and are not intended to diagnose, treat, cure or prevent any disease. Product specifications are indicative — refer to the certificate of analysis supplied with each consignment."
+
   [params.address]
     unit1Label = "Registered Office"
     unit1 = "M/404, Panchsheel Gardens, Mahavir Nagar, Kandivali West, Mumbai — 400067"
@@ -109,21 +124,6 @@ enableEmoji = true
   [[params.stats]]
     value = "1 kg+"
     label = "Sample to bulk quantities"
-
-  # ── Enquiry form ─────────────────────────────────────────────────────────
-  # The site is static, so the form needs an outside service to deliver the
-  # email. We use Web3Forms (free): go to https://web3forms.com, type
-  # niyatichemlabs@gmail.com into the box, and they email you an access key.
-  # Paste that key below and the form starts working — nothing else to change.
-  #
-  # Until a key is pasted in, the Enquiry page shows the WhatsApp/email/phone
-  # buttons instead of a form that would silently go nowhere.
-  formEndpoint  = "https://api.web3forms.com/submit"
-  formAccessKey = "fbfe71c6-dde0-4b99-bcfb-5b326c30622f"
-  formSubject   = "New enquiry from niyatichemlabs.in"
-
-  # Disclaimer shown in the footer
-  disclaimer = "Information and statements about the products on this site have not been evaluated by the Food Safety and Standards Authority of India or the Food and Drug Administration, and are not intended to diagnose, treat, cure or prevent any disease. Product specifications are indicative — refer to the certificate of analysis supplied with each consignment."
 
 # ── Business divisions ─────────────────────────────────────────────────────
 # Each product category below belongs to one of these.

@@ -6,10 +6,10 @@
 #  See HOW-TO-EDIT.md for a plain-English guide.
 # ═══════════════════════════════════════════════════════════════════════════
 
-baseURL = "https://keivan.in/niyatichemlabs/"
+baseURL = "https://niyatichemlabs.in/"
 languageCode = "en-in"
 title = "Niyati Chemlabs"
-publishDir = "docs"          # GitHub Pages serves the site from this folder
+publishDir = "docs"       # Local testing serves the site from this folder
 enableRobotsTXT = true
 enableEmoji = true
 

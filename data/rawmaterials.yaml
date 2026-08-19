@@ -37,6 +37,12 @@ categories:
       - name: RIBOFLAVIN SODIUM PHOSPHATE
         packing: 1KG
         cas: 130-40-5
+      - name: Vitamin D2 100000iu/gm 
+        packing: 1KG
+        cas: Nutraceutical
+      - name: Vitamin D3 100000iu/gm 
+        packing: 1KG
+        cas: Nutraceutical
 
   - key: nutraceutical
     name: Nutraceutical Ingredients

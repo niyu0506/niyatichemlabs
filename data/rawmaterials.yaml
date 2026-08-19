@@ -34,6 +34,9 @@ categories:
       - name: CALCIUM D PANTOTHENATE
         packing: 25KG
         cas: 137-08-6
+      - name: RIBOFLAVIN SODIUM PHOSPHATE
+        packing: 1KG
+        cas: 130-40-5
 
   - key: nutraceutical
     name: Nutraceutical Ingredients

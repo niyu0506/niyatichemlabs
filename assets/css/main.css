@@ -1366,15 +1366,9 @@ body.nav-open { overflow: hidden; }
 
 /* ── 13 · Motion ─────────────────────────────────────────────────────────── */
 [data-reveal] {
-  opacity: 0;
-  transform: translateY(26px);
-  transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
-  will-change: opacity, transform;
+  opacity: 1;
+  transform: none;
 }
-[data-reveal].is-visible { opacity: 1; transform: none; }
-[data-reveal="left"]  { transform: translateX(-32px); }
-[data-reveal="right"] { transform: translateX(32px); }
-[data-reveal="zoom"]  { transform: scale(0.94); }
 
 .page-enter { animation: pageIn 0.7s var(--ease-out) both; }
 @keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }

@@ -28,7 +28,7 @@ categories:
         packing: 5KG
         cas: Nutraceutical
         manufacturer: NIYATI CHEMLABS
-      - name: Ascorbic Acid
+      - name: Ascorbic Acid IP/Bp/USP/Ep/Fcc
         packing: 25KG
         cas: Nutraceutical
         manufacturer: CSPC / LUWEI / NINGXIA
@@ -36,7 +36,7 @@ categories:
         packing: 1kg/5kg/25kg 
         cas: Nutraceutical
         manufacturer: Liford/Mccoy
-      - name: RIBOFLAVIN SODIUM PHOSPHATE
+      - name: RIBOFLAVIN SODIUM PHOSPHATE Ip (Vitamin B2)
         packing: 1KG
         cas: 130-40-5
         manufacturer: Ambition
@@ -44,7 +44,7 @@ categories:
         packing: 100 GMS
         cas: Drug/Nutraceutical 
         manufacturer: Ascott
-      - name: METHYLCOBALAMINE IP.
+      - name: METHYLCOBALAMINE IP
         packing: 100GM / 500GM / 01KG
         cas: 13422-55-4
       - name: THIAMINE MONO IP/USP (VIT B1 MONO)

@@ -1735,7 +1735,6 @@ body.nav-open { overflow: hidden; }
 @media (max-width: 1024px) {
   /* Sideways reveal transforms push full-width blocks past the viewport edge on
      narrow screens. Below the two-column breakpoint they all rise instead. */
-  [data-reveal="left"], [data-reveal="right"] { transform: translateY(26px); }
   .split__media::after { display: none; }
 
   .hero__inner { grid-template-columns: 1fr; }

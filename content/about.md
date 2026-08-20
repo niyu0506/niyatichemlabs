@@ -20,7 +20,7 @@ showcase:
     note: "Soy Protein Isolate 90% — cold water soluble"
     alt: "Soy Protein Isolate 90% pouch"
     url: "products/raw-materials/"
-  - image: "img/site/facility.jpg"
+  - image: "img/site/facilityold.jpg"
     title: "Checked on arrival"
     note: "Assay against the specification it was bought on"
     alt: "Analytical testing of an incoming consignment"

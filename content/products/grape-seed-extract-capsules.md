@@ -1,5 +1,5 @@
 ---
-title: "Grapopan Capsule"
+title: "Grape Seed Extract Capsule"
 category: "capsules"
 tagline: "Skin and Circulatory Support"
 image: "img/products/grape-seed-cap.jpg"

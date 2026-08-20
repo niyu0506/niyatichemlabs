@@ -67,6 +67,7 @@
                 </td>
                 <td>{{ $item.packing | default "On request" }}</td>
                 <td class="rm-table__cas">{{ with $item.cas }}{{ . }}{{ else }}&mdash;{{ end }}</td>
+<td>{{ with $item.manufacturer }}{{ . }}{{ else }}&mdash;{{ end }}</td>
               </tr>
               {{- end }}
             </tbody>

@@ -1,5 +1,5 @@
 ---
-title: "Colospan Capsule"
+title: "Cow Colostrum Capsule"
 category: "capsules"
 tagline: "Immunity and Recovery Support"
 image: "img/products/colostrum-cap.jpg"

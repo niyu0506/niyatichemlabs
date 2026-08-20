@@ -37,6 +37,7 @@ categories:
       - name: RIBOFLAVIN SODIUM PHOSPHATE
         packing: 1KG
         cas: 130-40-5
+        manufacturer: Ambition
       - name: Vitamin D2 100000iu/gm 
         packing: 1KG
         cas: Nutraceutical
@@ -44,6 +45,7 @@ categories:
       - name: Vitamin D3 100000iu/gm 
         packing: 1KG
         cas: Nutraceutical
+        manufacturer: NIYATI CHEMLABS
 
   - key: nutraceutical
     name: Nutraceutical Ingredients

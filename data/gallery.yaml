@@ -16,7 +16,7 @@ groups:
   - title: Laboratory & quality
     blurb: Materials are checked against the specification they were bought on.
     photos:
-      - src: img/site/facility.jpg
+      - src: img/site/facilityold.jpg
         caption: Analytical testing of an incoming consignment
 
   - title: Raw materials

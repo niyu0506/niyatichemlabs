@@ -1,6 +1,6 @@
 ---
 title: "About Us"
-heading: "Sourcing done properly"
+heading: "Urvish Ashok Gosalia"
 intro: "A Mumbai-based supplier of active pharmaceutical ingredients, nutraceutical raw materials and finished herbal formulations, working to your specification rather than a fixed catalogue."
 layout: "about"
 weight: 20

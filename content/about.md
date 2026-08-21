@@ -56,17 +56,3 @@ capabilities:
 - Built on transparency, dedication, and deep industry knowledge, we continue to grow with a clear vision — to become a world-class, innovation-driven contract manufacturer, distributor and supplier in this space.
 
 
-## How we actually work
-
-We are a supplier, not a plant, and we think that is worth saying out loud. What we bring is
-sourcing: knowing which manufacturing sites hold which certifications, what a given grade
-should actually test at, and what the material will do once it is in your process.
-
-So an order tends to go the same way each time. You tell us the material, the grade and the
-quantity. We come back with price, lead time and the specification sheet — before you commit,
-so your quality team can look at it first. You take a trial quantity through your own process.
-When it works, we supply bulk against the same specification, with a certificate of analysis
-tied to each batch.
-
-If we cannot get something to the standard you need, we will say so rather than send you a
-substitute and hope.

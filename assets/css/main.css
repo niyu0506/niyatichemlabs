@@ -9,17 +9,17 @@
 /* ── 1 · Tokens ──────────────────────────────────────────────────────────── */
 :root {
   /* Brand — deep botanical green: reads as both pharma-clinical and herbal */
-  --brand-50:  #eef9f8;
-  --brand-100: #d4f1ef;
-  --brand-200: #a8e3de;
-  --brand-300: #6fcfc7;
-  --brand-400: #36b5aa;
-  --brand-500: #1c978d;
-  --brand-600: #147a72;
-  --brand-700: #105f59;
-  --brand-800: #0d4c48;
-  --brand-900: #0b3e3b;
-  --brand-950: #052120;
+  --brand-50:  #f6f3fb;
+  --brand-100: #ebe4f5;
+  --brand-200: #d7c9eb;
+  --brand-300: #bca5db;
+  --brand-400: #9d7ec6;
+  --brand-500: #7f5fad;
+  --brand-600: #684a91;
+  --brand-700: #553c76;
+  --brand-800: #463261;
+  --brand-900: #3b2a51;
+  --brand-950: #221730;
 
   /* Accent — muted brass, used sparingly for emphasis */
   --gold-300: #e6cf7c;

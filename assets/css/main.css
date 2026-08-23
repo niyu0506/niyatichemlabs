@@ -993,7 +993,8 @@ body.nav-open { overflow: hidden; }
   .filter-pill--sub { font-size: 0.78rem; }
 }
 
-.product-card.is-hidden { display: none; }
+.product-card.is-hidden,
+.rm-block.is-hidden { display: none; }
 
 /* ── 10 · Product detail ─────────────────────────────────────────────────── */
 .product-hero { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(1.5rem, 1rem + 3vw, 3.5rem); }

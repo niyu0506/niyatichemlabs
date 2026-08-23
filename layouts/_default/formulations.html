@@ -26,6 +26,50 @@
     <div class="prose" style="max-width:74ch;margin-bottom:2.5rem" data-reveal>{{ . }}</div>
     {{- end }}
 
+    <!-- ═══ FDA Registered Formulation List (table – same style as Vitamins) ═══ -->
+    {{- $fda := site.Data.fdaformulations -}}
+    {{- with $fda.categories }}
+    {{- range . }}
+    <div class="rm-block" data-reveal style="margin-bottom:3.5rem">
+      <div class="rm-block__head">
+        <h2>{{ .name }}</h2>
+        {{- with .blurb }}<p>{{ . }}</p>{{ end }}
+      </div>
+
+      <p class="rm-swipe">{{ partial "icon.html" (dict "name" "arrow-right") }} Swipe the table sideways for dosage form and packing</p>
+      <div class="rm-table-wrap">
+        <table class="rm-table">
+          <thead>
+            <tr>
+              <th scope="col" class="rm-table__sr">Sr No.</th>
+              <th scope="col">Name of Product</th>
+              <th scope="col">Dosage Form</th>
+              <th scope="col">Packing</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{- range $i, $item := .items }}
+            <tr>
+              <td class="rm-table__sr">{{ add $i 1 }}</td>
+              <td class="rm-table__name">{{ $item.name }}</td>
+              <td>{{ $item.form | default "—" }}</td>
+              <td>{{ $item.packing | default "On request" }}</td>
+            </tr>
+            {{- end }}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="rm-block__foot">
+        {{ partial "icon.html" (dict "name" "info") }}
+        Packing sizes are indicative. Every consignment ships with the batch certificate of
+        analysis, and the specification sheet is sent at quotation.
+      </p>
+    </div>
+    {{- end }}
+    {{- end }}
+
+    <!-- Existing filter pills + product cards -->
     <div class="filters" data-reveal role="group" aria-label="Filter formulations">
       <button class="filter-pill is-active" type="button" data-filter="all" data-filter-attr="all">
         All {{ len $own }}

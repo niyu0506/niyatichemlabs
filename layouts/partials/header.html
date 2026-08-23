@@ -59,7 +59,8 @@
                   <a href="{{ printf "%s?c=%s" (relURL "products/raw-materials/") .key }}">{{ .name }} <span>{{ len .items }}</span></a>
                   {{- end }}
                 {{- else }}
-                  <a href="{{ .url | relURL }}">All formulations</a>
+                                    <a href="{{ .url | relURL }}">All formulations</a>
+                  <a href="{{ printf "%s?c=%s" (relURL "products/formulations/") "fda-registered" }}">FDA Registered Formulation List</a>
                   {{- range $dcats }}
                     {{- $n := len (where $products "Params.category" .key) }}
                     <a href="{{ printf "%s?c=%s" (relURL "products/formulations/") .key }}">{{ .name }}{{ if $n }} <span>{{ $n }}</span>{{ end }}</a>
@@ -132,7 +133,8 @@
                       <a href="{{ printf "%s?c=%s" (relURL "products/raw-materials/") .key }}">{{ .name }} <em>{{ len .items }}</em></a>
                       {{- end }}
                     {{- else }}
-                      <a href="{{ .url | relURL }}">All formulations</a>
+                                            <a href="{{ .url | relURL }}">All formulations</a>
+                      <a href="{{ printf "%s?c=%s" (relURL "products/formulations/") "fda-registered" }}">FDA Registered Formulation List</a>
                       {{- range $dcats }}
                         {{- $n := len (where $products "Params.category" .key) }}
                         <a href="{{ printf "%s?c=%s" (relURL "products/formulations/") .key }}">{{ .name }}{{ if $n }} <em>{{ $n }}</em>{{ end }}</a>

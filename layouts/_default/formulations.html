@@ -26,11 +26,31 @@
     <div class="prose" style="max-width:74ch;margin-bottom:2.5rem" data-reveal>{{ . }}</div>
     {{- end }}
 
-    <!-- ═══ FDA Registered Formulation List (table – same style as Vitamins) ═══ -->
+    
+
+        <!-- Filter pills: All + FDA + dosage forms -->
+    <div class="filters" data-reveal role="group" aria-label="Filter formulations">
+      <button class="filter-pill is-active" type="button" data-filter="all" data-filter-attr="all">
+        All
+      </button>
+      <button class="filter-pill filter-pill--sub" type="button"
+              data-filter="fda-registered" data-filter-attr="category">
+        FDA Registered Formulation List
+      </button>
+      {{- range $cats }}
+        {{- $n := len (where $products "Params.category" .key) }}
+        <button class="filter-pill filter-pill--sub{{ if not $n }} is-empty{{ end }}" type="button"
+                data-filter="{{ .key }}" data-filter-attr="category">
+          {{ .name }} <span>{{ $n }}</span>
+        </button>
+      {{- end }}
+    </div>
+
+    <!-- FDA Registered Formulation List (shows only when All or FDA filter is selected) -->
     {{- $fda := site.Data.fdaformulations -}}
     {{- with $fda.categories }}
     {{- range . }}
-    <div class="rm-block" data-reveal style="margin-bottom:3.5rem">
+    <div class="rm-block" data-category="fda-registered" data-reveal style="margin-bottom:3.5rem">
       <div class="rm-block__head">
         <h2>{{ .name }}</h2>
         {{- with .blurb }}<p>{{ . }}</p>{{ end }}
@@ -68,20 +88,6 @@
     </div>
     {{- end }}
     {{- end }}
-
-    <!-- Existing filter pills + product cards -->
-    <div class="filters" data-reveal role="group" aria-label="Filter formulations">
-      <button class="filter-pill is-active" type="button" data-filter="all" data-filter-attr="all">
-        All {{ len $own }}
-      </button>
-      {{- range $cats }}
-        {{- $n := len (where $products "Params.category" .key) }}
-        <button class="filter-pill filter-pill--sub{{ if not $n }} is-empty{{ end }}" type="button"
-                data-filter="{{ .key }}" data-filter-attr="category">
-          {{ .name }} <span>{{ $n }}</span>
-        </button>
-      {{- end }}
-    </div>
 
     <div class="card-grid card-grid--flat" data-stagger="55">
       {{- range $own }}

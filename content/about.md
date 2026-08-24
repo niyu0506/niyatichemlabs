@@ -29,7 +29,7 @@ capabilities:
 
 - Urvish Gosalia, a first-generation founder and director, started his business journey from zero and is steadily building NIYATI CHEMLABS from zero to one and one to hundred and beyond
 - He began his journey in year 2015 as a Pharma-Nutra Ingredients freelancer, gaining hands-on experience across the industry. 
-- After working in multiple job roles at Pharmaceutical, Nutraceutical, Chemical, and Intermediate companies for 4 years, he acquired the knowledge and expertise needed to launch his own venture. 
+- After working in multiple job roles at Pharmaceutical, Nutraceutical, Chemical, and complex pharmaceutical intermediates (KSM) companies for nearly 15 years, he acquired the knowledge and expertise needed to launch his own venture. 
 - In 2023, he transformed this experience into a focused NUTRA-PHARMA raw material contract manufacturing and trading, officially commencing business operations in July 2023 under NIYATI CHEMLABS. 
 - Today, NIYATI CHEMLABS is recognized as a market leader in Cold Water Soluble Vitamins under the dynamic stewardship of Mr. Urvish Gosalia.  
 - We specialize in supplying high-quality Cold Water Soluble Vitamins and related ingredients to the pharmaceutical and nutraceutical industries. 

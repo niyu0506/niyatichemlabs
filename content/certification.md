@@ -25,23 +25,19 @@ sourceCerts:
 
 ## Being straight about what we are
 
-Niyati Chemlabs is a **supplier**. That distinction matters when you are assessing a vendor,
-so we would rather state it plainly than let a website imply otherwise.
+NIYATI CHEMLABS is a **Contract Manufacturer** - Cold Water Soluble Vitamins & Speciality Finished Dosage Formulations in 
+Nutraceutical as well as in Ayurvedic/Herbal category having manufacturing facility of 6000 SqFt holding **FDA approved GMP LICENSE**
 
-What it means in practice: we hold an FSSAI licence in our own name, we source from
-manufacturing sites that carry the relevant certifications, and we pass through the
-documentation that comes with each batch rather than issuing manufacturing certificates of our
-own. Where a certification is held by the source manufacturer and not by us, we say so.
 
-## What ships with an order
 
-Every consignment carries a **certificate of analysis** from the manufacturing site, tied to
-the batch number printed on the pack. Before that, at quotation stage, you get the
-**specification sheet** — so nothing about the material should be a surprise by the time it
-reaches your goods-in.
+## Food & Nutraceuticals Lab
 
-Where applicable we can also supply allergen statements, Non-GMO declarations, Halal and Kosher
-certificates, and heavy-metal and microbial reports from the source manufacturer.
+Our Food & Nutraceutical formulation lab is well-equipped to help clients 
+develop new formulations using our specialty ingredients.
+Through partnerships with best-in-class global suppliers, we support clients across the full product development journey 
+from research and formulation through to finished-product conceptualization. 
+Our objective is to create differentiated, functional, and commercially viable products.
+Our team combines strong technical capabilities with deep domain knowledge and works closely with clients at every stage of the development cycle.
 
 ## Storage and handling
 
@@ -51,5 +47,5 @@ from direct sunlight, and to observe the shelf life stated on the batch document
 
 ## Ask for anything you need
 
-If your quality team or your auditor needs a particular document, ask for it. If we hold it we
+If your QA/QC team or your auditor needs a particular document, ask for it. If we hold it we
 will send it; if we do not, we will tell you where it has to come from.

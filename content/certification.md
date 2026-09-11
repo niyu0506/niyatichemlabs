@@ -25,7 +25,7 @@ sourceCerts:
 
 ## Being straight about what we are
 
-NIYATI CHEMLABS is a **Contract Manufacturer** - Cold Water Soluble Vitamins & Speciality Finished Dosage Formulations in 
+NIYATI CHEMLABS is a **Contract Manufacturer Of** - Cold Water Soluble Vitamins & Speciality Finished Dosage Formulations in 
 Nutraceutical as well as in Ayurvedic/Herbal category having manufacturing facility of 6000 SqFt holding **FDA approved GMP LICENSE**
 
 

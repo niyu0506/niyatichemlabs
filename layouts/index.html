@@ -127,31 +127,7 @@
   </div>
 </section>
 
-<!-- ═══ FEATURED PRODUCTS ═══ -->
-<section class="section section--alt">
-  <div class="container">
-    <div class="section-head section-head--center" data-reveal>
-      <span class="eyebrow eyebrow--center">From the catalogue</span>
-      <h2>Selected products</h2>
-      <p class="lede" style="margin-top:1rem">
-        A sample of what we stock and supply. The full range is much wider — ask us for
-        anything you don't see here.
-      </p>
-    </div>
 
-    <div class="card-grid card-grid--flat" data-stagger="70">
-      {{- range $featured }}
-      {{ partial "product-card.html" . }}
-      {{- end }}
-    </div>
-
-    <div style="text-align:center;margin-top:3rem" data-reveal>
-      <a class="btn btn--ghost btn--lg" href="{{ "products/" | relURL }}">
-        Browse the full catalogue {{ partial "icon.html" (dict "name" "arrow-right" "class" "icon icon--arrow") }}
-      </a>
-    </div>
-  </div>
-</section>
 
 <!-- ═══ HOW WE WORK ═══ -->
 <section class="section">

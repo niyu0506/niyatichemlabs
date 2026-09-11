@@ -48,23 +48,7 @@ categories:
         packing: 100GM / 500GM / 01KG
         cas: 13422-55-4
         manufacturer: Vital / Supriya / Micro orgo / Ggc / Mahima / Balaji
-      - name: THIAMINE MONO IP/USP (VIT B1 MONO)
-        packing: 5 / 10 / 25KG
-        cas: 532-43-4
-      - name: THIAMINE HCL IP/USP (VIT B1 HCL)
-        packing: 5 / 10 / 25KG
-        cas: 67-03-8
-        manufacturer: Prachi
-      - name: PYRIDOXINE (VIT B6)
-        packing: 25KG
-        cas: 58-56-0
-      - name: CYANOCOBALAMIN (VIT B12)
-        packing: 100GM / 01KG
-        cas: 68-19-9
-        manufacturer: Hebei Yuxing Bio-Engineering
-      - name: CALCIUM D PANTOTHENATE
-        packing: 25KG
-        cas: 137-08-6
+      
      
 
   - key: nutraceutical

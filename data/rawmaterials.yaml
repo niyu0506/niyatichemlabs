@@ -50,14 +50,3 @@ categories:
         manufacturer: Vital / Supriya / Micro orgo / Ggc / Mahima / Balaji
       
      
-
-  - key: nutraceutical
-    name: Nutraceutical Ingredients
-    blurb: >-
-      Protein isolates, standardised extracts and functional ingredients for
-      sports nutrition, fortification and wellness formats.
-    items:
-      - name: SOY PROTEIN ISOLATE 90% (COLD WATER SOLUBLE)
-        packing: 01KG POUCH / BULK
-        cas: 9010-10-0
-        page: products/soy-protein-isolate-90/
